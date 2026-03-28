@@ -4,7 +4,7 @@ import android.app.Application
 import com.uniandes.tsdc.vinilos.models.Collector
 import com.uniandes.tsdc.vinilos.network.NetworkServiceAdapter
 
-class CollectorRepository(val application: Application) {
+class CollectorRepository(private val application: Application) {
 
     private var networkServiceAdapter: NetworkServiceAdapter = NetworkServiceAdapter.getInstance(application)
 

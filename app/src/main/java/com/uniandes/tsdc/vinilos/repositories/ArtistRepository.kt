@@ -4,7 +4,7 @@ import android.app.Application
 import com.uniandes.tsdc.vinilos.models.Artist
 import com.uniandes.tsdc.vinilos.network.NetworkServiceAdapter
 
-class ArtistRepository(val application: Application) {
+class ArtistRepository(private val application: Application) {
 
     private var networkServiceAdapter: NetworkServiceAdapter = NetworkServiceAdapter.getInstance(application)
 

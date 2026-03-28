@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.uniandes.tsdc.vinilos.R
 import com.uniandes.tsdc.vinilos.adapters.CollectorsAdapter
 import com.uniandes.tsdc.vinilos.databinding.FragmentCollectorsBinding
 import com.uniandes.tsdc.vinilos.viewmodels.CollectorViewModel
@@ -44,7 +45,7 @@ class CollectorsFragment : Fragment() {
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner) { isError ->
             if (isError && viewModel.isNetworkErrorShown.value == false) {
-                Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, getString(R.string.network_error), Toast.LENGTH_LONG).show()
                 viewModel.onNetworkErrorShown()
                 binding.progressBar.visibility = View.GONE
             }

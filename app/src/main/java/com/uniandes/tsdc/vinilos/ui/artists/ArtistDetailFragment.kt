@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.uniandes.tsdc.vinilos.R
 import com.uniandes.tsdc.vinilos.databinding.FragmentArtistDetailBinding
 
 class ArtistDetailFragment : Fragment() {
@@ -28,7 +29,7 @@ class ArtistDetailFragment : Fragment() {
         val artist = args.artist
 
         binding.textArtistName.text = artist.name
-        binding.textArtistBirthDate.text = artist.birthDate
+        binding.textArtistBirthDate.text = getString(R.string.birth_date, artist.birthDate)
         binding.textArtistDescription.text = artist.description
 
         Glide.with(this)

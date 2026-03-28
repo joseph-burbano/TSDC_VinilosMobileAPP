@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.uniandes.tsdc.vinilos.R
 import com.uniandes.tsdc.vinilos.adapters.ArtistsAdapter
 import com.uniandes.tsdc.vinilos.databinding.FragmentArtistsBinding
 import com.uniandes.tsdc.vinilos.viewmodels.ArtistViewModel
@@ -48,7 +49,7 @@ class ArtistsFragment : Fragment() {
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner) { isError ->
             if (isError && viewModel.isNetworkErrorShown.value == false) {
-                Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, getString(R.string.network_error), Toast.LENGTH_LONG).show()
                 viewModel.onNetworkErrorShown()
                 binding.progressBar.visibility = View.GONE
             }
