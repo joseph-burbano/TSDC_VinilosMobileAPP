@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/albumsFragment">
+
+    <fragment
+        android:id="@+id/albumsFragment"
+        android:name="com.uniandes.tsdc.vinilos.ui.albums.AlbumsFragment"
+        android:label="Albums"
+        tools:layout="@layout/fragment_albums">
+        <action
+            android:id="@+id/action_albumsFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.uniandes.tsdc.vinilos.ui.albums.AlbumDetailFragment"
+        android:label="Album Detail"
+        tools:layout="@layout/fragment_album_detail">
+        <argument
+            android:name="album"
+            app:argType="com.uniandes.tsdc.vinilos.models.Album" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistsFragment"
+        android:name="com.uniandes.tsdc.vinilos.ui.artists.ArtistsFragment"
+        android:label="Artists"
+        tools:layout="@layout/fragment_artists">
+        <action
+            android:id="@+id/action_artistsFragment_to_artistDetailFragment"
+            app:destination="@id/artistDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistDetailFragment"
+        android:name="com.uniandes.tsdc.vinilos.ui.artists.ArtistDetailFragment"
+        android:label="Artist Detail"
+        tools:layout="@layout/fragment_artist_detail">
+        <argument
+            android:name="artist"
+            app:argType="com.uniandes.tsdc.vinilos.models.Artist" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectorsFragment"
+        android:name="com.uniandes.tsdc.vinilos.ui.collectors.CollectorsFragment"
+        android:label="Collectors"
+        tools:layout="@layout/fragment_collectors" />
+</navigation>
