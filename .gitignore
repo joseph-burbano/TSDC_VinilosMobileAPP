@@ -1,0 +1,28 @@
+# Local
+local.properties
+*.local.properties
+
+# Build
+build/
+.gradle/
+app/build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Keystore (NUNCA subir al repo)
+*.jks
+*.keystore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Kotlin
+*.class
