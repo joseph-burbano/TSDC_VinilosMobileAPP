@@ -115,6 +115,9 @@ fun PerformerItem(performer: Performer, onClick: () -> Unit) {
 @Composable
 fun ArtistListScreenPreview() {
     VinilosTheme {
-        ArtistListScreen()
+        ArtistListScreen(viewModel = ArtistViewModel().also {
+            // preview usa FakeData
+        })
     }
 }
+
