@@ -6,17 +6,28 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.uniandes.vinilos.model.Artist
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import com.uniandes.vinilos.util.FakeData
 
 @Composable
-fun ArtistListScreen(onArtistClick: (Int) -> Unit = {}) {
+fun ArtistListScreen(
+    onArtistClick: (Int) -> Unit = {},
+    viewModel: ArtistViewModel = viewModel()
+) {
+    val performers by viewModel.performers.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
+
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
             text = "ARCHIVE 003",
@@ -31,19 +42,34 @@ fun ArtistListScreen(onArtistClick: (Int) -> Unit = {}) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
         )
-        LazyColumn {
-            items(FakeData.artists) { artist ->
-                ArtistItem(
-                    artist = artist,
-                    onClick = { onArtistClick(artist.id) }
-                )
+
+        when {
+            isLoading -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+            error != null -> {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(text = error ?: "Error desconocido", color = MaterialTheme.colorScheme.error)
+                }
+            }
+            else -> {
+                LazyColumn {
+                    items(performers) { performer ->
+                        PerformerItem(
+                            performer = performer,
+                            onClick = { onArtistClick(performer.id) }
+                        )
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun ArtistItem(artist: Artist, onClick: () -> Unit) {
+fun PerformerItem(performer: Performer, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,13 +79,13 @@ fun ArtistItem(artist: Artist, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = artist.name,
+                text = performer.name,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = artist.description,
+                text = performer.description,
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2
@@ -72,6 +98,9 @@ fun ArtistItem(artist: Artist, onClick: () -> Unit) {
 @Composable
 fun ArtistListScreenPreview() {
     VinilosTheme {
-        ArtistListScreen()
+        ArtistListScreen(viewModel = ArtistViewModel().also {
+            // preview usa FakeData
+        })
     }
 }
+
