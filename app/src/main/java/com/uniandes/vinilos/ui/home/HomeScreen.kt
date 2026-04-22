@@ -36,7 +36,7 @@ fun HomeScreen() {
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = lastAlbum.artists.firstOrNull()?.name ?: "Miles Davis",
+            text = lastAlbum.performers.firstOrNull()?.name ?: "Miles Davis",
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -48,7 +48,7 @@ fun HomeScreen() {
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(8.dp))
-        FakeData.artists.take(2).forEach { artist ->
+        FakeData.performers.take(2).forEach { artist ->
             Text(
                 text = artist.name,
                 fontSize = 16.sp,
@@ -63,7 +63,7 @@ fun HomeScreen() {
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(8.dp))
-        FakeData.artists.takeLast(2).forEach { artist ->
+        FakeData.performers.takeLast(2).forEach { artist ->
             Text(
                 text = artist.name,
                 fontSize = 16.sp,

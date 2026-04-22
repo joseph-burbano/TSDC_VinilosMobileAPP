@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.uniandes.vinilos.model.Artist
+import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import com.uniandes.vinilos.util.FakeData
 
@@ -32,10 +32,10 @@ fun ArtistListScreen(onArtistClick: (Int) -> Unit = {}) {
             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
         )
         LazyColumn {
-            items(FakeData.artists) { artist ->
-                ArtistItem(
-                    artist = artist,
-                    onClick = { onArtistClick(artist.id) }
+            items(FakeData.performers) { performer ->
+                PerformerItem(
+                    performer = performer,
+                    onClick = { onArtistClick(performer.id) }
                 )
             }
         }
@@ -43,7 +43,7 @@ fun ArtistListScreen(onArtistClick: (Int) -> Unit = {}) {
 }
 
 @Composable
-fun ArtistItem(artist: Artist, onClick: () -> Unit) {
+fun PerformerItem(performer: Performer, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,13 +53,13 @@ fun ArtistItem(artist: Artist, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = artist.name,
+                text = performer.name,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = artist.description,
+                text = performer.description,
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2
