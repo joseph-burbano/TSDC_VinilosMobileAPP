@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Album
+import com.uniandes.vinilos.ui.components.AlbumCover
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 
 private val coverColors = listOf(
@@ -235,20 +236,14 @@ fun AlbumCard(album: Album, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column {
-            Box(
+            AlbumCover(
+                coverUrl = album.cover,
+                fallbackColor = coverColor,
+                contentDescription = album.name,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
-                    .background(coverColor),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Album,
-                    contentDescription = null,
-                    tint = Color.White.copy(alpha = 0.5f),
-                    modifier = Modifier.size(72.dp)
-                )
-            }
+            )
 
             Column(
                 modifier = Modifier

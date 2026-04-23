@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -15,7 +14,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Track
+import com.uniandes.vinilos.ui.components.AlbumCover
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,24 +87,15 @@ fun AlbumDetailScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(padding)
         ) {
-            Box(
+            AlbumCover(
+                coverUrl = album.cover,
+                fallbackColor = coverColor,
+                contentDescription = album.name,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(240.dp)
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(coverColor, coverColor.copy(alpha = 0.8f))
-                        )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Album,
-                    contentDescription = null,
-                    tint = Color.White.copy(alpha = 0.6f),
-                    modifier = Modifier.size(128.dp)
-                )
-            }
+                    .height(240.dp),
+                iconSize = 128.dp
+            )
 
             Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 20.dp)) {
                 Text(
