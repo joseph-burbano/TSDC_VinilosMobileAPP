@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -23,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.uniandes.vinilos.ui.albums.AlbumDetailScreen
 import com.uniandes.vinilos.ui.albums.AlbumListScreen
+import com.uniandes.vinilos.ui.albums.AlbumViewModel
 import com.uniandes.vinilos.ui.artists.ArtistListScreen
 import com.uniandes.vinilos.ui.collectors.CollectorListScreen
 import com.uniandes.vinilos.ui.home.HomeScreen
@@ -50,6 +52,9 @@ fun VinilosApp() {
 
     val bottomNavRoutes = BottomNavItem.entries.map { it.route }
     val showBottomBar = currentRoute in bottomNavRoutes
+
+    // Activity-scoped so list and detail see the same loaded catalog.
+    val albumViewModel: AlbumViewModel = viewModel()
 
     Scaffold(
         bottomBar = {
@@ -90,6 +95,7 @@ fun VinilosApp() {
             }
             composable(Screen.AlbumList.route) {
                 AlbumListScreen(
+                    viewModel = albumViewModel,
                     onAlbumClick = { albumId ->
                         navController.navigate(Screen.AlbumDetail.createRoute(albumId))
                     }
@@ -102,6 +108,7 @@ fun VinilosApp() {
                 val albumId = backStackEntry.arguments?.getInt("albumId") ?: return@composable
                 AlbumDetailScreen(
                     albumId = albumId,
+                    viewModel = albumViewModel,
                     onBack = { navController.navigateUp() }
                 )
             }

@@ -11,6 +11,8 @@ import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -19,14 +21,46 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Track
 import com.uniandes.vinilos.ui.theme.VinilosTheme
-import com.uniandes.vinilos.util.FakeData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumDetailScreen(albumId: Int, onBack: () -> Unit = {}) {
-    val album = FakeData.albums.find { it.id == albumId } ?: return
+fun AlbumDetailScreen(
+    albumId: Int,
+    viewModel: AlbumViewModel = viewModel(),
+    onBack: () -> Unit = {}
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    when (val state = uiState) {
+        is AlbumsUiState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+            return
+        }
+        is AlbumsUiState.Error -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(
+                    text = state.message,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(24.dp)
+                )
+            }
+            return
+        }
+        is AlbumsUiState.Success -> Unit
+    }
+
+    val album = viewModel.findById(albumId)
+    if (album == null) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("Álbum no encontrado", modifier = Modifier.padding(24.dp))
+        }
+        return
+    }
     val coverColor = albumCoverColor(albumId)
 
     Scaffold(

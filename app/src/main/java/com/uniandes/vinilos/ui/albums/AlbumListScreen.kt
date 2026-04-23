@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Album
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -24,9 +25,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.ui.theme.VinilosTheme
-import com.uniandes.vinilos.util.FakeData
 
 private val coverColors = listOf(
     Color(0xFF1A237E),
@@ -40,16 +41,78 @@ private val coverColors = listOf(
 )
 
 internal fun albumCoverColor(albumId: Int): Color =
-    coverColors[(albumId - 1) % coverColors.size]
+    coverColors[((albumId - 1).coerceAtLeast(0)) % coverColors.size]
 
 @Composable
-fun AlbumListScreen(onAlbumClick: (Int) -> Unit = {}) {
+fun AlbumListScreen(
+    viewModel: AlbumViewModel = viewModel(),
+    onAlbumClick: (Int) -> Unit = {}
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    when (val state = uiState) {
+        is AlbumsUiState.Loading -> LoadingState()
+        is AlbumsUiState.Error -> ErrorState(
+            message = state.message,
+            onRetry = { viewModel.refresh() }
+        )
+        is AlbumsUiState.Success -> AlbumListContent(
+            albums = state.albums,
+            onAlbumClick = onAlbumClick
+        )
+    }
+}
+
+@Composable
+private fun LoadingState() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun ErrorState(message: String, onRetry: () -> Unit) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(32.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ErrorOutline,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.error,
+                modifier = Modifier.size(56.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "No se pudo cargar el catálogo",
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = message,
+                fontSize = 13.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = onRetry) { Text("Reintentar") }
+        }
+    }
+}
+
+@Composable
+private fun AlbumListContent(
+    albums: List<Album>,
+    onAlbumClick: (Int) -> Unit
+) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedGenre by remember { mutableStateOf<String?>(null) }
 
-    val allGenres = remember { FakeData.albums.map { it.genre }.distinct().sorted() }
-    val filteredAlbums = remember(searchQuery, selectedGenre) {
-        FakeData.albums.filter { album ->
+    val allGenres = remember(albums) { albums.map { it.genre }.distinct().sorted() }
+    val filteredAlbums = remember(albums, searchQuery, selectedGenre) {
+        albums.filter { album ->
             val matchesSearch = searchQuery.isBlank() ||
                 album.name.contains(searchQuery, ignoreCase = true) ||
                 album.artists.any { it.name.contains(searchQuery, ignoreCase = true) }
@@ -243,6 +306,9 @@ fun AlbumCard(album: Album, onClick: () -> Unit) {
 @Composable
 fun AlbumListScreenPreview() {
     VinilosTheme {
-        AlbumListScreen()
+        AlbumListContent(
+            albums = com.uniandes.vinilos.util.FakeData.albums,
+            onAlbumClick = {}
+        )
     }
 }
