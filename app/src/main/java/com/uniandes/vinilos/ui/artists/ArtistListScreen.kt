@@ -43,7 +43,7 @@ fun ArtistListScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         Text(
-            text = "Archivo de",
+            text = "ARCHIVO DE",
             fontSize = 11.sp,
             letterSpacing = 2.sp,
             color = MaterialTheme.colorScheme.primary,

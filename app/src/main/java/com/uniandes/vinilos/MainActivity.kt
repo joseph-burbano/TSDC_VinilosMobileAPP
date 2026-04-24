@@ -26,6 +26,8 @@ import com.uniandes.vinilos.ui.collectors.CollectorListScreen
 import com.uniandes.vinilos.ui.navigation.BottomNavItem
 import com.uniandes.vinilos.ui.navigation.Screen
 import com.uniandes.vinilos.ui.theme.VinilosTheme
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 
 class MainActivity : ComponentActivity() {
@@ -59,6 +61,9 @@ fun VinilosApp() {
                         },
                         label = { Text(item.label) },
                         selected = currentRoute == item.route,
+                        modifier = Modifier.semantics {
+                            contentDescription = "nav_${item.label.lowercase()}"
+                        },
                         onClick = {
                             navController.navigate(item.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {

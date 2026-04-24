@@ -22,3 +22,8 @@ Then("I tap on coordinates {int} {int}", async function (x, y) {
 Then("I take a screenshot", async function () {
   await this.driver.saveScreenshot(`reports/screenshot_${Date.now()}.png`);
 });
+
+Then("I tap on element with accessibility id {string}", async function (id) {
+  const element = await this.driver.$(`~${id}`);
+  await element.click();
+});

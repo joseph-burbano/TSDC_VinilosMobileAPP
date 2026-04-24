@@ -127,7 +127,7 @@ En lugar de agrupar todos los `Screen.kt` juntos y todos los `ViewModel.kt` junt
 - JDK 17+
 - Dispositivo Android (API 24+) o emulador
 - Node.js 12+ y npm (para tests E2E con Kraken)
-- Appium 2.11.5 (para tests E2E con Kraken): `sudo npm install -g appium@2.11.5`
+- Appium 2.11.5 o 3.x (para tests E2E con Kraken): `sudo npm install -g appium`
 
 ### Pasos
 
@@ -176,6 +176,9 @@ Valida el comportamiento del `ArtistRepository` con mocks de `PerformerDao` y `V
 
 Los tests E2E verifican el comportamiento de la app como usuario real usando Kraken + Appium + UIAutomator2.
 Se ubican en `kraken/` y se documentan en detalle en [kraken/KRAKEN.md](kraken/KRAKEN.md).
+
+> **Importante:** Mantén la pantalla del dispositivo activa durante la ejecución.
+> Activa **Ajustes → Opciones de desarrollador → Mantener pantalla activa**.
 
 ```bash
 cd kraken

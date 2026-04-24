@@ -6,13 +6,14 @@ Tests de caja negra automatizados usando Kraken + Appium + UIAutomator2.
 
 ## Prerrequisitos
 
-| Herramienta         | Versión    | Instalación                                 |
-| ------------------- | ---------- | ------------------------------------------- |
-| Node.js             | ≥ 12       | [nodejs.org](https://nodejs.org)            |
-| Appium              | 2.11.5     | `sudo npm install -g appium@2.11.5`         |
-| UIAutomator2 driver | 2.29.0     | `appium driver install uiautomator2@2.29.0` |
-| Android SDK + ADB   | cualquiera | Android Studio                              |
-| Dispositivo Android | API 24+    | físico o emulador                           |
+| Herramienta         | Versión      | Instalación                                          |
+| ------------------- | ------------ | ---------------------------------------------------- |
+| Node.js             | ≥ 12         | [nodejs.org](https://nodejs.org)                     |
+| Appium              | 2.11.5 o 3.x | `sudo npm install -g appium`                         |
+| UIAutomator2 driver | 2.29.0+      | se instala automáticamente con `setup.sh`            |
+| Android SDK + ADB   | cualquiera   | Android Studio                                       |
+| Dispositivo Android | API 24+      | físico o emulador                                    |
+| APK de la app       | debug        | `./gradlew assembleDebug` desde la raíz del proyecto |
 
 ---
 
@@ -47,6 +48,12 @@ El script realiza automáticamente:
 - Instala las dependencias de Node (`npm install`)
 - Aplica los parches de compatibilidad de Kraken con Appium 2.x
 - Instala el servidor UIAutomator2 en el dispositivo
+
+**4. Mantén la pantalla del dispositivo activa** durante la ejecución de los tests.
+Si la pantalla se apaga o bloquea, Kraken no podrá interactuar con la UI y los tests fallarán.
+
+Para evitarlo, activa "Mantener pantalla activa" en las opciones de desarrollador del dispositivo:
+**Ajustes → Opciones de desarrollador → Mantener pantalla activa**
 
 ---
 
@@ -86,7 +93,7 @@ Verifica el listado de artistas:
 
 Verifica la navegación principal:
 
-- Verifica que las 4 tabs de la navbar son visibles (Vinyl, Álbumes, Artists, People)
+- Verifica que las 4 tabs de la navbar son visibles (Vinilos, Álbumes, Artistas, colecc.)
 - Verifica que cada tab es navegable
 
 ---
@@ -118,7 +125,17 @@ Kraken 1.0.24 fue diseñado para Appium 1.x. El `setup.sh` aplica estos parches 
 
 ### `skipServerInstallation: true`
 
-El servidor UIAutomator2 se instala manualmente con `setup.sh` porque la instalación vía Appium tarda más de 60 segundos en dispositivos físicos con Android 13.
+El servidor UIAutomator2 se instala manualmente via `setup.sh` porque la instalación
+vía Appium tarda demasiado en dispositivos físicos con Android 13. El script instala
+automáticamente tanto el server APK como el androidTest APK, detectando la versión
+instalada dinámicamente sin importar si es v5.x, v9.x u otra.
+
+### Compatibilidad Appium
+
+Los tests han sido verificados con:
+
+- Appium 2.11.5 + UIAutomator2 2.29.0
+- Appium 3.3.1 + UIAutomator2 2.45.1 / 9.11.1
 
 ### `ignoreHiddenApiPolicyError: true`
 

@@ -50,12 +50,26 @@ else
 fi
 echo ""
 
-echo "4. Instalando driver UIAutomator2..."
-appium driver install uiautomator2 2>/dev/null || echo "  - UIAutomator2 ya instalado."
+echo "4. Instalando/actualizando driver UIAutomator2..."
+appium driver install uiautomator2 2>/dev/null || appium driver update uiautomator2 --unsafe 2>/dev/null || echo "  - UIAutomator2 ya actualizado."
 echo ""
 
 echo "5. Instalando UIAutomator2 server en el dispositivo..."
-adb install -r ~/.appium/node_modules/appium-uiautomator2-driver/node_modules/appium-uiautomator2-server/apks/appium-uiautomator2-server-v5.12.0.apk
-echo ""
+SERVER_APK=$(find ~/.appium/node_modules -name "appium-uiautomator2-server-v*.apk" 2>/dev/null | grep -v "androidTest" | head -1)
+TEST_APK=$(find ~/.appium/node_modules -name "*androidTest*.apk" 2>/dev/null | head -1)
+
+if [ -n "$SERVER_APK" ]; then
+    echo "  Instalando server APK: $SERVER_APK"
+    adb install -r "$SERVER_APK"
+else
+    echo "  WARN: No se encontró el server APK"
+fi
+
+if [ -n "$TEST_APK" ]; then
+    echo "  Instalando test APK: $TEST_APK"
+    adb install -r "$TEST_APK"
+else
+    echo "  WARN: No se encontró el test APK"
+fi
 
 echo "=== Setup completo. Ya puedes correr: ./run.sh ==="
