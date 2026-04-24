@@ -77,33 +77,36 @@ com/uniandes/vinilos/
 │   ├── Mappers.kt
 │   └── VinilosDatabase.kt
 ├── model/
-│   ├── Album.kt
-│   ├── Collector.kt
-│   ├── CollectorAlbum.kt
-│   ├── Comment.kt
-│   ├── Performer.kt
-│   └── Track.kt
 ├── network/
-│   ├── VinilosApi.kt
-│   └── NetworkServiceAdapter.kt
 ├── repository/
 │   └── ArtistRepository.kt
 ├── ui/
 │   ├── theme/
 │   ├── navigation/
-│   │   └── AppNavigation.kt
 │   ├── home/
-│   │   └── HomeScreen.kt
 │   ├── albums/
-│   │   └── AlbumListScreen.kt
 │   ├── artists/
 │   │   ├── ArtistListScreen.kt
 │   │   └── ArtistViewModel.kt
 │   └── collectors/
-│       └── CollectorListScreen.kt
 └── util/
-    ├── Constants.kt
-    └── FakeData.kt
+```
+
+```
+kraken/
+├── features/
+│   ├── mobile/
+│   │   ├── step_definitions/
+│   │   │   └── step.js
+│   │   └── support/
+│   │       ├── hooks.js
+│   │       └── support.js
+│   ├── artist_list.feature
+│   └── navbar.feature
+├── mobile.json
+├── setup.sh
+├── run.sh
+└── KRAKEN.md
 ```
 
 ### ¿Por qué organización por feature?
@@ -123,6 +126,8 @@ En lugar de agrupar todos los `Screen.kt` juntos y todos los `ViewModel.kt` junt
 - Android Studio Otter 3 Feature Drop (2025.2.3) o superior
 - JDK 17+
 - Dispositivo Android (API 24+) o emulador
+- Node.js 12+ y npm (para tests E2E con Kraken)
+- Appium 2.11.5 (para tests E2E con Kraken): `sudo npm install -g appium@2.11.5`
 
 ### Pasos
 
@@ -169,22 +174,26 @@ Valida el comportamiento del `ArtistRepository` con mocks de `PerformerDao` y `V
 
 ### Tests E2E con Kraken
 
+Los tests E2E verifican el comportamiento de la app como usuario real usando Kraken + Appium + UIAutomator2.
+Se ubican en `kraken/` y se documentan en detalle en [kraken/KRAKEN.md](kraken/KRAKEN.md).
+
 ```bash
-# Instala dependencias
-npm install kraken-node --save
-npm install -g appium
-appium driver install uiautomator2
+cd kraken
+chmod +x setup.sh run.sh
 
-# Verifica configuración
-npx kraken-node doctor
+# Solo la primera vez
+./setup.sh
 
-# Genera el APK
-./gradlew assembleDebug
-
-# Configura mobile.json con la ruta al APK generado
-# Corre los tests
-npx kraken-node run
+# Cada vez que quieras correr los tests
+./run.sh
 ```
+
+#### Escenarios
+
+| Feature               | Qué valida                                                     |
+| --------------------- | -------------------------------------------------------------- |
+| `artist_list.feature` | Navega al listado de artistas y verifica su contenido          |
+| `navbar.feature`      | Verifica que las 4 tabs de la navbar son visibles y navegables |
 
 ---
 

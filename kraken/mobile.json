@@ -1,0 +1,7 @@
+{
+  "type": "singular",
+  "apk_path": "../app/build/outputs/apk/debug/app-debug.apk",
+  "apk_package": "com.uniandes.vinilos",
+  "apk_launch_activity": "com.uniandes.vinilos.MainActivity"
+}
+
