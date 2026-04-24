@@ -136,6 +136,37 @@ cd TSDC_VinilosMobileAPP
 # Presiona [Play] Run
 ```
 
+## Testing
+
+### Tests unitarios
+
+Los tests unitarios validan la lógica de negocio sin depender de red ni base de datos real.
+Se ubican en `app/src/test/` y se ejecutan con:
+
+```bash
+./gradlew test
+```
+
+#### ArtistRepositoryTest
+
+Valida el comportamiento del `ArtistRepository` con mocks de `PerformerDao` y `VinilosApi` usando MockK.
+
+| Test                                                      | Qué valida                                                |
+| --------------------------------------------------------- | --------------------------------------------------------- |
+| `getPerformers returns cached data when dao is not empty` | Si el DAO tiene datos, los retorna sin llamar a la API    |
+| `getPerformers calls api when cache is empty`             | Si el DAO está vacío, llama a la API y persiste los datos |
+| `getPerformers combines musicians and bands from api`     | La lista final combina músicos y bandas                   |
+| `refreshPerformers deletes cache and calls api`           | Elimina el caché y fuerza actualización desde la API      |
+
+#### Tecnologías de testing
+
+| Librería        | Versión | Uso                                                        |
+| --------------- | ------- | ---------------------------------------------------------- |
+| JUnit 4         | 4.13.2  | Framework base de tests                                    |
+| MockK           | 1.13.17 | Mocking de dependencias en Kotlin                          |
+| Coroutines Test | 1.10.2  | Soporte para `runTest` en coroutines                       |
+| MockWebServer   | 5.3.2   | Simulación de servidor HTTP (disponible para tests de red) |
+
 ### Tests E2E con Kraken
 
 ```bash
