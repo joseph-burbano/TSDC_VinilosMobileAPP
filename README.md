@@ -1,4 +1,5 @@
 # TSDC_ViniliosMobileAPP
+
 Proyecto VINILIOS para aplicaciones móviles en ANDROID. Creado por: The Software Design Company.
 
 # Vinilos — Mobile App
@@ -12,14 +13,17 @@ Aplicación Android para navegar y gestionar un catálogo de álbumes de música
 
 ## Tecnologías
 
-| Tecnología | Versión | Uso |
-|---|---|---|
-| Kotlin | 2.0+ | Lenguaje principal |
-| Jetpack Compose | BOM 2024+ | UI declarativa |
-| Navigation Compose | 2.7.7 | Navegación entre pantallas |
-| Material Icons Extended | 1.7.8 | Íconos de la navbar |
-| Retrofit | — | Consumo de API REST (próximo sprint) |
-| ViewModel + LiveData | — | Arquitectura MVVM |
+| Tecnología                 | Versión              | Uso                        |
+| -------------------------- | -------------------- | -------------------------- |
+| Kotlin                     | 2.2.10               | Lenguaje principal         |
+| AGP                        | 9.1.1                | Android Gradle Plugin      |
+| Jetpack Compose            | BOM 2026.02.01       | UI declarativa             |
+| Navigation Compose         | 2.8.0                | Navegación entre pantallas |
+| Retrofit                   | 3.0.0                | Consumo de API REST        |
+| Room + KSP                 | 2.7.0 / 2.2.10-2.0.2 | Persistencia local         |
+| ViewModel + StateFlow      | 2.10.0               | Arquitectura MVVM          |
+| Coroutines                 | 1.10.2               | Programación asíncrona     |
+| Espresso + Compose Testing | BOM                  | Tests instrumentados       |
 
 ---
 
@@ -42,56 +46,61 @@ Para más detalles sobre la arquitectura MVVM en Android, consultar (usar traduc
 ┌────────────────▼────────────────────┐
 │           VIEWMODEL                 │
 │   ui/[feature]/[Feature]ViewModel   │
-│   (StateFlow / LiveData)            │
+│   (StateFlow)                       │
 └────────────────┬────────────────────┘
                  │ solicita datos
 ┌────────────────▼────────────────────┐
-│            MODEL                    │
-│   repository/ → network/ → model/  │
-│   (Retrofit + API REST)             │
-└─────────────────────────────────────┘
+│           REPOSITORY                │
+│   repository/[Feature]Repository    │
+│   cache-first: Room → API REST      │
+└──────────┬─────────────┬────────────┘
+           │             │
+┌──────────▼───┐   ┌─────▼──────────┐
+│   ROOM DB    │   │   RETROFIT     │
+│  database/   │   │   network/     │
+│  DAO + Entity│   │   VinilosApi   │
+└──────────────┘   └────────────────┘
 ```
 
 ---
 
-## Estructura del proyecto _(aun en construccion)_
+## Estructura del proyecto
 
 ```
 com/uniandes/vinilos/
 ├── MainActivity.kt
+├── database/
+│   ├── dao/
+│   │   └── PerformerDao.kt
+│   ├── entities/
+│   │   └── PerformerEntity.kt
+│   ├── Mappers.kt
+│   └── VinilosDatabase.kt
 ├── model/
 │   ├── Album.kt
-│   ├── Artist.kt
 │   ├── Collector.kt
+│   ├── CollectorAlbum.kt
+│   ├── Comment.kt
+│   ├── Performer.kt
 │   └── Track.kt
 ├── network/
 │   ├── VinilosApi.kt
 │   └── NetworkServiceAdapter.kt
 ├── repository/
-│   ├── AlbumRepository.kt
-│   ├── ArtistRepository.kt
-│   └── CollectorRepository.kt
+│   └── ArtistRepository.kt
 ├── ui/
 │   ├── theme/
-│   │   ├── Color.kt
-│   │   ├── Theme.kt
-│   │   └── Type.kt
 │   ├── navigation/
 │   │   └── AppNavigation.kt
 │   ├── home/
 │   │   └── HomeScreen.kt
 │   ├── albums/
-│   │   ├── AlbumListScreen.kt
-│   │   ├── AlbumDetailScreen.kt
-│   │   └── AlbumViewModel.kt
+│   │   └── AlbumListScreen.kt
 │   ├── artists/
 │   │   ├── ArtistListScreen.kt
-│   │   ├── ArtistDetailScreen.kt
 │   │   └── ArtistViewModel.kt
 │   └── collectors/
-│       ├── CollectorListScreen.kt
-│       ├── CollectorDetailScreen.kt
-│       └── CollectorViewModel.kt
+│       └── CollectorListScreen.kt
 └── util/
     ├── Constants.kt
     └── FakeData.kt
@@ -111,7 +120,7 @@ En lugar de agrupar todos los `Screen.kt` juntos y todos los `ViewModel.kt` junt
 
 ### Prerrequisitos
 
-- Android Studio Hedgehog o superior
+- Android Studio Otter 3 Feature Drop (2025.2.3) o superior
 - JDK 17+
 - Dispositivo Android (API 24+) o emulador
 
@@ -127,7 +136,37 @@ cd TSDC_VinilosMobileAPP
 # Presiona [Play] Run
 ```
 
+### Tests E2E con Kraken
+
+```bash
+# Instala dependencias
+npm install kraken-node --save
+npm install -g appium
+appium driver install uiautomator2
+
+# Verifica configuración
+npx kraken-node doctor
+
+# Genera el APK
+./gradlew assembleDebug
+
+# Configura mobile.json con la ruta al APK generado
+# Corre los tests
+npx kraken-node run
+```
+
 ---
+
+## Configuración de red
+
+La URL base del API está en `util/Constants.kt`.
+
+| Entorno                 | URL                          |
+| ----------------------- | ---------------------------- |
+| Emulador Android Studio | `http://10.0.2.2:3000/`      |
+| Dispositivo físico      | `http://<tu-IP-local>:3000/` |
+
+El repositorio usa la URL del emulador por defecto. Si corres en dispositivo físico reemplaza la IP en `Constants.kt` sin commitear el cambio.
 
 ## Backlog
 
