@@ -77,19 +77,48 @@ com/uniandes/vinilos/
 │   ├── Mappers.kt
 │   └── VinilosDatabase.kt
 ├── model/
+│   ├── Album.kt
+│   ├── Collector.kt
+│   ├── CollectorAlbum.kt
+│   ├── Comment.kt
+│   ├── Performer.kt
+│   └── Track.kt
 ├── network/
+│   ├── NetworkServiceAdapter.kt
+│   └── VinilosAPI.kt
 ├── repository/
 │   └── ArtistRepository.kt
 ├── ui/
-│   ├── theme/
-│   ├── navigation/
-│   ├── home/
 │   ├── albums/
+│   │   └── AlbumListScreen.kt
 │   ├── artists/
 │   │   ├── ArtistListScreen.kt
 │   │   └── ArtistViewModel.kt
-│   └── collectors/
+│   ├── collectors/
+│   │   └── CollectorListScreen.kt
+│   ├── home/
+│   │   └── HomeScreen.kt
+│   ├── navigation/
+│   │   └── AppNavigation.kt
+│   └── theme/
+│       ├── Color.kt
+│       ├── Theme.kt
+│       └── Type.kt
 └── util/
+    ├── Constants.kt
+    └── FakeData.kt
+```
+
+```
+# Test unitarios
+app/src/test/java/com/uniandes/vinilos/
+├── ArtistRepositoryTest.kt
+└── ExampleUnitTest.kt
+
+# ComposeTesting | Espresso
+app/src/androidTest/java/com/uniandes/vinilos/
+├── ArtistListScreenTest.kt
+└── ExampleInstrumentedTest.kt
 ```
 
 ```
@@ -197,6 +226,33 @@ chmod +x setup.sh run.sh
 | --------------------- | -------------------------------------------------------------- |
 | `artist_list.feature` | Navega al listado de artistas y verifica su contenido          |
 | `navbar.feature`      | Verifica que las 4 tabs de la navbar son visibles y navegables |
+
+### Tests instrumentados (Compose Testing | Espresso)
+
+Los tests de UI se implementan con **Compose Testing**, que internamente usa Espresso.
+Se ubican en `app/src/androidTest/` y requieren un dispositivo o emulador conectado.
+
+> Nota: aunque el framework subyacente es Espresso, las pruebas se escriben con
+> la API de Compose Testing para mayor compatibilidad con Jetpack Compose.
+
+```bash
+./gradlew connectedAndroidTest
+```
+
+El reporte se genera en:
+
+```
+app/build/reports/androidTests/connected/debug/index.html
+```
+
+#### ArtistListScreenTest
+
+| Test                                         | Qué valida                                           |
+| -------------------------------------------- | ---------------------------------------------------- |
+| `artistList_showsLoadingIndicator_initially` | El spinner aparece mientras carga                    |
+| `artistList_showsArtistNames_whenLoaded`     | Los nombres de artistas aparecen tras cargar         |
+| `artistList_showsGrid_withArtistItems`       | La grilla y los items con testTag aparecen           |
+| `artistList_showsErrorMessage_whenLoadFails` | El mensaje de error aparece cuando falla la conexión |
 
 ---
 
