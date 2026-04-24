@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     // Retrofit
     implementation(libs.retrofit)
+    implementation(libs.coil.compose)
     implementation(libs.converter.gson)
     // ViewModel + LiveData
     implementation(libs.androidx.lifecycle.viewmodel.compose)
