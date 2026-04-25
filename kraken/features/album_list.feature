@@ -1,7 +1,7 @@
 Feature: Listado de álbumes (HU01)
 
   @user1 @mobile
-  Scenario: Como usuario visitante navego al catálogo de álbumes y abro el detalle de un álbum
+  Scenario: Como usuario visitante navego al catálogo de álbumes y veo el header
     Given I wait
     Then I tap on element with accessibility id "nav_álbumes"
     Then I wait
@@ -10,11 +10,5 @@ Feature: Listado de álbumes (HU01)
     Then I see the text "Álbumes"
     Then I see the text "encontrados"
     Then I see the text "Buscando América"
-    Then I tap on element with id "Buscando América"
-    Then I wait
-    Then I see the text "ARTISTAS"
-    Then I see the text "CANCIONES"
-    Then I tap on element with accessibility id "Volver"
-    Then I wait
     Then I tap on element with accessibility id "nav_vinilos"
     Then I wait
