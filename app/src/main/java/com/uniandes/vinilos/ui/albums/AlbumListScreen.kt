@@ -27,8 +27,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +62,8 @@ fun AlbumListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val visibleAlbums by viewModel.visibleAlbums.collectAsState(initial = emptyList())
+    val hasMore by viewModel.hasMore.collectAsState(initial = false)
 
     when (val state = uiState) {
         is AlbumsUiState.Loading -> SkeletonState()
@@ -69,8 +73,11 @@ fun AlbumListScreen(
         )
         is AlbumsUiState.Success -> AlbumListContent(
             albums = state.albums,
+            visibleAlbums = visibleAlbums,
+            hasMore = hasMore,
             isRefreshing = isRefreshing,
             onRefresh = { viewModel.refresh() },
+            onLoadMore = { viewModel.loadMore() },
             onAlbumClick = onAlbumClick
         )
     }
@@ -79,13 +86,13 @@ fun AlbumListScreen(
 @Composable
 private fun SkeletonState() {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(1),
         contentPadding = PaddingValues(16.dp),
         modifier = Modifier
             .fillMaxSize()
             .testTag(AlbumListTestTags.LOADING)
     ) {
-        items(6) { SkeletonCard() }
+        items(3) { SkeletonCard() }
     }
 }
 
@@ -103,28 +110,23 @@ private fun SkeletonCard() {
     )
     val shimmer = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f * alpha)
 
-    Card(
-        modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 6.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                    .background(shimmer)
-            )
-            Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)) {
-                SkeletonBar(widthFraction = 0.85f, height = 14.dp, color = shimmer)
-                Spacer(modifier = Modifier.height(6.dp))
-                SkeletonBar(widthFraction = 0.5f, height = 12.dp, color = shimmer)
-                Spacer(modifier = Modifier.height(8.dp))
-                SkeletonBar(widthFraction = 0.3f, height = 10.dp, color = shimmer)
-            }
+    Column(modifier = Modifier.padding(bottom = 24.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .background(shimmer)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            SkeletonBar(widthFraction = 0.6f, height = 24.dp, color = shimmer)
+            SkeletonBar(widthFraction = 0.2f, height = 14.dp, color = shimmer)
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        SkeletonBar(widthFraction = 0.4f, height = 16.dp, color = shimmer)
     }
 }
 
@@ -180,14 +182,18 @@ private fun ErrorState(message: String, onRetry: () -> Unit) {
 @Composable
 private fun AlbumListContent(
     albums: List<Album>,
+    visibleAlbums: List<Album>,
+    hasMore: Boolean,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
     onAlbumClick: (Int) -> Unit
 ) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedGenre by remember { mutableStateOf<String?>(null) }
 
     val allGenres = remember(albums) { albums.map { it.genre }.distinct().sorted() }
+    
     val filteredAlbums = remember(albums, searchQuery, selectedGenre) {
         albums.filter { album ->
             val matchesSearch = searchQuery.isBlank() ||
@@ -198,25 +204,32 @@ private fun AlbumListContent(
         }
     }
 
+    val displayAlbums = if (searchQuery.isNotBlank() || selectedGenre != null) {
+        filteredAlbums
+    } else {
+        visibleAlbums
+    }
+
     PullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize()
     ) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(bottom = 16.dp),
+            columns = GridCells.Fixed(1),
+            contentPadding = PaddingValues(bottom = 32.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .testTag(AlbumListTestTags.LIST)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
-                Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 4.dp)) {
+                Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 4.dp)) {
                     Text(
                         text = "SELECCIÓN DE",
-                        fontSize = 11.sp,
+                        fontSize = 12.sp,
                         letterSpacing = 2.sp,
-                        color = MaterialTheme.colorScheme.primary
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFD32F2F).copy(alpha = 0.7f)
                     )
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -225,14 +238,16 @@ private fun AlbumListContent(
                     ) {
                         Text(
                             text = "Álbumes",
-                            fontSize = 40.sp,
-                            fontWeight = FontWeight.Bold
+                            fontSize = 48.sp,
+                            fontFamily = FontFamily.Serif,
+                            fontWeight = FontWeight.Medium,
+                            lineHeight = 56.sp
                         )
                         Text(
                             text = "${filteredAlbums.size} encontrados",
                             fontSize = 13.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            modifier = Modifier.padding(bottom = 12.dp)
                         )
                     }
                 }
@@ -246,18 +261,18 @@ private fun AlbumListContent(
                     leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .padding(horizontal = 24.dp, vertical = 8.dp)
                         .testTag(AlbumListTestTags.SEARCH),
                     singleLine = true,
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(8.dp)
                 )
             }
 
             item(span = { GridItemSpan(maxLineSpan) }) {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp),
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    contentPadding = PaddingValues(horizontal = 24.dp),
+                    modifier = Modifier.padding(bottom = 16.dp)
                 ) {
                     item {
                         FilterChip(
@@ -276,7 +291,7 @@ private fun AlbumListContent(
                 }
             }
 
-            if (filteredAlbums.isEmpty()) {
+            if (displayAlbums.isEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Box(
                         modifier = Modifier
@@ -300,8 +315,28 @@ private fun AlbumListContent(
                     }
                 }
             } else {
-                items(filteredAlbums) { album ->
+                items(displayAlbums) { album ->
                     AlbumCard(album = album, onClick = { onAlbumClick(album.id) })
+                }
+                
+                if (hasMore && searchQuery.isBlank() && selectedGenre == null) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)) {
+                            OutlinedButton(
+                                onClick = onLoadMore,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .testTag("load_more_button"),
+                                shape = RoundedCornerShape(4.dp)
+                            ) {
+                                Text(
+                                    text = "CARGAR MÁS",
+                                    letterSpacing = 2.sp,
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -312,73 +347,57 @@ private fun AlbumListContent(
 fun AlbumCard(album: Album, onClick: () -> Unit) {
     val coverColor = albumCoverColor(album.id)
 
-    Card(
+    Column(
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 6.dp)
             .fillMaxWidth()
             .clickable { onClick() }
-            .testTag(AlbumListTestTags.cardFor(album.id)),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .testTag(AlbumListTestTags.cardFor(album.id))
     ) {
-        Column {
-            AlbumCover(
-                coverUrl = album.cover,
-                fallbackColor = coverColor,
-                contentDescription = album.name,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-            )
+        AlbumCover(
+            coverUrl = album.cover,
+            fallbackColor = coverColor,
+            contentDescription = album.name,
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .clip(RectangleShape)
+        )
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 10.dp)
-            ) {
-                Text(
-                    text = album.name,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    lineHeight = 18.sp
-                )
-                if (album.performers.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = album.performers.first().name,
-                        fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                Spacer(modifier = Modifier.height(6.dp))
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(coverColor.copy(alpha = 0.12f))
-                            .padding(horizontal = 6.dp, vertical = 2.dp)
-                    ) {
-                        Text(
-                            text = album.genre,
-                            fontSize = 10.sp,
-                            color = coverColor,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                    Text(
-                        text = album.releaseDate,
-                        fontSize = 11.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = album.name,
+                fontWeight = FontWeight.Medium,
+                fontSize = 22.sp,
+                fontFamily = FontFamily.Serif,
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = "${album.releaseDate} • ${album.genre.uppercase()}",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFD32F2F).copy(alpha = 0.7f),
+                letterSpacing = 0.5.sp
+            )
+        }
+
+        if (album.performers.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = album.performers.first().name,
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }
@@ -391,15 +410,20 @@ object AlbumListTestTags {
     fun cardFor(albumId: Int) = "album_item_$albumId"
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun AlbumListScreenPreview() {
     VinilosTheme {
-        AlbumListContent(
-            albums = com.uniandes.vinilos.util.FakeData.albums,
-            isRefreshing = false,
-            onRefresh = {},
-            onAlbumClick = {}
-        )
+        Surface(color = Color(0xFFFAF9F6)) { // Fondo tipo "eggshell" como el prototipo
+            AlbumListContent(
+                albums = com.uniandes.vinilos.util.FakeData.albums,
+                visibleAlbums = com.uniandes.vinilos.util.FakeData.albums.take(2),
+                hasMore = true,
+                isRefreshing = false,
+                onRefresh = {},
+                onLoadMore = {},
+                onAlbumClick = {}
+            )
+        }
     }
 }
