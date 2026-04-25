@@ -9,7 +9,8 @@ fun PerformerEntity.toPerformer() = Performer(
     image = image,
     description = description,
     birthDate = birthDate,
-    creationDate = creationDate
+    creationDate = creationDate,
+    albums = albums
 )
 
 fun Performer.toEntity() = PerformerEntity(
@@ -18,5 +19,6 @@ fun Performer.toEntity() = PerformerEntity(
     image = image,
     description = description,
     birthDate = birthDate,
-    creationDate = creationDate
+    creationDate = creationDate,
+    albums = albums
 )
