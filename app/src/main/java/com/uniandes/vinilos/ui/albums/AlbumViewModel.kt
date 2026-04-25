@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.uniandes.vinilos.database.VinilosDatabase
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.repository.AlbumRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -29,6 +27,21 @@ class AlbumViewModel(
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    private val pageSize = 2
+    private val _visibleCount = MutableStateFlow(pageSize)
+
+    val visibleAlbums: Flow<List<Album>> = combine(_uiState, _visibleCount) { state, count ->
+        if (state is AlbumsUiState.Success) state.albums.take(count) else emptyList()
+    }
+
+    val hasMore: Flow<Boolean> = combine(_uiState, _visibleCount) { state, count ->
+        if (state is AlbumsUiState.Success) state.albums.size > count else false
+    }
+
+    fun loadMore() {
+        _visibleCount.value += pageSize
+    }
 
     init {
         load()
