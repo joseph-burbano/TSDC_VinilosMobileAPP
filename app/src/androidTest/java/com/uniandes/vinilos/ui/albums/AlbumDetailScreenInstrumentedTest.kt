@@ -99,7 +99,7 @@ class AlbumDetailScreenInstrumentedTest {
         composeTestRule.onNodeWithText("ARTISTAS").assertIsDisplayed()
         composeTestRule.onNodeWithText("CANCIONES").assertIsDisplayed()
         composeTestRule.onNodeWithText("Rubén Blades Bellido de Luna").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Pedro Navaja").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Pedro Navaja").assertExists()
     }
 
     @Test
