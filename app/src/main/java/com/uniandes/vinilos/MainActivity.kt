@@ -44,7 +44,9 @@ import androidx.navigation.navArgument
 import com.uniandes.vinilos.ui.albums.AlbumDetailScreen
 import com.uniandes.vinilos.ui.albums.AlbumListScreen
 import com.uniandes.vinilos.ui.albums.AlbumViewModel
+import com.uniandes.vinilos.ui.artists.ArtistDetailScreen
 import com.uniandes.vinilos.ui.artists.ArtistListScreen
+import com.uniandes.vinilos.ui.artists.ArtistViewModel
 import com.uniandes.vinilos.ui.collectors.CollectorListScreen
 import com.uniandes.vinilos.ui.home.HomeScreen
 import com.uniandes.vinilos.ui.navigation.BottomNavItem
@@ -71,8 +73,10 @@ fun VinilosApp() {
 
     val context = LocalContext.current
     val albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(context))
+    val artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.factory(context))
 
-    val isDetailScreen = currentRoute?.startsWith("album_detail") == true
+    val isDetailScreen = currentRoute?.startsWith("album_detail") == true ||
+            currentRoute?.startsWith("artist_detail") == true
 
     var isBarVisible by remember { mutableStateOf(true) }
 
@@ -166,7 +170,23 @@ fun VinilosApp() {
                 )
             }
             composable(Screen.ArtistList.route) {
-                ArtistListScreen()
+                ArtistListScreen(
+                    viewModel = artistViewModel,
+                    onArtistClick = { artistId ->
+                        navController.navigate(Screen.ArtistDetail.createRoute(artistId))
+                    }
+                )
+            }
+            composable(
+                route = Screen.ArtistDetail.route,
+                arguments = listOf(navArgument("artistId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val artistId = backStackEntry.arguments?.getInt("artistId") ?: return@composable
+                ArtistDetailScreen(
+                    artistId = artistId,
+                    viewModel = artistViewModel,
+                    onBack = { navController.navigateUp() }
+                )
             }
             composable(Screen.CollectorList.route) {
                 CollectorListScreen()
