@@ -13,7 +13,7 @@ Feature: Detalle de artista (HU04)
     Then I see the text "ARTISTA DESTACADO"
     Then I see the text "LA COLECCIÓN"
 
-  @user1 @mobile
+  @user2 @mobile
   Scenario: Como usuario visitante puedo regresar desde el detalle al listado
     Given I wait
     Then I tap on element with accessibility id "nav_artistas"
