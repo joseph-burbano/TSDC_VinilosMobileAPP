@@ -81,7 +81,24 @@ chmod +x run.sh
 
 ## Escenarios disponibles
 
-### `artist_list.feature`
+### `album_list.feature` — HU01
+
+Verifica el listado de álbumes:
+
+- Navega a la pantalla de Álbumes desde la navbar
+- Verifica que aparece el header "SELECCIÓN DE", "Álbumes" y el contador "encontrados"
+- Verifica que un álbum del catálogo ("Buscando América") aparece en la lista
+- Vuelve a Vinilos al final del escenario
+
+### `album_detail.feature` — HU02
+
+Verifica la pantalla de detalle de álbum:
+
+- Navega al catálogo y hace tap sobre un álbum ("Buscando América")
+- Verifica que se renderiza el género ("Salsa") y las secciones "ARTISTAS" y "CANCIONES"
+- Vuelve al catálogo con el botón "Volver" y luego a Vinilos
+
+### `artist_list.feature` — HU03
 
 Verifica el listado de artistas:
 
