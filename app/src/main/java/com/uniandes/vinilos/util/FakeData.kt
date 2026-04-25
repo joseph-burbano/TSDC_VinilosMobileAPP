@@ -1,18 +1,18 @@
 package com.uniandes.vinilos.util
 
 import com.uniandes.vinilos.model.Album
-import com.uniandes.vinilos.model.Artist
 import com.uniandes.vinilos.model.Collector
+import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.model.Track
 
 object FakeData {
 
-    val artists = listOf(
-        Artist(1, "Miles Davis", "", "American jazz trumpeter, bandleader and composer", "1926-05-26"),
-        Artist(2, "John Coltrane", "", "American jazz saxophonist and composer", "1926-09-23"),
-        Artist(3, "Nina Simone", "", "American singer, songwriter, pianist and civil rights activist", "1933-02-21"),
-        Artist(4, "Led Zeppelin", "", "English rock band formed in London", "1968-01-01"),
-        Artist(5, "The Beatles", "", "English rock band from Liverpool, Merseyside", "1960-01-01")
+    val performers = listOf(
+        Performer(1, "Miles Davis", "", "American jazz trumpeter, bandleader and composer", "1926-05-26"),
+        Performer(2, "John Coltrane", "", "American jazz saxophonist and composer", "1926-09-23"),
+        Performer(3, "Nina Simone", "", "American singer, songwriter, pianist and civil rights activist", "1933-02-21"),
+        Performer(4, "Led Zeppelin", "", "English rock band formed in London", "1968-01-01"),
+        Performer(5, "The Beatles", "", "English rock band from Liverpool, Merseyside", "1960-01-01")
     )
 
     val albums = listOf(
@@ -28,7 +28,7 @@ object FakeData {
                 Track(1, "Shhh/Peaceful", "18:19"),
                 Track(2, "In a Silent Way/It's About That Time", "20:05")
             ),
-            artists = listOf(artists[0])
+            performers = listOf(performers[0])
         ),
         Album(
             id = 2,
@@ -45,7 +45,7 @@ object FakeData {
                 Track(6, "All Blues", "11:33"),
                 Track(7, "Flamenco Sketches", "9:26")
             ),
-            artists = listOf(artists[0], artists[1])
+            performers = listOf(performers[0], performers[1])
         ),
         Album(
             id = 3,
@@ -61,7 +61,7 @@ object FakeData {
                 Track(10, "Spanish Key", "17:31"),
                 Track(11, "Miles Runs the Voodoo Down", "14:01")
             ),
-            artists = listOf(artists[0])
+            performers = listOf(performers[0])
         ),
         Album(
             id = 4,
@@ -77,7 +77,7 @@ object FakeData {
                 Track(14, "Ne Me Quitte Pas", "3:47"),
                 Track(15, "Feeling Good", "2:56")
             ),
-            artists = listOf(artists[2])
+            performers = listOf(performers[2])
         ),
         Album(
             id = 5,
@@ -97,7 +97,7 @@ object FakeData {
                 Track(22, "Going to California", "3:31"),
                 Track(23, "When the Levee Breaks", "7:08")
             ),
-            artists = listOf(artists[3])
+            performers = listOf(performers[3])
         ),
         Album(
             id = 6,
@@ -118,7 +118,7 @@ object FakeData {
                 Track(31, "You Never Give Me Your Money", "4:02"),
                 Track(32, "The End", "2:04")
             ),
-            artists = listOf(artists[4])
+            performers = listOf(performers[4])
         ),
         Album(
             id = 7,
@@ -134,7 +134,7 @@ object FakeData {
                 Track(35, "Pursuance", "10:51"),
                 Track(36, "Psalm", "7:03")
             ),
-            artists = listOf(artists[1])
+            performers = listOf(performers[1])
         ),
         Album(
             id = 8,
@@ -150,7 +150,7 @@ object FakeData {
                 Track(39, "Little Girl Blue", "5:15"),
                 Track(40, "Love Me or Leave Me", "4:23")
             ),
-            artists = listOf(artists[2])
+            performers = listOf(performers[2])
         )
     )
 

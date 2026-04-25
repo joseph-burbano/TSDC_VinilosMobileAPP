@@ -12,7 +12,7 @@ fun AlbumEntity.toAlbum() = Album(
     genre = genre,
     recordLabel = recordLabel,
     tracks = tracks,
-    artists = artists
+    performers = performers
 )
 
 fun Album.toEntity() = AlbumEntity(
@@ -24,5 +24,5 @@ fun Album.toEntity() = AlbumEntity(
     genre = genre,
     recordLabel = recordLabel,
     tracks = tracks,
-    artists = artists
+    performers = performers
 )

@@ -157,7 +157,7 @@ fun AlbumDetailScreen(
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                if (album.artists.isNotEmpty()) {
+                if (album.performers.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(24.dp))
                     HorizontalDivider()
                     Spacer(modifier = Modifier.height(16.dp))
@@ -172,7 +172,7 @@ fun AlbumDetailScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    album.artists.forEach { artist ->
+                    album.performers.forEach { performer ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(vertical = 4.dp)
@@ -184,7 +184,7 @@ fun AlbumDetailScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = artist.name.first().uppercase(),
+                                    text = performer.name.first().uppercase(),
                                     fontWeight = FontWeight.Bold,
                                     color = coverColor,
                                     fontSize = 15.sp
@@ -193,12 +193,12 @@ fun AlbumDetailScreen(
                             Spacer(modifier = Modifier.width(12.dp))
                             Column {
                                 Text(
-                                    text = artist.name,
+                                    text = performer.name,
                                     fontSize = 15.sp,
                                     fontWeight = FontWeight.Medium
                                 )
                                 Text(
-                                    text = artist.description,
+                                    text = performer.description,
                                     fontSize = 12.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     maxLines = 1
