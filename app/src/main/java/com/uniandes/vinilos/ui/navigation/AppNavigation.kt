@@ -10,7 +10,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class Screen(val route: String) {
     object Home : Screen("home")
     object AlbumList : Screen("album_list")
-    object AlbumDetail : Screen("album_detail/{albumId}")
+    object AlbumDetail : Screen("album_detail/{albumId}") {
+        fun createRoute(albumId: Int) = "album_detail/$albumId"
+    }
     object ArtistList : Screen("artist_list")
     object ArtistDetail : Screen("artist_detail/{artistId}")
     object CollectorList : Screen("collector_list")

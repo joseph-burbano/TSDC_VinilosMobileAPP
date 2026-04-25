@@ -5,6 +5,7 @@ local.properties
 # Build
 build/
 .gradle/
+.kotlin/
 app/build/
 
 # Android Studio / IntelliJ
@@ -27,6 +28,19 @@ Thumbs.db
 # Kotlin
 *.class
 
-# Kraken
+# Logs
+*.log
+
+# Claude Code
+CLAUDE.md
+.claude/
+
+# Kraken (Node + reportes generados)
 kraken/node_modules/
 kraken/reports/
+
+# Backend reference (vendored NestJS project, tracked in its own repo)
+back/
+
+# Reference copy of the HU03 feature branch (used locally to align stack with the team)
+TSDC_VinilosMobileAPP-feature-HU03-artist-list/

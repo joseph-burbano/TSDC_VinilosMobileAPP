@@ -27,3 +27,14 @@ Then("I tap on element with accessibility id {string}", async function (id) {
   const element = await this.driver.$(`~${id}`);
   await element.click();
 });
+
+Then("I scroll down", async function () {
+  await this.driver.execute("mobile: scrollGesture", {
+    left: 100,
+    top: 300,
+    width: 800,
+    height: 800,
+    direction: "down",
+    percent: 3,
+  });
+});
