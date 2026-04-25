@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     // Network
     implementation(libs.retrofit)
+    implementation(libs.coil.compose)
     implementation(libs.converter.gson)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.coil.compose)

@@ -34,6 +34,8 @@ import com.uniandes.vinilos.ui.home.HomeScreen
 import com.uniandes.vinilos.ui.navigation.BottomNavItem
 import com.uniandes.vinilos.ui.navigation.Screen
 import com.uniandes.vinilos.ui.theme.VinilosTheme
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,39 +55,34 @@ fun VinilosApp() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val bottomNavRoutes = BottomNavItem.entries.map { it.route }
-    val showBottomBar = currentRoute in bottomNavRoutes
-
     val context = LocalContext.current
     val albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(context))
 
     Scaffold(
         bottomBar = {
-            if (showBottomBar) {
-                NavigationBar {
-                    BottomNavItem.entries.forEach { item ->
-                        NavigationBarItem(
-                            icon = {
-                                Icon(
-                                    imageVector = item.icon,
-                                    contentDescription = item.label
-                                )
-                            },
-                            label = { Text(item.label) },
-                            selected = currentRoute == item.route,
-                            modifier = Modifier.semantics {
-                                contentDescription = "nav_${item.label.lowercase()}"
-                            },
-                            onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
+            NavigationBar {
+                BottomNavItem.entries.forEach { item ->
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                imageVector = item.icon,
+                                contentDescription = item.label
+                            )
+                        },
+                        label = { Text(item.label) },
+                        selected = currentRoute == item.route,
+                        modifier = Modifier.semantics {
+                            contentDescription = "nav_${item.label.lowercase()}"
+                        },
+                        onClick = {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
                                 }
+                                launchSingleTop = true
+                                restoreState = true
                             }
-                        )
+                        }
                     }
                 }
             }
