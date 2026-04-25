@@ -192,7 +192,7 @@ private fun AlbumListContent(
         albums.filter { album ->
             val matchesSearch = searchQuery.isBlank() ||
                 album.name.contains(searchQuery, ignoreCase = true) ||
-                album.artists.any { it.name.contains(searchQuery, ignoreCase = true) }
+                album.performers.any { it.name.contains(searchQuery, ignoreCase = true) }
             val matchesGenre = selectedGenre == null || album.genre == selectedGenre
             matchesSearch && matchesGenre
         }
@@ -344,10 +344,10 @@ fun AlbumCard(album: Album, onClick: () -> Unit) {
                     overflow = TextOverflow.Ellipsis,
                     lineHeight = 18.sp
                 )
-                if (album.artists.isNotEmpty()) {
+                if (album.performers.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = album.artists.first().name,
+                        text = album.performers.first().name,
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,

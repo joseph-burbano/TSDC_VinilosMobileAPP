@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.uniandes.vinilos.model.Album
-import com.uniandes.vinilos.model.Artist
+import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.repository.AlbumRepository
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import io.mockk.coEvery
@@ -29,13 +29,13 @@ class AlbumListScreenInstrumentedTest {
             id = 1, name = "Abbey Road", cover = "", releaseDate = "1969",
             description = "desc", genre = "Rock", recordLabel = "Apple",
             tracks = emptyList(),
-            artists = listOf(Artist(1, "The Beatles", "", "Banda", ""))
+            performers = listOf(Performer(1, "The Beatles", "", "Banda"))
         ),
         Album(
             id = 2, name = "Thriller", cover = "", releaseDate = "1982",
             description = "desc", genre = "Pop", recordLabel = "Epic",
             tracks = emptyList(),
-            artists = listOf(Artist(2, "Michael Jackson", "", "Solista", ""))
+            performers = listOf(Performer(2, "Michael Jackson", "", "Solista"))
         )
     )
 

@@ -6,12 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.uniandes.vinilos.database.dao.AlbumDao
+import com.uniandes.vinilos.database.dao.PerformerDao
 import com.uniandes.vinilos.database.entities.AlbumEntity
+import com.uniandes.vinilos.database.entities.PerformerEntity
 
-@Database(entities = [AlbumEntity::class], version = 1)
+@Database(entities = [AlbumEntity::class, PerformerEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class VinilosDatabase : RoomDatabase() {
     abstract fun albumDao(): AlbumDao
+    abstract fun performerDao(): PerformerDao
 
     companion object {
         @Volatile
