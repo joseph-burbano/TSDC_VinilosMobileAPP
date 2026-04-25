@@ -9,6 +9,7 @@ import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.repository.ArtistRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class ArtistViewModel(
@@ -23,6 +24,21 @@ class ArtistViewModel(
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
+
+    private val pageSize = 4
+    private val _visibleCount = MutableStateFlow(pageSize)
+
+    val visiblePerformers = combine(_performers, _visibleCount) { list, count ->
+        list.take(count)
+    }
+
+    val hasMore = combine(_performers, _visibleCount) { list, count ->
+        list.size > count
+    }
+
+    fun loadMore() {
+        _visibleCount.value += pageSize
+    }
 
     init { loadPerformers() }
 
