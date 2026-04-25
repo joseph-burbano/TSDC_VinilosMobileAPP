@@ -13,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -53,8 +56,8 @@ fun VinilosApp() {
     val bottomNavRoutes = BottomNavItem.entries.map { it.route }
     val showBottomBar = currentRoute in bottomNavRoutes
 
-    // Activity-scoped so list and detail see the same loaded catalog.
-    val albumViewModel: AlbumViewModel = viewModel()
+    val context = LocalContext.current
+    val albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(context))
 
     Scaffold(
         bottomBar = {
@@ -70,6 +73,9 @@ fun VinilosApp() {
                             },
                             label = { Text(item.label) },
                             selected = currentRoute == item.route,
+                            modifier = Modifier.semantics {
+                                contentDescription = "nav_${item.label.lowercase()}"
+                            },
                             onClick = {
                                 navController.navigate(item.route) {
                                     popUpTo(navController.graph.findStartDestination().id) {

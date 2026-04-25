@@ -15,6 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,7 +30,7 @@ import com.uniandes.vinilos.ui.theme.VinilosTheme
 @Composable
 fun AlbumDetailScreen(
     albumId: Int,
-    viewModel: AlbumViewModel = viewModel(),
+    viewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(LocalContext.current)),
     onBack: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -63,11 +65,15 @@ fun AlbumDetailScreen(
     val coverColor = albumCoverColor(albumId)
 
     Scaffold(
+        modifier = Modifier.testTag(AlbumDetailTestTags.SCREEN),
         topBar = {
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(
+                        onClick = onBack,
+                        modifier = Modifier.testTag(AlbumDetailTestTags.BACK)
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Volver",
@@ -259,6 +265,11 @@ private fun TrackRow(index: Int, track: Track) {
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
+}
+
+object AlbumDetailTestTags {
+    const val SCREEN = "album_detail_screen"
+    const val BACK = "album_detail_back"
 }
 
 @Preview(showBackground = true, showSystemUi = true)

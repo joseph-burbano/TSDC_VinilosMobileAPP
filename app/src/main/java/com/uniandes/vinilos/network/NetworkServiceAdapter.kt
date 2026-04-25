@@ -1,5 +1,6 @@
 package com.uniandes.vinilos.network
 
+import com.uniandes.vinilos.util.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -7,9 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object NetworkServiceAdapter {
-    // 10.0.2.2 is the Android emulator alias for the host machine's loopback.
-    // Backend is the NestJS service from back/BackVynils/docker-compose.yml (port 3000).
-    private const val BASE_URL = "http://10.0.2.2:3000/"
 
     private val httpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
@@ -23,7 +21,7 @@ object NetworkServiceAdapter {
 
     val api: VinilosApi by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -24,8 +24,8 @@ enum class BottomNavItem(
     val label: String,
     val icon: ImageVector
 ) {
-    VINYL("home", "Vinyl", Icons.Filled.Home),
+    VINYL("home", "Vinilos", Icons.Filled.Home),
     ALBUMES("album_list", "Álbumes", Icons.Filled.MusicNote),
-    ARTISTS("artist_list", "Artists", Icons.Filled.Person),
-    PEOPLE("collector_list", "People", Icons.Filled.AccountCircle)
+    ARTISTS("artist_list", "Artistas", Icons.Filled.Person),
+    PEOPLE("collector_list", "colecc.", Icons.Filled.AccountCircle)
 }

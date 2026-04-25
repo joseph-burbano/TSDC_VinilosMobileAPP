@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -37,11 +38,24 @@ android {
     buildFeatures {
         compose = true
     }
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+                "META-INF/NOTICE.md"
+            )
+        }
+    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
@@ -49,17 +63,33 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material.icons.extended)
+    // Network
     implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+    implementation(libs.converter.gson)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.coil.compose)
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    // Room (cache offline)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // JVM unit tests
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockwebserver)
+
+    // Instrumented (Espresso / Compose) tests
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.mockk.android)
+
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
