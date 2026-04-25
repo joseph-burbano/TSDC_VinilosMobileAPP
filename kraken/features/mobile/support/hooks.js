@@ -13,7 +13,7 @@ Before(async function () {
       "appium:noReset": true,
       "appium:ignoreHiddenApiPolicyError": true,
       "appium:uiautomator2ServerInstallTimeout": 120000,
-      "appium:skipServerInstallation": true,
+      "appium:skipServerInstallation": false,
     },
     this.userId,
   );

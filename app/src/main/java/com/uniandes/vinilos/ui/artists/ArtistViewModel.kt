@@ -56,6 +56,9 @@ class ArtistViewModel(
         }
     }
 
+    fun findById(performerId: Int): Performer? =
+        _performers.value.find { it.id == performerId }
+
     fun refreshPerformers() {
         viewModelScope.launch {
             _isLoading.value = true

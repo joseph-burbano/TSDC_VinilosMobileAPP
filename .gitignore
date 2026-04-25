@@ -35,6 +35,9 @@ Thumbs.db
 CLAUDE.md
 .claude/
 
+# Docs locales (solo para entendimiento personal, no parte del repo)
+docs/
+
 # Kraken (Node + reportes generados)
 kraken/node_modules/
 kraken/reports/
