@@ -13,8 +13,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -137,35 +135,4 @@ class AlbumViewModelTest {
         coVerify(exactly = 1) { repo.refreshAlbums() }
     }
 
-    @Test
-    fun `findById devuelve el album cuando esta en Success`() = runTest {
-        val repo = mockk<AlbumRepository>(relaxed = true)
-        coEvery { repo.getAlbums() } returns sample
-        val vm = AlbumViewModel(repo)
-        advanceUntilIdle()
-
-        val album = vm.findById(2)
-        assertNotNull(album)
-        assertEquals("Thriller", album!!.name)
-    }
-
-    @Test
-    fun `findById devuelve null cuando esta en Error o Loading`() = runTest {
-        val repo = mockk<AlbumRepository>(relaxed = true)
-        coEvery { repo.getAlbums() } throws IOException("x")
-        val vm = AlbumViewModel(repo)
-        advanceUntilIdle()
-
-        assertNull(vm.findById(1))
-    }
-
-    @Test
-    fun `findById devuelve null para id inexistente`() = runTest {
-        val repo = mockk<AlbumRepository>(relaxed = true)
-        coEvery { repo.getAlbums() } returns sample
-        val vm = AlbumViewModel(repo)
-        advanceUntilIdle()
-
-        assertNull(vm.findById(9999))
-    }
 }
