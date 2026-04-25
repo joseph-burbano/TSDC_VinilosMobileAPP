@@ -26,3 +26,7 @@ Thumbs.db
 
 # Kotlin
 *.class
+
+# Kraken
+kraken/node_modules/
+kraken/reports/

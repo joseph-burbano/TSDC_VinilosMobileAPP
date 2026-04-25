@@ -39,8 +39,17 @@ android {
         compose = true
     }
     ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
+        arg("room.schemaLocation", "$projectDir/schemas")
+    }
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/LICENSE.md",
+                "META-INF/LICENSE-notice.md",
+                "META-INF/NOTICE.md"
+            )
+        }
+    }
 }
 
 dependencies {
@@ -56,6 +65,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     // Retrofit
     implementation(libs.retrofit)
+    implementation(libs.coil.compose)
     implementation(libs.converter.gson)
     // ViewModel + LiveData
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -78,4 +88,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
 }
