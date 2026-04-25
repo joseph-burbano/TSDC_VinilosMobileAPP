@@ -10,6 +10,13 @@ echo "Activando tunnel ADB para backend..."
 adb reverse tcp:3000 tcp:3000
 echo ""
 
+echo "Reiniciando la app..."
+adb shell am force-stop com.uniandes.vinilos
+sleep 1
+adb shell am start -n com.uniandes.vinilos/.MainActivity
+sleep 2
+echo ""
+
 echo "Corriendo tests..."
 ./node_modules/kraken-node/bin/kraken-node run
 echo ""

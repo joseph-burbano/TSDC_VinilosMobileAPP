@@ -13,6 +13,8 @@ Feature: Listado de álbumes (HU01)
     Then I tap on element with id "Buscando América"
     Then I wait
     Then I see the text "ARTISTAS"
+    Then I scroll down
+    Then I scroll down
     Then I see the text "CANCIONES"
     Then I tap on element with accessibility id "Volver"
     Then I wait
