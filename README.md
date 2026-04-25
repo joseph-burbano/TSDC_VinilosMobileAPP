@@ -147,9 +147,10 @@ Ubicación: [app/src/androidTest/java/com/uniandes/vinilos/](app/src/androidTest
 
 ### Qué cubren
 
-| Suite | Archivo | Casos | Qué valida |
-| ----- | ------- | ----- | ---------- |
-| AlbumListScreenInstrumentedTest | `ui/albums/AlbumListScreenInstrumentedTest.kt` | 5 | Skeleton durante carga, render del listado con sus nombres, mensaje de error con texto correcto, botón "Reintentar" dispara nuevo fetch, estado vacío |
+| HU | Suite | Archivo | Casos | Qué valida |
+| -- | ----- | ------- | ----- | ---------- |
+| HU01 | AlbumListScreenInstrumentedTest | `ui/albums/AlbumListScreenInstrumentedTest.kt` | 5 | Skeleton durante carga, render del listado con sus nombres, mensaje de error con texto correcto, botón "Reintentar" dispara nuevo fetch, estado vacío |
+| HU02 | AlbumDetailScreenInstrumentedTest | `ui/albums/AlbumDetailScreenInstrumentedTest.kt` | 5 | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver invoca `onBack`, mensaje de error sin red, "Álbum no encontrado" cuando el id no existe |
 
 Estos tests usan `createComposeRule()` y construyen el `AlbumViewModel` con un `AlbumRepository` mockeado vía MockK (mismo patrón que `ArtistListScreenTest` del compañero). Identifican nodos con los `testTag` definidos en `AlbumListTestTags` y `AlbumDetailTestTags`.
 
@@ -186,11 +187,12 @@ Pruebas de **caja negra** sobre el APK real, dirigidas con Cucumber + Kraken-Nod
 
 ### Qué cubren
 
-| Feature | Archivo | Qué valida |
-| ------- | ------- | ---------- |
-| Listado de álbumes (HU01) | `kraken/features/album_list.feature` | Navegar al catálogo, ver el header, abrir el detalle de un álbum |
-| Listado de artistas (HU03) | `kraken/features/artist_list.feature` | Listado de artistas (HU03 del compañero) |
-| Navegación principal | `kraken/features/navbar.feature` | Las 4 tabs son visibles y navegables |
+| HU | Feature | Archivo | Qué valida |
+| -- | ------- | ------- | ---------- |
+| HU01 | Listado de álbumes | `kraken/features/album_list.feature` | Navegar al catálogo, ver el header ("SELECCIÓN DE", "Álbumes", "encontrados") y confirmar que un álbum del catálogo aparece en la lista |
+| HU02 | Detalle de álbum | `kraken/features/album_detail.feature` | Tap en un álbum desde el catálogo, verificar las secciones del detalle (género "Salsa", "ARTISTAS", "CANCIONES") y volver con el botón "Volver" |
+| HU03 | Listado de artistas | `kraken/features/artist_list.feature` | Listado de artistas (HU03 del compañero) |
+| — | Navegación principal | `kraken/features/navbar.feature` | Las 4 tabs son visibles y navegables |
 
 ### Setup inicial (una sola vez por máquina)
 
