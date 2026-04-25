@@ -64,8 +64,11 @@ Los tests usan `adb reverse` para conectar el dispositivo al backend que corre e
 Si el backend no está corriendo, inícialo primero:
 
 ```bash
-cd ../backend
-docker-compose up
+# Asegúrate de tener el backend corriendo.
+# Si no lo has clonado aún:
+git clone https://github.com/TheSoftwareDesignLab/BackVynils
+cd BackVynils
+docker-compose up -d
 ```
 
 ---
