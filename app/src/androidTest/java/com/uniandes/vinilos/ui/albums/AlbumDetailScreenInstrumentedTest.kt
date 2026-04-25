@@ -9,7 +9,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.uniandes.vinilos.model.Album
-import com.uniandes.vinilos.model.Artist
+import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.model.Track
 import com.uniandes.vinilos.repository.AlbumRepository
 import com.uniandes.vinilos.ui.theme.VinilosTheme
@@ -39,13 +39,12 @@ class AlbumDetailScreenInstrumentedTest {
             Track(1, "Pedro Navaja", "7:21"),
             Track(2, "Plástico", "6:34")
         ),
-        artists = listOf(
-            Artist(
+        performers = listOf(
+            Performer(
                 id = 9,
                 name = "Rubén Blades Bellido de Luna",
                 image = "",
-                description = "Es un cantante, compositor, músico, actor, abogado, político",
-                birthDate = ""
+                description = "Es un cantante, compositor, músico, actor, abogado, político"
             )
         )
     )
