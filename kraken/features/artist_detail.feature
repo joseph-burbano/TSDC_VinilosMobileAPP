@@ -12,6 +12,10 @@ Feature: Detalle de artista (HU04)
     Then I wait
     Then I see the text "ARTISTA DESTACADO"
     Then I see the text "EL MÚSICO"
+    Then I tap on element with accessibility id "artist_detail_back"
+    Then I wait
+    Then I tap on element with accessibility id "nav_vinilos"
+    Then I wait
 
   @user2 @mobile
   Scenario: Como usuario visitante puedo regresar desde el detalle al listado
@@ -25,3 +29,5 @@ Feature: Detalle de artista (HU04)
     Then I tap on element with accessibility id "artist_detail_back"
     Then I wait
     Then I see the text "Artistas"
+    Then I tap on element with accessibility id "nav_vinilos"
+    Then I wait
