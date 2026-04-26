@@ -10,9 +10,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class Screen(val route: String) {
     object Home : Screen("home")
     object AlbumList : Screen("album_list")
-    object AlbumDetail : Screen("album_detail/{albumId}")
+    object AlbumDetail : Screen("album_detail/{albumId}") {
+        fun createRoute(albumId: Int) = "album_detail/$albumId"
+    }
     object ArtistList : Screen("artist_list")
-    object ArtistDetail : Screen("artist_detail/{artistId}")
+    object ArtistDetail : Screen("artist_detail/{artistId}") {
+        fun createRoute(artistId: Int) = "artist_detail/$artistId"
+    }
     object CollectorList : Screen("collector_list")
     object CollectorDetail : Screen("collector_detail/{collectorId}")
 }
@@ -22,8 +26,8 @@ enum class BottomNavItem(
     val label: String,
     val icon: ImageVector
 ) {
-    VINYL("home", "Vinyl", Icons.Filled.Home),
+    VINYL("home", "Vinilos", Icons.Filled.Home),
     ALBUMES("album_list", "Álbumes", Icons.Filled.MusicNote),
-    ARTISTS("artist_list", "Artists", Icons.Filled.Person),
-    PEOPLE("collector_list", "People", Icons.Filled.AccountCircle)
+    ARTISTS("artist_list", "Artistas", Icons.Filled.Person),
+    PEOPLE("collector_list", "colecc.", Icons.Filled.AccountCircle)
 }
