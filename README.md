@@ -1,7 +1,7 @@
 # Vinilos — Mobile App
 
 <p align="center">
-  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="100" alt="Vinilos icon"/>
+  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" width="100" alt="Vinilos icon"/>
 </p>
 
 <p align="center">
