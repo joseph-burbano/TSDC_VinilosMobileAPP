@@ -7,11 +7,15 @@ Feature: Detalle de artista (HU04)
     Then I wait
     Then I wait
     Then I see the text "Artistas"
-    Then I tap on element with accessibility id "artist_item_1"
+    Then I tap on element with id "Rubén Blades Bellido de Luna"
     Then I wait
     Then I wait
     Then I see the text "ARTISTA DESTACADO"
-    Then I see the text "LA COLECCIÓN"
+    Then I see the text "EL MÚSICO"
+    Then I tap on element with accessibility id "Volver"
+    Then I wait
+    Then I tap on element with accessibility id "nav_vinilos"
+    Then I wait
 
   @user2 @mobile
   Scenario: Como usuario visitante puedo regresar desde el detalle al listado
@@ -19,9 +23,11 @@ Feature: Detalle de artista (HU04)
     Then I tap on element with accessibility id "nav_artistas"
     Then I wait
     Then I wait
-    Then I tap on element with accessibility id "artist_item_1"
+    Then I tap on element with id "Rubén Blades Bellido de Luna"
     Then I wait
     Then I wait
-    Then I tap on element with accessibility id "artist_detail_back"
+    Then I tap on element with accessibility id "Volver"
     Then I wait
     Then I see the text "Artistas"
+    Then I tap on element with accessibility id "nav_vinilos"
+    Then I wait
