@@ -15,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -60,7 +59,7 @@ fun ArtistListScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFFAF9F6)
+        color = MaterialTheme.colorScheme.background   
     ) {
         when {
             isLoading -> {
@@ -97,7 +96,7 @@ fun ArtistListScreen(
                                 fontSize = 12.sp,
                                 letterSpacing = 2.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFFD32F2F).copy(alpha = 0.7f)
+                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
                             )
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -188,7 +187,7 @@ fun PerformerGridItem(performer: Performer, onClick: () -> Unit) {
                 .fillMaxWidth()
                 .aspectRatio(0.85f)
                 .clip(RoundedCornerShape(4.dp))
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(

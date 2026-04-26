@@ -30,8 +30,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.model.Performer
-import com.uniandes.vinilos.ui.theme.Cream
-import com.uniandes.vinilos.ui.theme.RedAccent
 
 // ── TestTags ──────────────────────────────────────────────────────────────────
 object ArtistDetailTestTags {
@@ -138,7 +136,7 @@ private fun HeroSection(performer: Performer, onBack: () -> Unit) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Volver",
-                tint = Color.White
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
 
@@ -152,7 +150,7 @@ private fun HeroSection(performer: Performer, onBack: () -> Unit) {
                 text = "ARTISTA DESTACADO",
                 fontSize = 11.sp,
                 letterSpacing = 2.sp,
-                color = RedAccent,
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.SemiBold
             )
             Spacer(modifier = Modifier.height(6.dp))
@@ -161,7 +159,7 @@ private fun HeroSection(performer: Performer, onBack: () -> Unit) {
                 fontSize = 38.sp,
                 fontWeight = FontWeight.Bold,
                 fontStyle = FontStyle.Italic,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 lineHeight = 42.sp,
                 modifier = Modifier.testTag(ArtistDetailTestTags.NAME)
             )
@@ -184,7 +182,7 @@ private fun DescriptionSection(performer: Performer) {
             text = typeLabel,
             fontSize = 11.sp,
             letterSpacing = 2.sp,
-            color = RedAccent,
+            color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -248,7 +246,7 @@ private fun StatsSection(performer: Performer) {
             .padding(horizontal = 20.dp)
             .padding(bottom = 28.dp)
             .testTag(ArtistDetailTestTags.STATS),
-        color = Cream,
+        color = MaterialTheme.colorScheme.background,
         shape = RoundedCornerShape(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -298,7 +296,7 @@ private fun DiscographySection(albums: List<Album>) {
                     text = "LA COLECCIÓN",
                     fontSize = 11.sp,
                     letterSpacing = 2.sp,
-                    color = RedAccent,
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
@@ -345,7 +343,7 @@ private fun AlbumCardSmall(album: Album) {
             modifier = Modifier
                 .size(120.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(

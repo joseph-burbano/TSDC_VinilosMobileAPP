@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 class ArtistViewModel(
     private val repository: ArtistRepository
@@ -21,6 +23,10 @@ class ArtistViewModel(
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
+
+    // Separado de isLoading — true solo durante refresh, no durante carga inicial
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
@@ -48,8 +54,12 @@ class ArtistViewModel(
             _error.value = null
             try {
                 _performers.value = repository.getPerformers()
+            } catch (e: IOException) {
+                _error.value = "Sin conexión. Revisa tu red e inténtalo de nuevo."
+            } catch (e: HttpException) {
+                _error.value = "El servidor respondió con un error (${e.code()})."
             } catch (e: Exception) {
-                _error.value = "Error al cargar artistas: ${e.message}"
+                _error.value = "Error inesperado: ${e.message}"
             } finally {
                 _isLoading.value = false
             }
@@ -61,14 +71,19 @@ class ArtistViewModel(
 
     fun refreshPerformers() {
         viewModelScope.launch {
-            _isLoading.value = true
+            _isRefreshing.value = true
             _error.value = null
             try {
+                // Actualiza sin borrar la lista visible — la UI no parpadea
                 _performers.value = repository.refreshPerformers()
+            } catch (e: IOException) {
+                _error.value = "Sin conexión. Revisa tu red e inténtalo de nuevo."
+            } catch (e: HttpException) {
+                _error.value = "El servidor respondió con un error (${e.code()})."
             } catch (e: Exception) {
-                _error.value = "Error al actualizar artistas: ${e.message}"
+                _error.value = "Error inesperado: ${e.message}"
             } finally {
-                _isLoading.value = false
+                _isRefreshing.value = false
             }
         }
     }

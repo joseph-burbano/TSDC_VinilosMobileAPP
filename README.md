@@ -1,5 +1,17 @@
 # Vinilos — Mobile App
 
+<p align="center">
+  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="100" alt="Vinilos icon"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/TU_ORG/TU_REPO/actions/workflows/NOMBRE_WORKFLOW.yml/badge.svg" alt="CI"/>
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white" alt="Android"/>
+  <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=kotlin&logoColor=white" alt="Kotlin"/>
+  <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose"/>
+  <img src="https://img.shields.io/badge/API-21%2B-brightgreen" alt="API 21+"/>
+</p>
+
 **Ingeniería de Software para Aplicaciones Móviles** — Universidad de los Andes (MISO).  
 The Software Design Company.
 
