@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.uniandes.vinilos.model.Album
+import com.uniandes.vinilos.model.CollectorAlbum
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.model.Track
 
