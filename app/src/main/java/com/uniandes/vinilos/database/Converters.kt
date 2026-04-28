@@ -37,4 +37,13 @@ class Converters {
         val type = object : TypeToken<List<Album>>() {}.type
         return gson.fromJson(json, type) ?: emptyList()
     }
+
+    @TypeConverter
+    fun collectorAlbumsToJson(items: List<CollectorAlbum>): String = gson.toJson(items)
+
+    @TypeConverter
+    fun jsonToCollectorAlbums(json: String): List<CollectorAlbum> {
+        val type = object : TypeToken<List<CollectorAlbum>>() {}.type
+        return gson.fromJson(json, type) ?: emptyList()
+    }
 }
