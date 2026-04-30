@@ -18,11 +18,11 @@ fun CollectorEntity.toCollector() = Collector(
 fun Collector.toEntity() = CollectorEntity(
     id = id,
     name = name,
-    telephone = telephone,
-    email = email,
+    telephone = telephone.orEmpty(),
+    email = email.orEmpty(),
     birthDate = birthDate,
-    description = description,
-    image = image,
+    description = description.orEmpty(),
+    image = image.orEmpty(),
     collectorAlbums = collectorAlbums,
     favoritePerformers = favoritePerformers
 )

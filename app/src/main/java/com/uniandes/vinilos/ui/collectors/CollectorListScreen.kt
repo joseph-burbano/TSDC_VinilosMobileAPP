@@ -92,7 +92,7 @@ fun CollectorItem(collector: Collector, onClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = collector.email,
+                text = collector.email.orEmpty(),
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

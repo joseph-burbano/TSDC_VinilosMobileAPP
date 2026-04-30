@@ -111,7 +111,7 @@ fun CollectorDetailScreen(
 private fun HeroSection(collector: Collector) {
     Column {
         AsyncImage(
-            model = collector.image.ifBlank { null },
+            model = collector.image?.ifBlank { null },
             contentDescription = collector.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -143,10 +143,10 @@ private fun HeroSection(collector: Collector) {
             color = BlackPrimary,
             modifier = Modifier.semantics { testTag = CollectorDetailTestTags.NAME }
         )
-        if (collector.description.isNotBlank()) {
+        if (!collector.description.isNullOrBlank()) {
             Spacer(Modifier.height(8.dp))
             Text(
-                collector.description,
+                collector.description!!,
                 fontSize = 14.sp,
                 color = GrayMedium,
                 lineHeight = 20.sp
