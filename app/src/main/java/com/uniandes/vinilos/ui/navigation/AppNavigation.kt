@@ -18,7 +18,9 @@ sealed class Screen(val route: String) {
         fun createRoute(artistId: Int) = "artist_detail/$artistId"
     }
     object CollectorList : Screen("collector_list")
-    object CollectorDetail : Screen("collector_detail/{collectorId}")
+    object CollectorDetail : Screen("collector_detail/{collectorId}") {
+        fun createRoute(collectorId: Int) = "collector_detail/$collectorId"
+    }
 }
 
 enum class BottomNavItem(

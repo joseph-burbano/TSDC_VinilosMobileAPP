@@ -47,7 +47,9 @@ import com.uniandes.vinilos.ui.albums.AlbumViewModel
 import com.uniandes.vinilos.ui.artists.ArtistDetailScreen
 import com.uniandes.vinilos.ui.artists.ArtistListScreen
 import com.uniandes.vinilos.ui.artists.ArtistViewModel
+import com.uniandes.vinilos.ui.collectors.CollectorDetailScreen
 import com.uniandes.vinilos.ui.collectors.CollectorListScreen
+import com.uniandes.vinilos.ui.collectors.CollectorViewModel
 import com.uniandes.vinilos.ui.home.HomeScreen
 import com.uniandes.vinilos.ui.navigation.BottomNavItem
 import com.uniandes.vinilos.ui.navigation.Screen
@@ -74,9 +76,11 @@ fun VinilosApp() {
     val context = LocalContext.current
     val albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(context))
     val artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.factory(context))
+    val collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.factory(context))
 
     val isDetailScreen = currentRoute?.startsWith("album_detail") == true ||
-            currentRoute?.startsWith("artist_detail") == true
+            currentRoute?.startsWith("artist_detail") == true ||
+            currentRoute?.startsWith("collector_detail") == true
 
     var isBarVisible by remember { mutableStateOf(true) }
 
@@ -189,7 +193,23 @@ fun VinilosApp() {
                 )
             }
             composable(Screen.CollectorList.route) {
-                CollectorListScreen()
+                CollectorListScreen(
+                    viewModel = collectorViewModel,
+                    onCollectorClick = { collectorId ->
+                        navController.navigate(Screen.CollectorDetail.createRoute(collectorId))
+                    }
+                )
+            }
+            composable(
+                route = Screen.CollectorDetail.route,
+                arguments = listOf(navArgument("collectorId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val collectorId = backStackEntry.arguments?.getInt("collectorId") ?: return@composable
+                CollectorDetailScreen(
+                    collectorId = collectorId,
+                    viewModel = collectorViewModel,
+                    onBack = { navController.navigateUp() }
+                )
             }
         }
     }
