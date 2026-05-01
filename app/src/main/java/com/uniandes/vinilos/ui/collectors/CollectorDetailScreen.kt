@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -18,7 +17,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -30,11 +28,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.CollectorAlbum
-import com.uniandes.vinilos.ui.theme.BlackPrimary
-import com.uniandes.vinilos.ui.theme.Cream
-import com.uniandes.vinilos.ui.theme.GrayLight
-import com.uniandes.vinilos.ui.theme.GrayMedium
-import com.uniandes.vinilos.ui.theme.RedAccent
 
 object CollectorDetailTestTags {
     const val SCREEN = "collector_detail_screen"
@@ -60,19 +53,25 @@ fun CollectorDetailScreen(
         Box(
             Modifier
                 .fillMaxSize()
-                .background(Cream)
+                .background(MaterialTheme.colorScheme.background)
                 .semantics { testTag = CollectorDetailTestTags.LOADING },
             contentAlignment = Alignment.Center
-        ) { CircularProgressIndicator(color = RedAccent) }
+        ) { CircularProgressIndicator(color = MaterialTheme.colorScheme.primary) }
         return
     }
 
     Scaffold(
         modifier = Modifier.semantics { testTag = CollectorDetailTestTags.SCREEN },
-        containerColor = Cream,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text("Vinilos", fontStyle = FontStyle.Italic, color = BlackPrimary) },
+                title = {
+                    Text(
+                        "Vinilos",
+                        fontStyle = FontStyle.Italic,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
                 navigationIcon = {
                     IconButton(
                         onClick = onBack,
@@ -81,10 +80,15 @@ fun CollectorDetailScreen(
                             testTag = CollectorDetailTestTags.BACK
                         }
                     ) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Volver"
+                        )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Cream)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                )
             )
         }
     ) { padding ->
@@ -117,22 +121,29 @@ private fun HeroSection(collector: Collector) {
             modifier = Modifier
                 .size(96.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(GrayLight)
+                .background(MaterialTheme.colorScheme.tertiary)
                 .semantics { testTag = CollectorDetailTestTags.IMAGE }
         )
         Spacer(Modifier.height(8.dp))
         Box(
             modifier = Modifier
-                .background(RedAccent, RoundedCornerShape(2.dp))
+                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(2.dp))
                 .padding(horizontal = 10.dp, vertical = 4.dp)
         ) {
-            Text("ELITE CURATOR", color = Color.White, fontSize = 10.sp, letterSpacing = 1.sp,
-                fontWeight = FontWeight.Bold)
+            Text(
+                "ELITE CURATOR",
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontSize = 10.sp,
+                letterSpacing = 1.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
         Spacer(Modifier.height(16.dp))
         Text(
             "REGISTRY ID: #${collector.id.toString().padStart(6, '0')}",
-            color = RedAccent, fontSize = 11.sp, letterSpacing = 1.5.sp,
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 11.sp,
+            letterSpacing = 1.5.sp,
             fontWeight = FontWeight.SemiBold
         )
         Spacer(Modifier.height(4.dp))
@@ -140,7 +151,7 @@ private fun HeroSection(collector: Collector) {
             collector.name,
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            color = BlackPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.semantics { testTag = CollectorDetailTestTags.NAME }
         )
         if (!collector.description.isNullOrBlank()) {
@@ -148,7 +159,7 @@ private fun HeroSection(collector: Collector) {
             Text(
                 collector.description!!,
                 fontSize = 14.sp,
-                color = GrayMedium,
+                color = MaterialTheme.colorScheme.secondary,
                 lineHeight = 20.sp
             )
         }
@@ -162,23 +173,44 @@ private fun StatsSection(collector: Collector) {
         .groupingBy { it }.eachCount().maxByOrNull { it.value }?.key ?: "—"
 
     Column(modifier = Modifier.semantics { testTag = CollectorDetailTestTags.STATS }) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             StatCard("COLLECTION", albums.size.toString(), "LPs", Modifier.weight(1f))
-            StatCard("WANTLIST", collector.favoritePerformers.size.toString(), "Rarities", Modifier.weight(1f))
+            StatCard(
+                "WANTLIST",
+                collector.favoritePerformers.size.toString(),
+                "Rarities",
+                Modifier.weight(1f)
+            )
         }
         Spacer(Modifier.height(12.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
             StatCard("AVG. GRADE", avgGrade, "Condition", Modifier.weight(1f))
-            StatCard("FOLLOWERS", collector.comments.size.toString(), "Audience", Modifier.weight(1f))
+            StatCard(
+                "FOLLOWERS",
+                collector.comments.size.toString(),
+                "Audience",
+                Modifier.weight(1f)
+            )
         }
     }
 }
 
 @Composable
-private fun StatCard(label: String, value: String, suffix: String, modifier: Modifier = Modifier) {
+private fun StatCard(
+    label: String,
+    value: String,
+    suffix: String,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier,
-        color = GrayLight.copy(alpha = 0.4f),
+        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f),
         shape = RoundedCornerShape(4.dp)
     ) {
         Column(
@@ -187,12 +219,22 @@ private fun StatCard(label: String, value: String, suffix: String, modifier: Mod
                 .padding(vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(label, color = GrayMedium, fontSize = 10.sp, letterSpacing = 1.sp,
-                fontWeight = FontWeight.SemiBold)
+            Text(
+                label,
+                color = MaterialTheme.colorScheme.secondary,
+                fontSize = 10.sp,
+                letterSpacing = 1.sp,
+                fontWeight = FontWeight.SemiBold
+            )
             Spacer(Modifier.height(6.dp))
-            Text(value, color = BlackPrimary, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Text(
+                value,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(Modifier.height(4.dp))
-            Text(suffix, color = RedAccent, fontSize = 11.sp)
+            Text(suffix, color = MaterialTheme.colorScheme.primary, fontSize = 11.sp)
         }
     }
 }
@@ -205,7 +247,7 @@ private fun VaultSection(albums: List<CollectorAlbum>) {
             fontSize = 28.sp,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.Bold,
-            color = BlackPrimary
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(Modifier.height(4.dp))
         Row(
@@ -214,18 +256,24 @@ private fun VaultSection(albums: List<CollectorAlbum>) {
         ) {
             Text(
                 "Rare pressings and personal milestones.",
-                fontSize = 13.sp, color = GrayMedium, modifier = Modifier.weight(1f)
+                fontSize = 13.sp,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.weight(1f)
             )
             Text(
-                "BROWSE ALL", color = RedAccent, fontSize = 11.sp,
-                letterSpacing = 1.sp, fontWeight = FontWeight.Bold
+                "BROWSE ALL",
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 11.sp,
+                letterSpacing = 1.sp,
+                fontWeight = FontWeight.Bold
             )
         }
         Spacer(Modifier.height(16.dp))
         if (albums.isEmpty()) {
             Text(
                 "Sin álbumes en la colección todavía.",
-                fontSize = 13.sp, color = GrayMedium,
+                fontSize = 13.sp,
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(vertical = 24.dp)
             )
         } else {
@@ -240,7 +288,8 @@ private fun VaultSection(albums: List<CollectorAlbum>) {
 @Composable
 private fun VaultAlbumCard(item: CollectorAlbum) {
     val album = item.album
-    val ref = "${album?.id?.toString()?.padStart(2, '0') ?: "—"}-${album?.releaseDate?.take(4) ?: "----"}"
+    val ref =
+        "${album?.id?.toString()?.padStart(2, '0') ?: "—"}-${album?.releaseDate?.take(4) ?: "----"}"
     Column {
         Box {
             AsyncImage(
@@ -251,25 +300,36 @@ private fun VaultAlbumCard(item: CollectorAlbum) {
                     .fillMaxWidth()
                     .height(280.dp)
                     .clip(RoundedCornerShape(2.dp))
-                    .background(GrayLight)
+                    .background(MaterialTheme.colorScheme.tertiary)
             )
             Icon(
                 imageVector = if (item.status == "NM") Icons.Filled.Star else Icons.Outlined.StarBorder,
                 contentDescription = null,
-                tint = BlackPrimary,
+                tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(8.dp)
             )
         }
         Spacer(Modifier.height(8.dp))
-        Text(ref, color = RedAccent, fontSize = 11.sp, letterSpacing = 1.sp,
-            fontWeight = FontWeight.SemiBold)
+        Text(
+            ref,
+            color = MaterialTheme.colorScheme.primary,
+            fontSize = 11.sp,
+            letterSpacing = 1.sp,
+            fontWeight = FontWeight.SemiBold
+        )
         Spacer(Modifier.height(2.dp))
-        Text(album?.name ?: "—", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = BlackPrimary)
+        Text(
+            album?.name ?: "—",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground
+        )
         Text(
             album?.performers?.firstOrNull()?.name ?: "Artista desconocido",
-            fontSize = 13.sp, color = GrayMedium
+            fontSize = 13.sp,
+            color = MaterialTheme.colorScheme.secondary
         )
     }
 }
@@ -278,13 +338,13 @@ private fun VaultAlbumCard(item: CollectorAlbum) {
 private fun SeeMoreButton() {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         Surface(
-            color = BlackPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             shape = RoundedCornerShape(2.dp),
             modifier = Modifier.clickable { /* Navegación pendiente */ }
         ) {
             Text(
                 "VER MÁS",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.background,
                 fontSize = 13.sp,
                 letterSpacing = 2.sp,
                 fontWeight = FontWeight.Bold,
