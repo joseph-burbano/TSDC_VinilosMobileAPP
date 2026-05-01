@@ -18,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
@@ -28,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.CollectorAlbum
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.LaunchedEffect
 
 object CollectorDetailTestTags {
@@ -44,7 +47,9 @@ object CollectorDetailTestTags {
 @Composable
 fun CollectorDetailScreen(
     collectorId: Int,
-    viewModel: CollectorViewModel,
+    viewModel: CollectorViewModel = viewModel(
+        factory = CollectorViewModel.factory(LocalContext.current)
+    ),
     onBack: () -> Unit = {}
 ) {
     LaunchedEffect(collectorId) {
