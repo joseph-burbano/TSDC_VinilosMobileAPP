@@ -11,6 +11,7 @@ Feature: Detalle de coleccionista (HU06)
     Then I wait
     Then I wait
     Then I see the text "ELITE CURATOR"
+    Then I scroll down
     Then I see the text "The Vault"
     Then I tap on element with accessibility id "Volver"
     Then I wait
