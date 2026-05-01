@@ -8,15 +8,21 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.uniandes.vinilos.database.dao.AlbumDao
+import com.uniandes.vinilos.database.dao.CollectorDao
 import com.uniandes.vinilos.database.dao.PerformerDao
 import com.uniandes.vinilos.database.entities.AlbumEntity
+import com.uniandes.vinilos.database.entities.CollectorEntity
 import com.uniandes.vinilos.database.entities.PerformerEntity
 
-@Database(entities = [AlbumEntity::class, PerformerEntity::class], version = 2)
+@Database(
+    entities = [AlbumEntity::class, PerformerEntity::class, CollectorEntity::class],
+    version = 3
+)
 @TypeConverters(Converters::class)
 abstract class VinilosDatabase : RoomDatabase() {
     abstract fun albumDao(): AlbumDao
     abstract fun performerDao(): PerformerDao
+    abstract fun collectorDao(): CollectorDao
 
     companion object {
         @Volatile
@@ -29,7 +35,7 @@ abstract class VinilosDatabase : RoomDatabase() {
                     VinilosDatabase::class.java,
                     "vinilos_database"
                 )
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build()
                     .also { INSTANCE = it }
             }
@@ -40,6 +46,24 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL(
             "ALTER TABLE performers ADD COLUMN albums TEXT NOT NULL DEFAULT '[]'"
+        )
+    }
+}
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL(
+            """CREATE TABLE IF NOT EXISTS collectors (
+                id INTEGER PRIMARY KEY NOT NULL,
+                name TEXT NOT NULL,
+                telephone TEXT NOT NULL DEFAULT '',
+                email TEXT NOT NULL DEFAULT '',
+                birthDate TEXT,
+                description TEXT NOT NULL DEFAULT '',
+                image TEXT NOT NULL DEFAULT '',
+                collectorAlbums TEXT NOT NULL DEFAULT '[]',
+                favoritePerformers TEXT NOT NULL DEFAULT '[]'
+            )"""
         )
     }
 }

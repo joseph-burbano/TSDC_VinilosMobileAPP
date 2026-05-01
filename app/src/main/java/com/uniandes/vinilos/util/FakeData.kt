@@ -155,7 +155,11 @@ object FakeData {
     )
 
     val collectors = listOf(
-        Collector(1, "Alejandro Vance", "3001234567", "alejandro@vinilos.com"),
-        Collector(2, "Marcus Thorne", "3007654321", "marcus@vinilos.com")
-    )
+    Collector(1, "Alejandro Vance", "3001234567", "alejandro@vinilos.com",
+        description = "Preserving the warmth of analog signals since 1998.",
+        image = ""),
+    Collector(2, "Marcus Thorne", "3007654321", "marcus@vinilos.com",
+        description = "Specialized in early Blue Note pressings.",
+        image = "")
+)
 }
