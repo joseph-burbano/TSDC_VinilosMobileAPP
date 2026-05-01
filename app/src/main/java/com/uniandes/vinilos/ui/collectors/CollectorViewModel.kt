@@ -67,6 +67,28 @@ class CollectorViewModel(
         }
     }
 
+    fun loadCollector(id: Int) {
+        if (_collectors.value.any { it.id == id }) return
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+            try {
+                val collector = repository.getCollector(id)
+                if (collector != null) {
+                    _collectors.value = _collectors.value + collector
+                }
+            } catch (e: IOException) {
+                _error.value = "Sin conexión. Revisa tu red e inténtalo de nuevo."
+            } catch (e: HttpException) {
+                _error.value = "El servidor respondió con un error (${e.code()})."
+            } catch (e: Exception) {
+                _error.value = "Error inesperado: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
     fun findById(collectorId: Int): Collector? =
         _collectors.value.find { it.id == collectorId }
 

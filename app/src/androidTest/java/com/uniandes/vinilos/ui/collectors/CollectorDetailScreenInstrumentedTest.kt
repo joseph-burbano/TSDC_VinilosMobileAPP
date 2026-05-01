@@ -17,6 +17,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import io.mockk.coVerify
 
 @RunWith(AndroidJUnit4::class)
 class CollectorDetailScreenInstrumentedTest {
@@ -167,4 +168,53 @@ class CollectorDetailScreenInstrumentedTest {
         composeTestRule.onNodeWithTag(CollectorDetailTestTags.BACK).performClick()
         assertTrue(backInvoked)
     }
+
+    @Test
+fun `loadCollector agrega el coleccionista a _collectors si no estaba`() = runTest {
+    val repo = mockk<CollectorRepository>(relaxed = true)
+    coEvery { repo.getCollectors() } returns emptyList()
+    coEvery { repo.getCollector(99) } returns Collector(
+        id = 99, name = "Nuevo Collector",
+        telephone = "3009999999", email = "nuevo@vinilos.com"
+    )
+
+    val vm = CollectorViewModel(repo)
+    advanceUntilIdle()
+
+    vm.loadCollector(99)
+    advanceUntilIdle()
+
+    assertEquals(1, vm.collectors.value.size)
+    assertEquals("Nuevo Collector", vm.collectors.value.first().name)
+}
+
+@Test
+fun `loadCollector no llama al repository si el id ya existe en _collectors`() = runTest {
+    val repo = mockk<CollectorRepository>(relaxed = true)
+    coEvery { repo.getCollectors() } returns listOf(collectorSample)
+
+    val vm = CollectorViewModel(repo)
+    advanceUntilIdle()
+
+    vm.loadCollector(collectorSample.id)
+    advanceUntilIdle()
+
+    coVerify(exactly = 0) { repo.getCollector(any()) }
+    assertEquals(1, vm.collectors.value.size)
+}
+
+@Test
+fun `loadCollector no agrega nada si el repository devuelve null`() = runTest {
+    val repo = mockk<CollectorRepository>(relaxed = true)
+    coEvery { repo.getCollectors() } returns emptyList()
+    coEvery { repo.getCollector(99) } returns null
+
+    val vm = CollectorViewModel(repo)
+    advanceUntilIdle()
+
+    vm.loadCollector(99)
+    advanceUntilIdle()
+
+    assertTrue(vm.collectors.value.isEmpty())
+}
 }

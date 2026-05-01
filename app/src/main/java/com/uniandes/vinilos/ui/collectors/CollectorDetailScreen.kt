@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.CollectorAlbum
+import androidx.compose.runtime.LaunchedEffect
 
 object CollectorDetailTestTags {
     const val SCREEN = "collector_detail_screen"
@@ -46,6 +47,9 @@ fun CollectorDetailScreen(
     viewModel: CollectorViewModel,
     onBack: () -> Unit = {}
 ) {
+    LaunchedEffect(collectorId) {
+        viewModel.loadCollector(collectorId)
+    }
     val isLoading by viewModel.isLoading.collectAsState()
     val collector = viewModel.findById(collectorId)
 
