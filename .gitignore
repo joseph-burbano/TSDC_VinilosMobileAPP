@@ -41,6 +41,11 @@ docs/
 # Reportes de perfilado generados por scripts/profile-device.ps1 (uno por dispositivo)
 profile-results/
 
+# Lock files de Microsoft Office cuando un .docx esta abierto
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
 # Kraken (Node + reportes generados)
 kraken/node_modules/
 kraken/reports/
