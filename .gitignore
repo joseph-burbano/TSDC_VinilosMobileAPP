@@ -38,6 +38,9 @@ CLAUDE.md
 # Docs locales (solo para entendimiento personal, no parte del repo)
 docs/
 
+# Reportes de perfilado generados por scripts/profile-device.ps1 (uno por dispositivo)
+profile-results/
+
 # Kraken (Node + reportes generados)
 kraken/node_modules/
 kraken/reports/
