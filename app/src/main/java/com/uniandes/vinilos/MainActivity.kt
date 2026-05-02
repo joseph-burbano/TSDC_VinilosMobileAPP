@@ -3,7 +3,6 @@ package com.uniandes.vinilos
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.WindowInsets
@@ -41,6 +40,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.compose.ui.graphics.graphicsLayer
 import com.uniandes.vinilos.ui.albums.AlbumDetailScreen
 import com.uniandes.vinilos.ui.albums.AlbumListScreen
 import com.uniandes.vinilos.ui.albums.AlbumViewModel
@@ -58,7 +58,6 @@ import com.uniandes.vinilos.ui.theme.VinilosTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             VinilosTheme {
                 VinilosApp()
@@ -115,8 +114,13 @@ fun VinilosApp() {
 
     Scaffold(
         bottomBar = {
+            val barHeightDp = with(LocalDensity.current) { offsetY.value.toDp() }
             NavigationBar(
-                modifier = Modifier.offset(y = with(LocalDensity.current) { offsetY.value.toDp() })
+                modifier = Modifier
+                    .graphicsLayer {
+                        translationY = offsetY.value
+                        alpha = if (offsetY.value > barHeightPx * 0.5f) 0f else 1f
+                    }
             ) {
                 BottomNavItem.entries.forEach { item ->
                     NavigationBarItem(
@@ -144,15 +148,32 @@ fun VinilosApp() {
                 }
             }
         },
-        modifier = Modifier.nestedScroll(nestedScrollConnection)
+        modifier = Modifier.nestedScroll(nestedScrollConnection),
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = Screen.Home.route,
-            modifier = Modifier.padding(innerPadding)
+            modifier = if (offsetY.value > 0f) {
+                Modifier.padding(top = innerPadding.calculateTopPadding())
+            } else {
+                Modifier.padding(innerPadding)
+            }
         ) {
             composable(Screen.Home.route) {
-                HomeScreen()
+                HomeScreen(
+                    albumViewModel = albumViewModel,
+                    artistViewModel = artistViewModel,
+                    collectorViewModel = collectorViewModel,
+                    onAlbumClick = { albumId ->
+                        navController.navigate(Screen.AlbumDetail.createRoute(albumId))
+                    },
+                    onArtistClick = { artistId ->
+                        navController.navigate(Screen.ArtistDetail.createRoute(artistId))
+                    },
+                    onCollectorClick = { collectorId ->
+                        navController.navigate(Screen.CollectorDetail.createRoute(collectorId))
+                    }
+                )
             }
             composable(Screen.AlbumList.route) {
                 AlbumListScreen(
