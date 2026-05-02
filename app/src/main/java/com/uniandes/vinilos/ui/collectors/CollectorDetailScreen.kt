@@ -12,8 +12,9 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.CollectorAlbum
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -55,7 +58,7 @@ fun CollectorDetailScreen(
     LaunchedEffect(collectorId) {
         viewModel.loadCollector(collectorId)
     }
-    val isLoading by viewModel.isLoading.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val collector = viewModel.findById(collectorId)
 
     if (isLoading || collector == null) {
@@ -122,9 +125,17 @@ fun CollectorDetailScreen(
 
 @Composable
 private fun HeroSection(collector: Collector) {
+    val context = LocalContext.current
     Column {
         AsyncImage(
-            model = collector.image?.ifBlank { null },
+            // Bitmap decodificado al tamaño real (96dp), no al tamaño nativo del servidor.
+            model = remember(collector.image) {
+                ImageRequest.Builder(context)
+                    .data(collector.image?.ifBlank { null })
+                    .crossfade(true)
+                    .scale(Scale.FILL)
+                    .build()
+            },
             contentDescription = collector.name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -180,8 +191,12 @@ private fun HeroSection(collector: Collector) {
 @Composable
 private fun StatsSection(collector: Collector) {
     val albums = collector.collectorAlbums
-    val avgGrade = albums.mapNotNull { it.status.takeIf { s -> s.isNotBlank() } }
-        .groupingBy { it }.eachCount().maxByOrNull { it.value }?.key ?: "—"
+    // remember evita recalcular el grouping/eachCount en cada recomposition.
+    // Solo se recomputa cuando cambia la lista subyacente.
+    val avgGrade = remember(albums) {
+        albums.mapNotNull { it.status.takeIf { s -> s.isNotBlank() } }
+            .groupingBy { it }.eachCount().maxByOrNull { it.value }?.key ?: "—"
+    }
 
     Column(modifier = Modifier.semantics { testTag = CollectorDetailTestTags.STATS }) {
         Row(
@@ -299,12 +314,22 @@ private fun VaultSection(albums: List<CollectorAlbum>) {
 @Composable
 private fun VaultAlbumCard(item: CollectorAlbum) {
     val album = item.album
-    val ref =
+    val context = LocalContext.current
+    // remember evita reconstruir el string de referencia en cada recomposition.
+    val ref = remember(album?.id, album?.releaseDate) {
         "${album?.id?.toString()?.padStart(2, '0') ?: "—"}-${album?.releaseDate?.take(4) ?: "----"}"
+    }
     Column {
         Box {
             AsyncImage(
-                model = album?.cover?.ifBlank { null },
+                // Bitmap downsampled al ancho × 280dp en vez del tamaño original del cover.
+                model = remember(album?.cover) {
+                    ImageRequest.Builder(context)
+                        .data(album?.cover?.ifBlank { null })
+                        .crossfade(true)
+                        .scale(Scale.FILL)
+                        .build()
+                },
                 contentDescription = album?.name,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

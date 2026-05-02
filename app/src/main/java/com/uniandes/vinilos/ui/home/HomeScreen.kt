@@ -11,7 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -27,10 +27,14 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import coil.size.Scale
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.Performer
@@ -58,17 +62,32 @@ fun HomeScreen(
     onArtistClick: (Int) -> Unit = {},
     onCollectorClick: (Int) -> Unit = {}
 ) {
-    val uiState by albumViewModel.uiState.collectAsState()
-    val performers by artistViewModel.performers.collectAsState()
-    val collectors by collectorViewModel.collectors.collectAsState()
+    // collectAsStateWithLifecycle pausa la recolección al pasar a STOPPED.
+    val uiState by albumViewModel.uiState.collectAsStateWithLifecycle()
+    val performers by artistViewModel.performers.collectAsStateWithLifecycle()
+    val collectors by collectorViewModel.collectors.collectAsStateWithLifecycle()
 
-    val albums = (uiState as? AlbumsUiState.Success)?.albums ?: emptyList()
-    val lastAlbums = albums.takeLast(2).reversed()
-    val consultedArtists = performers.takeLast(2)
-    val recommendedArtists = collectors
-        .flatMap { it.favoritePerformers }
-        .distinctBy { it.id }
-        .take(2)
+    // remember/derivedStateOf evita recalcular las listas (takeLast, flatMap, distinctBy)
+    // en cada recomposition: solo cuando cambia el upstream observado.
+    val albums by remember(uiState) {
+        derivedStateOf { (uiState as? AlbumsUiState.Success)?.albums.orEmpty() }
+    }
+    val lastAlbums by remember(albums) {
+        derivedStateOf { albums.takeLast(2).reversed() }
+    }
+    val consultedArtists by remember(performers) {
+        derivedStateOf { performers.takeLast(2) }
+    }
+    val recommendedArtists by remember(collectors) {
+        derivedStateOf {
+            collectors.flatMap { it.favoritePerformers }
+                .distinctBy { it.id }
+                .take(2)
+        }
+    }
+    val featuredCollectors by remember(collectors) {
+        derivedStateOf { collectors.take(2) }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -141,7 +160,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.testTag("home_consulted_artists_row")
                 ) {
-                    items(consultedArtists) { artist ->
+                    items(consultedArtists, key = { it.id }) { artist ->
                         ArtistCard(
                             artist = artist,
                             onClick = { onArtistClick(artist.id) }
@@ -166,7 +185,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.testTag("home_recommended_artists_row")
                 ) {
-                    items(recommendedArtists) { artist ->
+                    items(recommendedArtists, key = { it.id }) { artist ->
                         ArtistCard(
                             artist = artist,
                             onClick = { onArtistClick(artist.id) }
@@ -191,7 +210,9 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.testTag("home_collectors_row")
                 ) {
-                    items(collectors.take(2)) { collector ->
+                    // key = { it.id } permite a Compose reusar composables y preservar
+                    // su estado interno cuando la lista cambia, en vez de recrearlos.
+                    items(featuredCollectors, key = { it.id }) { collector ->
                         CollectorCard(
                             collector = collector,
                             onClick = { onCollectorClick(collector.id) }
@@ -231,6 +252,7 @@ private fun LoadingRow() {
 
 @Composable
 private fun AlbumCard(album: Album, onClick: () -> Unit) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -254,8 +276,19 @@ private fun AlbumCard(album: Album, onClick: () -> Unit) {
                     modifier = Modifier.size(64.dp)
                 )
             } else {
+                // ImageRequest con size + crossfade le indica a Coil que decodifique
+                // el bitmap al tamaño máximo en el que se va a mostrar (≈ 200dp x ancho).
+                // Sin esto, Coil decodifica la imagen al tamaño nativo (a veces 2-4 MB
+                // por bitmap) — un costo de memoria innecesario que escala mal con
+                // listas de imágenes.
                 AsyncImage(
-                    model = album.cover,
+                    model = remember(album.cover) {
+                        ImageRequest.Builder(context)
+                            .data(album.cover)
+                            .crossfade(true)
+                            .scale(Scale.FILL)
+                            .build()
+                    },
                     contentDescription = album.name,
                     contentScale = ContentScale.Crop,
                     onError = { imageError = true },
@@ -290,6 +323,7 @@ private fun AlbumCard(album: Album, onClick: () -> Unit) {
 
 @Composable
 private fun ArtistCard(artist: Performer, onClick: () -> Unit) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .width(100.dp)
@@ -313,8 +347,17 @@ private fun ArtistCard(artist: Performer, onClick: () -> Unit) {
                     modifier = Modifier.size(40.dp)
                 )
             } else {
+                // ImageRequest con scale=FILL + crossfade. El composable es un círculo
+                // de 80dp; Coil decodificará el bitmap a ese tamaño en lugar del
+                // original del servidor.
                 AsyncImage(
-                    model = artist.image,
+                    model = remember(artist.image) {
+                        ImageRequest.Builder(context)
+                            .data(artist.image)
+                            .crossfade(true)
+                            .scale(Scale.FILL)
+                            .build()
+                    },
                     contentDescription = artist.name,
                     contentScale = ContentScale.Crop,
                     onError = { imageError = true },
