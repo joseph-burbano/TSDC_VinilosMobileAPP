@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import kotlinx.coroutines.flow.combine
 
 class CollectorViewModel(
     private val repository: CollectorRepository
@@ -28,6 +29,20 @@ class CollectorViewModel(
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
+
+    private val pageSize = 4
+    private val _visibleCount = MutableStateFlow(pageSize)
+    val visibleCollectors = combine(_collectors, _visibleCount) { list, count ->
+        list.take(count)
+    }
+
+    val hasMore = combine(_collectors, _visibleCount) { list, count ->
+        list.size > count
+    }
+
+    fun loadMore() {
+        _visibleCount.value += pageSize
+    }
 
     init { loadCollectors() }
 

@@ -1,4 +1,5 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
+const assert = require("assert");
 
 Then("I tap on element with id {string}", async function (text) {
   const element = await this.driver.$(
@@ -37,4 +38,16 @@ Then("I scroll down", async function () {
     direction: "down",
     percent: 3,
   });
+});
+
+Then("I don't see the text {string}", async function (text) {
+  const elements = await this.driver.$$(
+    `android=new UiSelector().textContains("${text}")`,
+  );
+  assert.strictEqual(elements.length, 0);
+});
+
+Then("I type {string}", async function (text) {
+  const element = await this.driver.$(`android=new UiSelector().focused(true)`);
+  await element.setValue(text);
 });
