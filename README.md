@@ -161,9 +161,8 @@ curl http://localhost:3000/albums/1
 
 | Entorno                           | URL que ve la app                | Configuración                                                               |
 | --------------------------------- | -------------------------------- | --------------------------------------------------------------------------- |
-| Emulador Android Studio (default) | `http://10.0.2.2:3000/`          | Funciona automáticamente — `10.0.2.2` es el alias QEMU al host              |
-| Dispositivo físico (USB)          | `http://localhost:3000/`         | Requiere `adb reverse tcp:3000 tcp:3000` (se aplica solo en `installDebug`) |
-| Dispositivo físico en LAN         | `http://<IP-LAN-de-tu-PC>:3000/` | Edita `Constants.BASE_URL` localmente (no commitear)                        |
+| Backend desplegado                | `https://vinyls-backend-miso-g-013-5fad2b4cf522.herokuapp.com/` | Configuración por defecto en `Constants.BASE_URL`                            |
+| Emulador o dispositivo local      | `http://10.0.2.2:3000/` / `http://localhost:3000/` | Sobrescribe `Constants.BASE_URL` si quieres apuntar a un backend local       |
 
 La URL base vive en `app/src/main/java/com/uniandes/vinilos/util/Constants.kt`.
 
@@ -378,7 +377,7 @@ Pasa cuando un Gradle daemon previo dejó abierto un `.jar`:
 
 ### "Failed to connect to /127.0.0.1:3000" en logcat
 
-La constante en `Constants.kt` debe ser `http://10.0.2.2:3000/` para emulador. Si se sobreescribió a `127.0.0.1`, restáurala o aplica `adb reverse tcp:3000 tcp:3000` después de cada reinicio del adb daemon.
+Si estás usando el backend local, la constante en `Constants.kt` debe ser `http://10.0.2.2:3000/` para emulador. Si se sobreescribió a `127.0.0.1`, restáurala o aplica `adb reverse tcp:3000 tcp:3000` después de cada reinicio del adb daemon.
 
 ### El listado se queda vacío y no muestra error
 
