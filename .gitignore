@@ -38,8 +38,8 @@ CLAUDE.md
 # Docs locales (solo para entendimiento personal, no parte del repo)
 docs/
 
-# Reportes de perfilado generados por scripts/profile-device.ps1 (uno por dispositivo)
-profile-results/
+# Informe Word generado por scripts/generate-report.py (regenerable a partir de profile-results/)
+Informe-Optimizaciones-Vinilos.docx
 
 # Lock files de Microsoft Office cuando un .docx esta abierto
 ~$*.docx

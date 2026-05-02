@@ -390,12 +390,17 @@ Lint detecta problemas de correctness, performance, accesibilidad y seguridad si
 
 ### Dónde ver los resultados
 
+Cada ejecución genera los reportes en `app/build/reports/`:
+
 ```
 app/build/reports/lint-results-debug.html      # reporte navegable
 app/build/reports/lint-results-debug.xml       # formato máquina
+app/build/reports/lint-results-debug.txt       # formato consola
 ```
 
 El HTML agrupa los issues por categoría (Correctness, Performance, Security, Accessibility, etc.) y muestra el archivo + línea + extracto del código afectado.
+
+> Para conservar un snapshot del lint junto con el código (en vez del path efímero de `app/build/`), el repo incluye una copia versionada de la última ejecución en [`reports/lint/`](reports/lint/).
 
 ### Estado actual
 
@@ -466,7 +471,7 @@ Aproximadamente 5 segundos por pantalla es suficiente para acumular frames repre
 profile-results/<DeviceLabel>-<timestamp>.txt
 ```
 
-La carpeta `profile-results/` está en `.gitignore` (los reportes son por dispositivo y no se versionan).
+Los reportes capturados durante esta entrega están versionados en [`profile-results/`](profile-results/) como evidencia (3 dispositivos físicos: Redmi Note 9 Pro / Android 10, Poco F5 Pro / Android 15, Redmi Note 13 Pro / Android 14).
 
 ### 3. Generar el informe consolidado en .docx
 
@@ -478,7 +483,7 @@ python scripts/generate-report.py
 
 El script parsea todos los `.txt`, genera 4 gráficas con `matplotlib` (PSS apilado por categoría, % de jank, frames saludables vs jankerados, percentiles de frame time) y construye `Informe-Optimizaciones-Vinilos.docx` en la raíz del repo. Las gráficas intermedias se guardan en `build/report-charts/`.
 
-El informe `.docx` cubre las optimizaciones aplicadas, los hallazgos del lint y la comparación entre los dispositivos perfilados (con tablas y gráficas).
+El informe `.docx` cubre las optimizaciones aplicadas, los hallazgos del lint y la comparación entre los dispositivos perfilados (con tablas y gráficas). El archivo no se versiona (está en `.gitignore`); se regenera bajo demanda a partir de los `.txt` versionados en `profile-results/`.
 
 ### Cómo opera la métrica de batería
 
