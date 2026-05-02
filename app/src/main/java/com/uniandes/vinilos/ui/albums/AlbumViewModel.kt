@@ -8,6 +8,8 @@ import com.uniandes.vinilos.database.VinilosDatabase
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.repository.AlbumRepository
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -31,13 +33,28 @@ class AlbumViewModel(
     private val pageSize = 2
     private val _visibleCount = MutableStateFlow(pageSize)
 
-    val visibleAlbums: Flow<List<Album>> = combine(_uiState, _visibleCount) { state, count ->
-        if (state is AlbumsUiState.Success) state.albums.take(count) else emptyList()
-    }
+    // stateIn comparte una sola suscripción upstream entre todos los collectors y
+    // mantiene el último valor cacheado en memoria, evitando que cada recomposition
+    // re-active el operador combine. Started.Eagerly hace que el flow derivado
+    // siempre tenga el valor correcto disponible vía .value, incluso antes de la
+    // primera suscripción de la UI.
+    val visibleAlbums: StateFlow<List<Album>> =
+        combine(_uiState, _visibleCount) { state, count ->
+            if (state is AlbumsUiState.Success) state.albums.take(count) else emptyList()
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = emptyList()
+        )
 
-    val hasMore: Flow<Boolean> = combine(_uiState, _visibleCount) { state, count ->
-        if (state is AlbumsUiState.Success) state.albums.size > count else false
-    }
+    val hasMore: StateFlow<Boolean> =
+        combine(_uiState, _visibleCount) { state, count ->
+            if (state is AlbumsUiState.Success) state.albums.size > count else false
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = false
+        )
 
     fun loadMore() {
         _visibleCount.value += pageSize

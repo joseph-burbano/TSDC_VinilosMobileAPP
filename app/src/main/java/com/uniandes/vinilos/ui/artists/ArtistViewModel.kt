@@ -8,8 +8,10 @@ import com.uniandes.vinilos.database.VinilosDatabase
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.repository.ArtistRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -34,13 +36,24 @@ class ArtistViewModel(
     private val pageSize = 4
     private val _visibleCount = MutableStateFlow(pageSize)
 
-    val visiblePerformers = combine(_performers, _visibleCount) { list, count ->
-        list.take(count)
-    }
+    // stateIn cachea el último valor de la combinación y comparte una sola suscripción
+    // upstream entre todos los collectors (lista + grid + contador), lo que evita que
+    // cada `collectAsStateWithLifecycle` reactive el operador `combine` por separado.
+    val visiblePerformers: StateFlow<List<Performer>> =
+        combine(_performers, _visibleCount) { list, count -> list.take(count) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = emptyList()
+            )
 
-    val hasMore = combine(_performers, _visibleCount) { list, count ->
-        list.size > count
-    }
+    val hasMore: StateFlow<Boolean> =
+        combine(_performers, _visibleCount) { list, count -> list.size > count }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = false
+            )
 
     fun loadMore() {
         _visibleCount.value += pageSize

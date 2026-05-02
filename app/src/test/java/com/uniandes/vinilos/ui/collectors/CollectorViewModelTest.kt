@@ -159,6 +159,7 @@ class CollectorViewModelTest {
         assertEquals(4, vm.visibleCollectors.first().size)
 
         vm.loadMore()
+        advanceUntilIdle()
 
         assertEquals(5, vm.visibleCollectors.first().size)
     }
