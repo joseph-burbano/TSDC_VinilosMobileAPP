@@ -1,21 +1,27 @@
-# Perfila la app Vinilos en un dispositivo físico conectado via ADB.
+# Perfila la app Vinilos en un dispositivo fisico conectado via ADB.
 #
 # Uso:
 #   .\scripts\profile-device.ps1 -DeviceLabel "samsung-a52"
+#   .\scripts\profile-device.ps1 -DeviceLabel "pixel-7" -SkipInstall
 #
 # Que hace:
 #   1. Verifica que haya un dispositivo conectado.
-#   2. Reinstala el APK debug (./gradlew installDebug).
-#   3. Resetea contadores de batería y de GPU para tener una linea base limpia.
+#   2. Reinstala el APK debug (./gradlew installDebug). Skipeable con -SkipInstall.
+#   3. Resetea contadores de bateria y de GPU para tener una linea base limpia.
 #   4. Lanza la app y te pide que recorras manualmente las HUs principales.
 #   5. Cuando presionas Enter, captura snapshots de:
-#        - meminfo  (memoria por categoría: Java/Native/Graphics/Code/Stack)
+#        - meminfo  (memoria por categoria: Java/Native/Graphics/Code/Stack)
 #        - gfxinfo  (jank %, frames pintados > 16ms / 50ms / 100ms)
-#        - batterystats (CPU time, wakelocks, energía estimada)
+#        - batterystats (CPU time, wakelocks, energia estimada)
 #        - top de procesos (CPU% en el momento)
 #   6. Guarda todo en profile-results/<DeviceLabel>-<timestamp>.txt
 #
 # Pre-requisitos: ADB en PATH, dispositivo conectado con USB debugging activado.
+#
+# Nota PowerShell 5.1: NO usamos `2>&1` en comandos nativos (adb, gradlew) porque
+# el host wraps cada linea de stderr como ErrorRecord, y combinado con Stop
+# aborta el script aunque el comando haya terminado con exit 0. Usamos `*>$null`
+# para descartar todos los streams cuando solo nos importa el side-effect.
 
 param(
     [Parameter(Mandatory = $true)]
@@ -23,10 +29,16 @@ param(
 
     [string]$Package = "com.uniandes.vinilos",
 
-    [int]$WarmupSeconds = 3
+    [int]$WarmupSeconds = 3,
+
+    [switch]$SkipInstall
 )
 
-$ErrorActionPreference = "Stop"
+# Continue (no Stop): adb suele escribir warnings en stderr ("daemon started",
+# "args: [...]") aunque la operacion sea exitosa. Solo abortamos manualmente
+# tras revisar $LASTEXITCODE en los pasos criticos.
+$ErrorActionPreference = "Continue"
+
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $resultsDir = Join-Path $repoRoot "profile-results"
 if (-not (Test-Path $resultsDir)) { New-Item -ItemType Directory -Path $resultsDir | Out-Null }
@@ -35,43 +47,64 @@ $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $outFile = Join-Path $resultsDir "$DeviceLabel-$timestamp.txt"
 
 function Write-Section($title) {
-    Add-Content $outFile "`n=================================================="
-    Add-Content $outFile "  $title"
-    Add-Content $outFile "==================================================`n"
+    Add-Content -Path $outFile -Encoding utf8 -Value "`n=================================================="
+    Add-Content -Path $outFile -Encoding utf8 -Value "  $title"
+    Add-Content -Path $outFile -Encoding utf8 -Value "==================================================`n"
+}
+
+function Invoke-Adb {
+    # Ejecuta adb capturando stdout y descartando stderr para que PowerShell 5.1
+    # no convierta lineas informativas en ErrorRecord.
+    param([Parameter(Mandatory = $true)][string[]]$AdbArgs)
+    $tmpErr = [System.IO.Path]::GetTempFileName()
+    try {
+        $output = & adb @AdbArgs 2>$tmpErr
+        return $output
+    } finally {
+        Remove-Item $tmpErr -ErrorAction SilentlyContinue
+    }
 }
 
 # 1. Verificar dispositivo
 Write-Host "[1/6] Verificando dispositivo..." -ForegroundColor Cyan
-$devices = adb devices | Select-String -Pattern "device$" | Where-Object { $_ -notmatch "List of" }
-if ($devices.Count -eq 0) {
+$devicesRaw = Invoke-Adb -AdbArgs @("devices")
+$devices = $devicesRaw | Select-String -Pattern "device$" | Where-Object { $_ -notmatch "List of" }
+if (-not $devices -or $devices.Count -eq 0) {
     Write-Host "ERROR: No hay dispositivos conectados. Conecta un telefono via USB con depuracion activada." -ForegroundColor Red
     exit 1
 }
-$deviceModel = adb shell getprop ro.product.model
-$androidVer  = adb shell getprop ro.build.version.release
-$abi         = adb shell getprop ro.product.cpu.abi
-Write-Host "  Dispositivo: $deviceModel (Android $androidVer, $abi)" -ForegroundColor Green
+$deviceModel = (Invoke-Adb -AdbArgs @("shell","getprop","ro.product.model")) -join ""
+$androidVer  = (Invoke-Adb -AdbArgs @("shell","getprop","ro.build.version.release")) -join ""
+$abi         = (Invoke-Adb -AdbArgs @("shell","getprop","ro.product.cpu.abi")) -join ""
+Write-Host "  Dispositivo: $($deviceModel.Trim()) (Android $($androidVer.Trim()), $($abi.Trim()))" -ForegroundColor Green
 
 # 2. Instalar APK debug fresco
-Write-Host "[2/6] Reinstalando APK debug (./gradlew installDebug)..." -ForegroundColor Cyan
-Push-Location $repoRoot
-try {
-    & .\gradlew.bat installDebug 2>&1 | Select-Object -Last 5
-    if ($LASTEXITCODE -ne 0) { throw "Falló installDebug" }
-} finally {
-    Pop-Location
+if ($SkipInstall) {
+    Write-Host "[2/6] -SkipInstall activo; no se reinstala el APK." -ForegroundColor Yellow
+} else {
+    Write-Host "[2/6] Reinstalando APK debug (./gradlew installDebug)..." -ForegroundColor Cyan
+    Push-Location $repoRoot
+    try {
+        & .\gradlew.bat installDebug | Select-Object -Last 5
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: installDebug fallo (exit code $LASTEXITCODE)." -ForegroundColor Red
+            exit 1
+        }
+    } finally {
+        Pop-Location
+    }
 }
 
 # 3. Reset de contadores
 Write-Host "[3/6] Reseteando contadores de bateria y GPU..." -ForegroundColor Cyan
-adb shell dumpsys batterystats --reset 2>&1 | Out-Null
-adb shell dumpsys gfxinfo $Package reset 2>&1 | Out-Null
-adb shell am force-stop $Package 2>&1 | Out-Null
+Invoke-Adb -AdbArgs @("shell","dumpsys","batterystats","--reset") | Out-Null
+Invoke-Adb -AdbArgs @("shell","dumpsys","gfxinfo",$Package,"reset") | Out-Null
+Invoke-Adb -AdbArgs @("shell","am","force-stop",$Package) | Out-Null
 Start-Sleep -Seconds 1
 
 # 4. Lanzar la app
 Write-Host "[4/6] Lanzando la app..." -ForegroundColor Cyan
-adb shell monkey -p $Package -c android.intent.category.LAUNCHER 1 2>&1 | Out-Null
+Invoke-Adb -AdbArgs @("shell","monkey","-p",$Package,"-c","android.intent.category.LAUNCHER","1") | Out-Null
 Start-Sleep -Seconds $WarmupSeconds
 
 # 5. Recorrido manual
@@ -91,42 +124,52 @@ Read-Host "Cuando termines el recorrido, presiona Enter para capturar metricas"
 # 6. Capturar metricas
 Write-Host "[6/6] Capturando metricas a $outFile..." -ForegroundColor Cyan
 
-Add-Content $outFile "Vinilos Mobile App - Profile report"
-Add-Content $outFile "DeviceLabel: $DeviceLabel"
-Add-Content $outFile "Timestamp:   $timestamp"
-Add-Content $outFile "Model:       $deviceModel"
-Add-Content $outFile "Android:     $androidVer"
-Add-Content $outFile "ABI:         $abi"
-Add-Content $outFile "Package:     $Package"
+# Cabecera del reporte
+Set-Content -Path $outFile -Encoding utf8 -Value "Vinilos Mobile App - Profile report"
+Add-Content -Path $outFile -Encoding utf8 -Value "DeviceLabel: $DeviceLabel"
+Add-Content -Path $outFile -Encoding utf8 -Value "Timestamp:   $timestamp"
+Add-Content -Path $outFile -Encoding utf8 -Value "Model:       $($deviceModel.Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "Android:     $($androidVer.Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "ABI:         $($abi.Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "Package:     $Package"
 
 Write-Section "1. MEMORIA (dumpsys meminfo)"
-adb shell dumpsys meminfo $Package | Out-File -FilePath $outFile -Encoding utf8 -Append
+$mem = Invoke-Adb -AdbArgs @("shell","dumpsys","meminfo",$Package)
+Add-Content -Path $outFile -Encoding utf8 -Value $mem
 
 Write-Section "2. GPU / RENDER (dumpsys gfxinfo - jank, frame stats)"
-adb shell dumpsys gfxinfo $Package | Out-File -FilePath $outFile -Encoding utf8 -Append
+$gfx = Invoke-Adb -AdbArgs @("shell","dumpsys","gfxinfo",$Package)
+Add-Content -Path $outFile -Encoding utf8 -Value $gfx
 
 Write-Section "3. CPU INSTANTANEO (top -n 1 -p del PID de la app)"
-$appPid = (adb shell pidof $Package).Trim()
+$appPidRaw = Invoke-Adb -AdbArgs @("shell","pidof",$Package)
+$appPid = ($appPidRaw -join "").Trim()
 if ($appPid) {
-    adb shell top -n 1 -p $appPid | Out-File -FilePath $outFile -Encoding utf8 -Append
+    $top = Invoke-Adb -AdbArgs @("shell","top","-n","1","-p",$appPid)
+    Add-Content -Path $outFile -Encoding utf8 -Value $top
 } else {
-    Add-Content $outFile "(no se encontro PID de $Package)"
+    Add-Content -Path $outFile -Encoding utf8 -Value "(no se encontro PID de $Package)"
 }
 
 Write-Section "4. BATERIA / ENERGIA (dumpsys batterystats - filtrado al package)"
-adb shell dumpsys batterystats --charged $Package | Out-File -FilePath $outFile -Encoding utf8 -Append
+$bat = Invoke-Adb -AdbArgs @("shell","dumpsys","batterystats","--charged",$Package)
+Add-Content -Path $outFile -Encoding utf8 -Value $bat
 
 Write-Section "5. PROPIEDADES DEL DISPOSITIVO"
-adb shell getprop ro.product.model     | Out-File -FilePath $outFile -Encoding utf8 -Append
-adb shell getprop ro.product.brand     | Out-File -FilePath $outFile -Encoding utf8 -Append
-adb shell getprop ro.product.cpu.abi   | Out-File -FilePath $outFile -Encoding utf8 -Append
-adb shell getprop ro.build.version.release | Out-File -FilePath $outFile -Encoding utf8 -Append
-adb shell getprop ro.build.version.sdk     | Out-File -FilePath $outFile -Encoding utf8 -Append
-adb shell wm size                      | Out-File -FilePath $outFile -Encoding utf8 -Append
-adb shell wm density                   | Out-File -FilePath $outFile -Encoding utf8 -Append
+$brand   = Invoke-Adb -AdbArgs @("shell","getprop","ro.product.brand")
+$sdk     = Invoke-Adb -AdbArgs @("shell","getprop","ro.build.version.sdk")
+$wmSize  = Invoke-Adb -AdbArgs @("shell","wm","size")
+$wmDens  = Invoke-Adb -AdbArgs @("shell","wm","density")
+Add-Content -Path $outFile -Encoding utf8 -Value "model:    $($deviceModel.Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "brand:    $(($brand -join '').Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "abi:      $($abi.Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "android:  $($androidVer.Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "sdk:      $(($sdk -join '').Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "wm size:  $(($wmSize -join '').Trim())"
+Add-Content -Path $outFile -Encoding utf8 -Value "wm dens:  $(($wmDens -join '').Trim())"
 
 Write-Host ""
 Write-Host "Listo. Reporte en: $outFile" -ForegroundColor Green
 Write-Host ""
-Write-Host "Tamaño del reporte:" -ForegroundColor Cyan
+Write-Host "Tamano del reporte:" -ForegroundColor Cyan
 Get-Item $outFile | Select-Object Name, @{N='SizeKB';E={[math]::Round($_.Length / 1KB, 1)}}
