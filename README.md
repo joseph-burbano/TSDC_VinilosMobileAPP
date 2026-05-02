@@ -159,10 +159,10 @@ curl http://localhost:3000/albums/1
 
 **Configuración de red según donde corras la app:**
 
-| Entorno                           | URL que ve la app                | Configuración                                                               |
-| --------------------------------- | -------------------------------- | --------------------------------------------------------------------------- |
-| Backend desplegado                | `https://vinyls-backend-miso-g-013-5fad2b4cf522.herokuapp.com/` | Configuración por defecto en `Constants.BASE_URL`                            |
-| Emulador o dispositivo local      | `http://10.0.2.2:3000/` / `http://localhost:3000/` | Sobrescribe `Constants.BASE_URL` si quieres apuntar a un backend local       |
+| Entorno                      | URL que ve la app                                               | Configuración                                                          |
+| ---------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Backend desplegado           | `https://vinyls-backend-miso-g-013-5fad2b4cf522.herokuapp.com/` | Configuración por defecto en `Constants.BASE_URL`                      |
+| Emulador o dispositivo local | `http://10.0.2.2:3000/` / `http://localhost:3000/`              | Sobrescribe `Constants.BASE_URL` si quieres apuntar a un backend local |
 
 La URL base vive en `app/src/main/java/com/uniandes/vinilos/util/Constants.kt`.
 
@@ -238,18 +238,15 @@ Ubicación: `app/src/androidTest/java/com/uniandes/vinilos/`.
 
 ### Qué cubren
 
-| HU   | Suite                                 | Casos | Qué valida                                                                                                                                                              |
-| ---- | ------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| HU01 | AlbumListScreenInstrumentedTest       | 5     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío                                                                          |
-| HU02 | AlbumDetailScreenInstrumentedTest     | 5     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado" |
-| HU03 | ArtistListScreenInstrumentedTest      | 4     | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error                                                                                       |
-| HU04 | ArtistDetailScreenInstrumentedTest    | 5     | Loading, nombre, stats, vault, botón volver                                                                                                                             |
-| HU05 | CollectorListScreenInstrumentedTest   | 13    | Loading, coleccionistas, búsqueda, paginación, navegación                                                                                                               |
-| HU06 | CollectorDetailScreenInstrumentedTest | 6     |
-
-Loading, nombre, stats, vault, botón volver
-
-                                                                                       |
+| HU      | Suite                                 | Casos | Qué valida                                                                                                                                                              |
+| ------- | ------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HU01    | AlbumListScreenInstrumentedTest       | 5     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío                                                                          |
+| HU02    | AlbumDetailScreenInstrumentedTest     | 5     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado" |
+| HU03    | ArtistListScreenInstrumentedTest      | 4     | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error                                                                                       |
+| HU04    | ArtistDetailScreenInstrumentedTest    | 5     | Loading, nombre, stats, vault, botón volver                                                                                                                             |
+| HU05    | CollectorListScreenInstrumentedTest   | 13    | Loading, coleccionistas, búsqueda, paginación, navegación                                                                                                               |
+| HU06    | CollectorDetailScreenInstrumentedTest | 6     | Loading, nombre, stats, vault, botón volver                                                                                                                             |
+| ISSUE01 | HomeScreenInstrumentedTest            | 8     | Header, secciones álbumes/artistas/coleccionistas, navegación por click                                                                                                 |
 
 ### Cómo correrlas
 
@@ -283,15 +280,16 @@ Pruebas de **caja negra** sobre el APK real, dirigidas con Cucumber + Kraken-Nod
 
 ### Qué cubren
 
-| HU   | Feature                   | Archivo                                    | Qué valida                                                                           |
-| ---- | ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------ |
-| HU01 | Listado de álbumes        | `kraken/features/album_list.feature`       | Navegar al catálogo, ver el header y confirmar que un álbum aparece en la lista      |
-| HU02 | Detalle de álbum          | `kraken/features/album_detail.feature`     | Tap en un álbum, verificar género, secciones ARTISTAS y CANCIONES, volver con Volver |
-| HU03 | Listado de artistas       | `kraken/features/artist_list.feature`      | Navega al listado de artistas y verifica su contenido                                |
-| HU04 | Detalle de artista        | `kraken/features/artist_detail.feature`    | Tap en artista, ver secciones, volver                                                |
-| HU05 | Listado de coleccionistas | `kraken/features/collector_list.feature`   | Navegar al listado, ver header y coleccionista                                       |
-| HU06 | Detalle de coleccionista  | `kraken/features/collector_detail.feature` | Tap en coleccionista, ver ELITE CURATOR y The Vault, volver                          |
-| —    | Navegación principal      | `kraken/features/navbar.feature`           | Las 4 tabs son visibles y navegables                                                 |
+| HU      | Feature                   | Archivo                                    | Qué valida                                                                           |
+| ------- | ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------ |
+| HU01    | Listado de álbumes        | `kraken/features/album_list.feature`       | Navegar al catálogo, ver el header y confirmar que un álbum aparece en la lista      |
+| HU02    | Detalle de álbum          | `kraken/features/album_detail.feature`     | Tap en un álbum, verificar género, secciones ARTISTAS y CANCIONES, volver con Volver |
+| HU03    | Listado de artistas       | `kraken/features/artist_list.feature`      | Navega al listado de artistas y verifica su contenido                                |
+| HU04    | Detalle de artista        | `kraken/features/artist_detail.feature`    | Tap en artista, ver secciones, volver                                                |
+| HU05    | Listado de coleccionistas | `kraken/features/collector_list.feature`   | Navegar al listado, ver header y coleccionista                                       |
+| HU06    | Detalle de coleccionista  | `kraken/features/collector_detail.feature` | Tap en coleccionista, ver ELITE CURATOR y The Vault, volver                          |
+| ISSUE01 | Página principal          | `kraken/features/home.feature`             | Header, últimos álbumes con scroll, navegación a detalle, sección coleccionistas     |
+| —       | Navegación principal      | `kraken/features/navbar.feature`           | Las 4 tabs son visibles y navegables                                                 |
 
 ### Setup inicial (una sola vez por máquina)
 
