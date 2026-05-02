@@ -6,7 +6,7 @@ Feature: Detalle de coleccionista (HU06)
     Then I tap on element with accessibility id "nav_colecc."
     Then I wait
     Then I wait
-    Then I see the text "ARCHIVE DIRECTORY"
+    Then I see the text "DIRECTORIO DE"
     Then I tap on element with id "Manolo Bellon"
     Then I wait
     Then I wait
@@ -29,6 +29,6 @@ Feature: Detalle de coleccionista (HU06)
     Then I wait
     Then I tap on element with accessibility id "Volver"
     Then I wait
-    Then I see the text "ARCHIVE DIRECTORY"
+    Then I see the text "DIRECTORIO DE"
     Then I tap on element with accessibility id "nav_vinilos"
     Then I wait

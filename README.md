@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/TU_ORG/TU_REPO/actions/workflows/NOMBRE_WORKFLOW.yml/badge.svg" alt="CI"/>
+  <img src="https://github.com/joseph-burbano/TSDC_VinilosMobileAPP/actions/workflows/ci.yml/badge.svg" alt="CI"/>
   <img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white" alt="Android"/>
   <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=kotlin&logoColor=white" alt="Kotlin"/>
   <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose"/>
@@ -190,13 +190,19 @@ Ubicación: `app/src/test/java/com/uniandes/vinilos/`.
 
 ### Qué cubren
 
-| Suite                  | Archivo                              | Casos | Qué valida                                                                                   |
-| ---------------------- | ------------------------------------ | ----- | -------------------------------------------------------------------------------------------- |
-| ArtistRepositoryTest   | `repository/ArtistRepositoryTest.kt` | 4     | Cache-first (DAO → API), combina músicos y bandas, refresh borra y refetchea                 |
-| AlbumRepositoryTest    | `repository/AlbumRepositoryTest.kt`  | 8     | Patrón cache-first, mapeo DTO → modelo, `releaseDate` ISO truncado al año, `refreshAlbums()` |
-| AlbumViewModelTest     | `ui/albums/AlbumViewModelTest.kt`    | 9     | Estados Loading/Success/Error, `IOException`, `HttpException`, refresh, `findById`           |
-| VinilosApiContractTest | `network/VinilosApiContractTest.kt`  | 3     | Contrato HTTP `GET /albums` con MockWebServer                                                |
-| ExampleUnitTest        | `ExampleUnitTest.kt`                 | 1     | Smoke del runner                                                                             |
+| Suite                        | Archivo                                         | Casos | Qué valida                                                                                   |
+| ---------------------------- | ----------------------------------------------- | ----- | -------------------------------------------------------------------------------------------- |
+| ArtistViewModelTest          | `ui/artists/ArtistViewModelTest.kt`             | 13    | Carga, paginación, refresh, errores, findById                                                |
+| ArtistViewModelDetailTest    | `ui/artists/ArtistViewModelDetailTest.kt`       | 5     | findById con álbumes, null, diferenciación                                                   |
+| ArtistRepositoryTest         | `repository/ArtistRepositoryTest.kt`            | 4     | Cache-first (DAO → API), combina músicos y bandas, refresh borra y refetchea                 |
+| AlbumRepositoryTest          | `repository/AlbumRepositoryTest.kt`             | 8     | Patrón cache-first, mapeo DTO → modelo, `releaseDate` ISO truncado al año, `refreshAlbums()` |
+| AlbumViewModelTest           | `ui/albums/AlbumViewModelTest.kt`               | 9     | Estados Loading/Success/Error, `IOException`, `HttpException`, refresh, `findById`           |
+| AlbumViewModelDetailTest     | `ui/albums/AlbumViewModelDetailTest.kt`         | 7     | findById con tracks, performers, null                                                        |
+| CollectorViewModelTest       | `ui/collectors/CollectorViewModelTest.kt`       | 12    | Carga, paginación, refresh, errores, loadCollector                                           |
+| CollectorViewModelDetailTest | `ui/collectors/CollectorViewModelDetailTest.kt` | 7     | findById con álbumes, performers, null                                                       |
+| CollectorRepositoryTest      | `repository/CollectorRepositoryTest.kt`         | 9     | Cache-first, `getCollector(id)` individual, refresh, excepciones del API, null si falla      |
+| VinilosApiContractTest       | `network/VinilosApiContractTest.kt`             | 3     | Contrato HTTP `GET /albums` con MockWebServer                                                |
+| ExampleUnitTest              | `ExampleUnitTest.kt`                            | 1     | Smoke del runner                                                                             |
 
 ### Cómo correrlas
 
@@ -233,11 +239,18 @@ Ubicación: `app/src/androidTest/java/com/uniandes/vinilos/`.
 
 ### Qué cubren
 
-| HU   | Suite                             | Casos | Qué valida                                                                                                                                                              |
-| ---- | --------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| HU01 | AlbumListScreenInstrumentedTest   | 5     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío                                                                          |
-| HU02 | AlbumDetailScreenInstrumentedTest | 5     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado" |
-| HU03 | ArtistListScreenTest              | 4     | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error                                                                                       |
+| HU   | Suite                                 | Casos | Qué valida                                                                                                                                                              |
+| ---- | ------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HU01 | AlbumListScreenInstrumentedTest       | 5     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío                                                                          |
+| HU02 | AlbumDetailScreenInstrumentedTest     | 5     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado" |
+| HU03 | ArtistListScreenInstrumentedTest      | 4     | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error                                                                                       |
+| HU04 | ArtistDetailScreenInstrumentedTest    | 5     | Loading, nombre, stats, vault, botón volver                                                                                                                             |
+| HU05 | CollectorListScreenInstrumentedTest   | 13    | Loading, coleccionistas, búsqueda, paginación, navegación                                                                                                               |
+| HU06 | CollectorDetailScreenInstrumentedTest | 6     |
+
+Loading, nombre, stats, vault, botón volver
+
+                                                                                       |
 
 ### Cómo correrlas
 
@@ -271,12 +284,15 @@ Pruebas de **caja negra** sobre el APK real, dirigidas con Cucumber + Kraken-Nod
 
 ### Qué cubren
 
-| HU   | Feature              | Archivo                                | Qué valida                                                                           |
-| ---- | -------------------- | -------------------------------------- | ------------------------------------------------------------------------------------ |
-| HU01 | Listado de álbumes   | `kraken/features/album_list.feature`   | Navegar al catálogo, ver el header y confirmar que un álbum aparece en la lista      |
-| HU02 | Detalle de álbum     | `kraken/features/album_detail.feature` | Tap en un álbum, verificar género, secciones ARTISTAS y CANCIONES, volver con Volver |
-| HU03 | Listado de artistas  | `kraken/features/artist_list.feature`  | Navega al listado de artistas y verifica su contenido                                |
-| —    | Navegación principal | `kraken/features/navbar.feature`       | Las 4 tabs son visibles y navegables                                                 |
+| HU   | Feature                   | Archivo                                    | Qué valida                                                                           |
+| ---- | ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------ |
+| HU01 | Listado de álbumes        | `kraken/features/album_list.feature`       | Navegar al catálogo, ver el header y confirmar que un álbum aparece en la lista      |
+| HU02 | Detalle de álbum          | `kraken/features/album_detail.feature`     | Tap en un álbum, verificar género, secciones ARTISTAS y CANCIONES, volver con Volver |
+| HU03 | Listado de artistas       | `kraken/features/artist_list.feature`      | Navega al listado de artistas y verifica su contenido                                |
+| HU04 | Detalle de artista        | `kraken/features/artist_detail.feature`    | Tap en artista, ver secciones, volver                                                |
+| HU05 | Listado de coleccionistas | `kraken/features/collector_list.feature`   | Navegar al listado, ver header y coleccionista                                       |
+| HU06 | Detalle de coleccionista  | `kraken/features/collector_detail.feature` | Tap en coleccionista, ver ELITE CURATOR y The Vault, volver                          |
+| —    | Navegación principal      | `kraken/features/navbar.feature`           | Las 4 tabs son visibles y navegables                                                 |
 
 ### Setup inicial (una sola vez por máquina)
 

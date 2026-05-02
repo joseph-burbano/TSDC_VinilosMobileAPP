@@ -148,13 +148,15 @@ private fun HeroSection(collector: Collector) {
             )
         }
         Spacer(Modifier.height(16.dp))
-        Text(
-            "REGISTRY ID: #${collector.id.toString().padStart(6, '0')}",
-            color = MaterialTheme.colorScheme.primary,
-            fontSize = 11.sp,
-            letterSpacing = 1.5.sp,
-            fontWeight = FontWeight.SemiBold
-        )
+        if (!collector.email.isNullOrBlank()) {
+            Text(
+                collector.email!!,
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = 11.sp,
+                letterSpacing = 1.5.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         Spacer(Modifier.height(4.dp))
         Text(
             collector.name,
