@@ -40,19 +40,22 @@ Aplicación Android para navegar y gestionar un catálogo de álbumes de música
 
 ## Stack
 
-| Capa         | Herramienta                             | Versión              |
-| ------------ | --------------------------------------- | -------------------- |
-| Lenguaje     | Kotlin                                  | 2.2.10               |
-| Build        | AGP / Gradle wrapper                    | 9.1.1                |
-| UI           | Jetpack Compose (BOM)                   | 2026.02.01           |
-| Navegación   | Navigation Compose                      | 2.8.0                |
-| Red          | Retrofit + Gson + OkHttp Logging        | 3.0.0 / 4.12.0       |
-| Persistencia | Room + KSP                              | 2.7.0 / 2.2.10-2.0.2 |
-| Imágenes     | Coil                                    | 2.7.0                |
-| Async        | Coroutines                              | 1.10.2               |
-| Mocks JVM    | MockK                                   | 1.13.17              |
-| Tests HTTP   | MockWebServer                           | 5.3.2                |
-| Tests E2E    | Kraken-Node + Appium 2.x + UIAutomator2 | 1.0.24 / 2.11.5+     |
+| Capa            | Herramienta                             | Versión              |
+| --------------- | --------------------------------------- | -------------------- |
+| Lenguaje        | Kotlin                                  | 2.2.10               |
+| Build           | AGP / Gradle wrapper                    | 9.1.1                |
+| UI              | Jetpack Compose (BOM)                   | 2026.02.01           |
+| Navegación      | Navigation Compose                      | 2.8.0                |
+| Red             | Retrofit + Gson + OkHttp Logging        | 3.0.0 / 4.12.0       |
+| Persistencia    | Room + KSP                              | 2.7.0 / 2.2.10-2.0.2 |
+| Imágenes        | Coil                                    | 2.7.0                |
+| Async           | Coroutines                              | 1.10.2               |
+| Mocks JVM       | MockK                                   | 1.13.17              |
+| Tests HTTP      | MockWebServer                           | 5.3.2                |
+| Tests E2E       | Kraken-Node + Appium 2.x + UIAutomator2 | 1.0.24 / 2.11.5+     |
+| Preferencias    | Jetpack DataStore                       | 1.1.1                |
+| Inyección de DI | Hilt                                    | 2.59.2               |
+| Splash          | Core SplashScreen                       | 1.0.1                |
 
 ---
 
@@ -74,12 +77,14 @@ Para más detalles sobre la arquitectura MVVM en Android, consultar (usar traduc
                  │ observa
 ┌────────────────▼────────────────────┐
 │           VIEWMODEL                 │
+│   AppViewModel (roles + tema)       │
 │   ui/[feature]/[Feature]ViewModel   │
 │   (StateFlow)                       │
 └────────────────┬────────────────────┘
                  │ solicita datos
 ┌────────────────▼────────────────────┐
 │           REPOSITORY                │
+│   PreferencesRepository (DataStore) │
 │   repository/[Feature]Repository    │
 │   cache-first: Room → API REST      │
 └──────────┬─────────────┬────────────┘
@@ -102,11 +107,14 @@ TSDC_VinilosMobileAPP/
 │   └── src/
 │       ├── main/java/com/uniandes/vinilos/
 │       │   ├── MainActivity.kt
+│       │   ├── AppViewModel.kt
+│       │   ├── VinilosApplication.kt
+│       │   ├── di/
 │       │   ├── database/               # Room: entities, DAOs, mappers
 │       │   ├── model/                  # data classes de dominio
 │       │   ├── network/                # Retrofit (VinilosApi, NetworkServiceAdapter)
 │       │   ├── repository/             # cache-first repositories
-│       │   ├── ui/{albums,artists,collectors,home,navigation,theme}
+│       │   ├── ui/{albums,artists,collectors,home,navigation,theme,role}
 │       │   └── util/                   # Constants, FakeData
 │       ├── test/                       # JVM unit tests (MockK + MockWebServer)
 │       └── androidTest/                # Compose / Espresso tests
@@ -192,19 +200,20 @@ Ubicación: `app/src/test/java/com/uniandes/vinilos/`.
 
 ### Qué cubren
 
-| Suite                        | Archivo                                         | Casos | Qué valida                                                                                   |
-| ---------------------------- | ----------------------------------------------- | ----- | -------------------------------------------------------------------------------------------- |
-| ArtistViewModelTest          | `ui/artists/ArtistViewModelTest.kt`             | 13    | Carga, paginación, refresh, errores, findById                                                |
-| ArtistViewModelDetailTest    | `ui/artists/ArtistViewModelDetailTest.kt`       | 5     | findById con álbumes, null, diferenciación                                                   |
-| ArtistRepositoryTest         | `repository/ArtistRepositoryTest.kt`            | 4     | Cache-first (DAO → API), combina músicos y bandas, refresh borra y refetchea                 |
-| AlbumRepositoryTest          | `repository/AlbumRepositoryTest.kt`             | 8     | Patrón cache-first, mapeo DTO → modelo, `releaseDate` ISO truncado al año, `refreshAlbums()` |
-| AlbumViewModelTest           | `ui/albums/AlbumViewModelTest.kt`               | 9     | Estados Loading/Success/Error, `IOException`, `HttpException`, refresh, `findById`           |
-| AlbumViewModelDetailTest     | `ui/albums/AlbumViewModelDetailTest.kt`         | 7     | findById con tracks, performers, null                                                        |
-| CollectorViewModelTest       | `ui/collectors/CollectorViewModelTest.kt`       | 12    | Carga, paginación, refresh, errores, loadCollector                                           |
-| CollectorViewModelDetailTest | `ui/collectors/CollectorViewModelDetailTest.kt` | 7     | findById con álbumes, performers, null                                                       |
-| CollectorRepositoryTest      | `repository/CollectorRepositoryTest.kt`         | 9     | Cache-first, `getCollector(id)` individual, refresh, excepciones del API, null si falla      |
-| VinilosApiContractTest       | `network/VinilosApiContractTest.kt`             | 3     | Contrato HTTP `GET /albums` con MockWebServer                                                |
-| ExampleUnitTest              | `ExampleUnitTest.kt`                            | 1     | Smoke del runner                                                                             |
+| Suite                        | Archivo                                         | Casos | Qué valida                                                                                                         |
+| ---------------------------- | ----------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------ |
+| ArtistViewModelTest          | `ui/artists/ArtistViewModelTest.kt`             | 13    | Carga, paginación, refresh, errores, findById                                                                      |
+| ArtistViewModelDetailTest    | `ui/artists/ArtistViewModelDetailTest.kt`       | 5     | findById con álbumes, null, diferenciación                                                                         |
+| ArtistRepositoryTest         | `repository/ArtistRepositoryTest.kt`            | 4     | Cache-first (DAO → API), combina músicos y bandas, refresh borra y refetchea                                       |
+| AlbumRepositoryTest          | `repository/AlbumRepositoryTest.kt`             | 8     | Patrón cache-first, mapeo DTO → modelo, `releaseDate` ISO truncado al año, `refreshAlbums()`                       |
+| AlbumViewModelTest           | `ui/albums/AlbumViewModelTest.kt`               | 9     | Estados Loading/Success/Error, `IOException`, `HttpException`, refresh, `findById`                                 |
+| AlbumViewModelDetailTest     | `ui/albums/AlbumViewModelDetailTest.kt`         | 7     | findById con tracks, performers, null                                                                              |
+| CollectorViewModelTest       | `ui/collectors/CollectorViewModelTest.kt`       | 12    | Carga, paginación, refresh, errores, loadCollector                                                                 |
+| CollectorViewModelDetailTest | `ui/collectors/CollectorViewModelDetailTest.kt` | 7     | findById con álbumes, performers, null                                                                             |
+| CollectorRepositoryTest      | `repository/CollectorRepositoryTest.kt`         | 9     | Cache-first, `getCollector(id)` individual, refresh, excepciones del API, null si falla                            |
+| VinilosApiContractTest       | `network/VinilosApiContractTest.kt`             | 3     | Contrato HTTP `GET /albums` con MockWebServer                                                                      |
+| AppViewModelTest             | `ui/AppViewModelTest.kt`                        | 8     | userRole inicial null, setUserRole VISITOR/COLLECTOR, clearUserRole, isDarkTheme default, toggleDarkTheme, isReady |
+| ExampleUnitTest              | `ExampleUnitTest.kt`                            | 1     | Smoke del runner                                                                                                   |
 
 ### Cómo correrlas
 
@@ -241,15 +250,16 @@ Ubicación: `app/src/androidTest/java/com/uniandes/vinilos/`.
 
 ### Qué cubren
 
-| HU      | Suite                                 | Casos | Qué valida                                                                                                                                                              |
-| ------- | ------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| HU01    | AlbumListScreenInstrumentedTest       | 5     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío                                                                          |
-| HU02    | AlbumDetailScreenInstrumentedTest     | 5     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado" |
-| HU03    | ArtistListScreenInstrumentedTest      | 4     | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error                                                                                       |
-| HU04    | ArtistDetailScreenInstrumentedTest    | 5     | Loading, nombre, stats, vault, botón volver                                                                                                                             |
-| HU05    | CollectorListScreenInstrumentedTest   | 13    | Loading, coleccionistas, búsqueda, paginación, navegación                                                                                                               |
-| HU06    | CollectorDetailScreenInstrumentedTest | 6     | Loading, nombre, stats, vault, botón volver                                                                                                                             |
-| ISSUE01 | HomeScreenInstrumentedTest            | 8     | Header, secciones álbumes/artistas/coleccionistas, navegación por click                                                                                                 |
+| HU      | Suite                                 | Casos | Qué valida                                                                                                                                                                                                                                      |
+| ------- | ------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HU01    | AlbumListScreenInstrumentedTest       | 6     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío, render con rol Collector                                                                                                                        |
+| HU02    | AlbumDetailScreenInstrumentedTest     | 6     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado", render con rol Collector                                               |
+| HU03    | ArtistListScreenInstrumentedTest      | 13    | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error, búsqueda (filtro, case-insensitive, sin resultados, limpiar), navegación por click, paginación (visible, oculto, oculto al buscar), render con rol Collector |
+| HU04    | ArtistDetailScreenInstrumentedTest    | 6     | Loading, nombre, discografía, botón volver, performer null, render con rol Collector                                                                                                                                                            |
+| HU05    | CollectorListScreenInstrumentedTest   | 14    | Loading, coleccionistas, artista favorito, error, navegación, búsqueda (nombre, case-insensitive, artista favorito, sin resultados, limpiar), paginación (visible, oculto, oculto al buscar), render con rol Collector                          |
+| HU06    | CollectorDetailScreenInstrumentedTest | 7     | Loading (isLoading=true), loading (collector null), nombre, stats, vault, botón volver, render con rol Collector                                                                                                                                |
+| ISSUE01 | HomeScreenInstrumentedTest            | 9     | Header, secciones álbumes/artistas/coleccionistas, navegación por click, coleccionistas en pantalla, artistas en pantalla, render con rol Collector                                                                                             |
+| ISSUE02 | (todos los anteriores)                | +7    | Parámetro userRole propagado a VinilosTopBar en todas las pantallas, tag top_bar_back_button en VinilosTopBar, un test \_conRolCollector por cada suite                                                                                         |
 
 ### Cómo correrlas
 
@@ -335,7 +345,7 @@ La aplicación incluye un conjunto de optimizaciones orientadas a tres frentes: 
 
 ### 1. Caché HTTP en disco (OkHttp)
 
-`NetworkServiceAdapter` monta una `okhttp3.Cache` de **10 MiB** en `context.cacheDir/vinilos_http_cache`. Un *network interceptor* reescribe `Cache-Control: max-age=60` en todas las respuestas (el backend NestJS no envía ese header) y un *application interceptor* activa modo `only-if-cached` con `max-stale = 7 días` cuando no hay red. Los timeouts del cliente (`connect`/`read`/`write = 15 s`, `callTimeout = 30 s`) y `retryOnConnectionFailure = true` completan la configuración.
+`NetworkServiceAdapter` monta una `okhttp3.Cache` de **10 MiB** en `context.cacheDir/vinilos_http_cache`. Un _network interceptor_ reescribe `Cache-Control: max-age=60` en todas las respuestas (el backend NestJS no envía ese header) y un _application interceptor_ activa modo `only-if-cached` con `max-stale = 7 días` cuando no hay red. Los timeouts del cliente (`connect`/`read`/`write = 15 s`, `callTimeout = 30 s`) y `retryOnConnectionFailure = true` completan la configuración.
 
 La inicialización ocurre en `VinilosApplication.onCreate()` para inyectar el `Context` necesario para el directorio de caché y la detección de conectividad. Se añadió el permiso `ACCESS_NETWORK_STATE` al manifiesto.
 
@@ -409,14 +419,14 @@ La última ejecución reporta **21 warnings, 0 errors**. Las decisiones tomadas 
 | Issue                        | Categoría   | Detalle                                                                | Decisión                                |
 | ---------------------------- | ----------- | ---------------------------------------------------------------------- | --------------------------------------- |
 | `RedundantLabel`             | Correctness | `MainActivity` tiene `android:label` duplicado del `<application>`     | Corregido                               |
-| `UnusedResources`            | Performance | 7 colores legacy en `colors.xml` (purple_\*/teal_\*/black/white)       | Corregido                               |
+| `UnusedResources`            | Performance | 7 colores legacy en `colors.xml` (purple*\*/teal*\*/black/white)       | Corregido                               |
 | `UnusedResources`            | Performance | `ic_launcher_background.xml` / `ic_launcher_foreground.xml` (drawable) | Falso positivo (los usa el wizard)      |
 | `AndroidGradlePluginVersion` | Correctness | AGP 9.1.1 → 9.2.0 disponible                                           | Diferido (cambio amplio fuera de scope) |
 | `GradleDependency`           | Correctness | Compose BOM, Room, Navigation obsoletos                                | Diferido (cambio amplio fuera de scope) |
 | `NewerVersionAvailable`      | Correctness | Kotlin 2.2.10, Mockk, OkHttp logging-interceptor                       | Diferido (cambio amplio fuera de scope) |
 | `Aligned16KB`                | Correctness | `libmockkjvmtiagent.so` no alineado a 16 KB                            | Ignorado (solo afecta `androidTest`)    |
 
-Las actualizaciones de versiones de dependencias requieren *regression testing* dedicado y se manejan en una rama separada.
+Las actualizaciones de versiones de dependencias requieren _regression testing_ dedicado y se manejan en una rama separada.
 
 ---
 

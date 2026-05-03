@@ -31,11 +31,15 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.ui.theme.VinilosTheme
+import com.uniandes.vinilos.model.UserRole
+import com.uniandes.vinilos.ui.components.VinilosTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArtistListScreen(
     onArtistClick: (Int) -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null,
     viewModel: ArtistViewModel = viewModel(
         factory = ArtistViewModel.factory(LocalContext.current)
     )
@@ -70,106 +74,113 @@ fun ArtistListScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background   
     ) {
-        when {
-            isLoading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize().testTag("loading_indicator"),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            VinilosTopBar(
+                userRole = userRole,
+                onMenuClick = onMenuClick
+            )
+            when {
+                isLoading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize().testTag("loading_indicator"),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
-            }
-            error != null -> {
-                Box(
-                    modifier = Modifier.fillMaxSize().testTag("error_message"),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = error ?: "Error desconocido",
-                        color = MaterialTheme.colorScheme.error
-                    )
+                error != null -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize().testTag("error_message"),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = error ?: "Error desconocido",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
                 }
-            }
-            else -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize().testTag("artist_list"),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Column(modifier = Modifier.padding(bottom = 12.dp)) {
-                            Text(
-                                text = "ARCHIVO DE",
-                                fontSize = 12.sp,
-                                letterSpacing = 2.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
-                            )
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.Bottom
-                            ) {
+                else -> {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier.fillMaxSize().testTag("artist_list"),
+                        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(24.dp)
+                    ) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Column(modifier = Modifier.padding(bottom = 12.dp)) {
                                 Text(
-                                    text = "Artistas",
-                                    fontSize = 48.sp,
-                                    fontFamily = FontFamily.Serif,
-                                    fontWeight = FontWeight.Medium,
-                                    lineHeight = 56.sp
+                                    text = "ARCHIVO DE",
+                                    fontSize = 12.sp,
+                                    letterSpacing = 2.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
                                 )
-                                Text(
-                                    text = "$filteredCount encontrados",
-                                    fontSize = 13.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.padding(bottom = 12.dp)
-                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.Bottom
+                                ) {
+                                    Text(
+                                        text = "Artistas",
+                                        fontSize = 48.sp,
+                                        fontFamily = FontFamily.Serif,
+                                        fontWeight = FontWeight.Medium,
+                                        lineHeight = 56.sp
+                                    )
+                                    Text(
+                                        text = "$filteredCount encontrados",
+                                        fontSize = 13.sp,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.padding(bottom = 12.dp)
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        OutlinedTextField(
-                            value = searchQuery,
-                            onValueChange = { searchQuery = it },
-                            placeholder = { Text("Buscar artistas...") },
-                            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp)
-                                .testTag("artist_search"),
-                            singleLine = true,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                    }
-
-                    // key estable: reduce trabajo de Compose al reordenar o filtrar.
-                    itemsIndexed(
-                        items = displayPerformers,
-                        key = { _, performer -> performer.id }
-                    ) { _, performer ->
-                        PerformerGridItem(
-                            performer = performer,
-                            onClick = { onArtistClick(performer.id) }
-                        )
-                    }
-
-                    if (hasMore && searchQuery.isBlank()) {
                         item(span = { GridItemSpan(maxLineSpan) }) {
-                            OutlinedButton(
-                                onClick = { viewModel.loadMore() },
+                            OutlinedTextField(
+                                value = searchQuery,
+                                onValueChange = { searchQuery = it },
+                                placeholder = { Text("Buscar artistas...") },
+                                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 12.dp)
-                                    .testTag("load_more_button"),
-                                shape = RoundedCornerShape(4.dp)
-                            ) {
-                                Text(
-                                    text = "CARGAR MÁS",
-                                    letterSpacing = 2.sp,
-                                    fontSize = 12.sp
-                                )
+                                    .padding(bottom = 8.dp)
+                                    .testTag("artist_search"),
+                                singleLine = true,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                        }
+
+                        // key estable: reduce trabajo de Compose al reordenar o filtrar.
+                        itemsIndexed(
+                            items = displayPerformers,
+                            key = { _, performer -> performer.id }
+                        ) { _, performer ->
+                            PerformerGridItem(
+                                performer = performer,
+                                onClick = { onArtistClick(performer.id) }
+                            )
+                        }
+
+                        if (hasMore && searchQuery.isBlank()) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                OutlinedButton(
+                                    onClick = { viewModel.loadMore() },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 12.dp)
+                                        .testTag("load_more_button"),
+                                    shape = RoundedCornerShape(4.dp)
+                                ) {
+                                    Text(
+                                        text = "CARGAR MÁS",
+                                        letterSpacing = 2.sp,
+                                        fontSize = 12.sp
+                                    )
+                                }
                             }
                         }
                     }

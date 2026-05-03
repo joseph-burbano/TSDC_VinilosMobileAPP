@@ -41,6 +41,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.ui.components.AlbumCover
 import com.uniandes.vinilos.ui.theme.VinilosTheme
+import com.uniandes.vinilos.ui.components.VinilosTopBar
+import com.uniandes.vinilos.model.UserRole
 
 private val coverColors = listOf(
     Color(0xFF1A237E),
@@ -59,7 +61,9 @@ internal fun albumCoverColor(albumId: Int): Color =
 @Composable
 fun AlbumListScreen(
     viewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(LocalContext.current)),
-    onAlbumClick: (Int) -> Unit = {}
+    onAlbumClick: (Int) -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null
 ) {
     // collectAsStateWithLifecycle suspende la recolección cuando la pantalla pasa a STOPPED,
     // evitando trabajo en background y previniendo escenarios pre-ANR si el ViewModel emite
@@ -82,7 +86,9 @@ fun AlbumListScreen(
             isRefreshing = isRefreshing,
             onRefresh = { viewModel.refresh() },
             onLoadMore = { viewModel.loadMore() },
-            onAlbumClick = onAlbumClick
+            onAlbumClick = onAlbumClick,
+            onMenuClick = onMenuClick,
+            userRole = userRole 
         )
     }
 }
@@ -191,7 +197,9 @@ private fun AlbumListContent(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onLoadMore: () -> Unit,
-    onAlbumClick: (Int) -> Unit
+    onAlbumClick: (Int) -> Unit,
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null 
 ) {
     var searchQuery by remember { mutableStateOf("") }
     var selectedGenre by remember { mutableStateOf<String?>(null) }
@@ -214,134 +222,142 @@ private fun AlbumListContent(
         visibleAlbums
     }
 
-    PullToRefreshBox(
-        isRefreshing = isRefreshing,
-        onRefresh = onRefresh,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(1),
-            contentPadding = PaddingValues(bottom = 32.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .testTag(AlbumListTestTags.LIST)
+    Column(modifier = Modifier.fillMaxSize()) {  // ← Column exterior sin scroll
+
+        VinilosTopBar(                            // ← fuera del grid, fijo
+            userRole = userRole,
+            onMenuClick = onMenuClick
+        )
+
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = onRefresh,
+            modifier = Modifier.fillMaxSize()
         ) {
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 4.dp)) {
-                    Text(
-                        text = "SELECCIÓN DE",
-                        fontSize = 12.sp,
-                        letterSpacing = 2.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFFD32F2F).copy(alpha = 0.7f)
-                    )
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.Bottom
-                    ) {
-                        Text(
-                            text = "Álbumes",
-                            fontSize = 48.sp,
-                            fontFamily = FontFamily.Serif,
-                            fontWeight = FontWeight.Medium,
-                            lineHeight = 56.sp
-                        )
-                        Text(
-                            text = "${filteredAlbums.size} encontrados",
-                            fontSize = 13.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(bottom = 12.dp)
-                        )
-                    }
-                }
-            }
-
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { searchQuery = it },
-                    placeholder = { Text("Buscar álbumes o artistas...") },
-                    leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 8.dp)
-                        .testTag(AlbumListTestTags.SEARCH),
-                    singleLine = true,
-                    shape = RoundedCornerShape(8.dp)
-                )
-            }
-
-            item(span = { GridItemSpan(maxLineSpan) }) {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    contentPadding = PaddingValues(horizontal = 24.dp),
-                    modifier = Modifier.padding(bottom = 16.dp)
-                ) {
-                    item {
-                        FilterChip(
-                            selected = selectedGenre == null,
-                            onClick = { selectedGenre = null },
-                            label = { Text("Todos") }
-                        )
-                    }
-                    // key estable también en chips de género para evitar recrear
-                    // FilterChip al cambiar la selección.
-                    items(allGenres, key = { it }) { genre ->
-                        FilterChip(
-                            selected = selectedGenre == genre,
-                            onClick = { selectedGenre = if (selectedGenre == genre) null else genre },
-                            label = { Text(genre) }
-                        )
-                    }
-                }
-            }
-
-            if (displayAlbums.isEmpty()) {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(1),
+                contentPadding = PaddingValues(bottom = 32.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag(AlbumListTestTags.LIST)
+            ) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(
-                                imageVector = Icons.Filled.Album,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.size(64.dp)
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
+                    Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 24.dp, bottom = 4.dp)) {
+                        Text(
+                            text = "SELECCIÓN DE",
+                            fontSize = 12.sp,
+                            letterSpacing = 2.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFD32F2F).copy(alpha = 0.7f)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
                             Text(
-                                text = "No se encontraron álbumes",
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                text = "Álbumes",
+                                fontSize = 48.sp,
+                                fontFamily = FontFamily.Serif,
+                                fontWeight = FontWeight.Medium,
+                                lineHeight = 56.sp
+                            )
+                            Text(
+                                text = "${filteredAlbums.size} encontrados",
+                                fontSize = 13.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(bottom = 12.dp)
                             )
                         }
                     }
                 }
-            } else {
-                // key = { album.id } reusa composables al filtrar/buscar y preserva el
-                // estado interno de cada AlbumCard (animaciones, eventos pendientes).
-                items(displayAlbums, key = { it.id }) { album ->
-                    AlbumCard(album = album, onClick = { onAlbumClick(album.id) })
+
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it },
+                        placeholder = { Text("Buscar álbumes o artistas...") },
+                        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp, vertical = 8.dp)
+                            .testTag(AlbumListTestTags.SEARCH),
+                        singleLine = true,
+                        shape = RoundedCornerShape(8.dp)
+                    )
                 }
-                
-                if (hasMore && searchQuery.isBlank() && selectedGenre == null) {
+
+                item(span = { GridItemSpan(maxLineSpan) }) {
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        contentPadding = PaddingValues(horizontal = 24.dp),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    ) {
+                        item {
+                            FilterChip(
+                                selected = selectedGenre == null,
+                                onClick = { selectedGenre = null },
+                                label = { Text("Todos") }
+                            )
+                        }
+                        // key estable también en chips de género para evitar recrear
+                        // FilterChip al cambiar la selección.
+                        items(allGenres, key = { it }) { genre ->
+                            FilterChip(
+                                selected = selectedGenre == genre,
+                                onClick = { selectedGenre = if (selectedGenre == genre) null else genre },
+                                label = { Text(genre) }
+                            )
+                        }
+                    }
+                }
+
+                if (displayAlbums.isEmpty()) {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)) {
-                            OutlinedButton(
-                                onClick = onLoadMore,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .testTag("load_more_button"),
-                                shape = RoundedCornerShape(4.dp)
-                            ) {
-                                Text(
-                                    text = "CARGAR MÁS",
-                                    letterSpacing = 2.sp,
-                                    fontSize = 12.sp
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Icon(
+                                    imageVector = Icons.Filled.Album,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.size(64.dp)
                                 )
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text(
+                                    text = "No se encontraron álbumes",
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    // key = { album.id } reusa composables al filtrar/buscar y preserva el
+                    // estado interno de cada AlbumCard (animaciones, eventos pendientes).
+                    items(displayAlbums, key = { it.id }) { album ->
+                        AlbumCard(album = album, onClick = { onAlbumClick(album.id) })
+                    }
+                    
+                    if (hasMore && searchQuery.isBlank() && selectedGenre == null) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp)) {
+                                OutlinedButton(
+                                    onClick = onLoadMore,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .testTag("load_more_button"),
+                                    shape = RoundedCornerShape(4.dp)
+                                ) {
+                                    Text(
+                                        text = "CARGAR MÁS",
+                                        letterSpacing = 2.sp,
+                                        fontSize = 12.sp
+                                    )
+                                }
                             }
                         }
                     }

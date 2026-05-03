@@ -1,9 +1,10 @@
 Feature: Página principal (ISSUE01)
-
   @user1 @mobile
   Scenario: Como usuario visitante veo el header y los ultimos albumes en la pantalla principal
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_vinilos"
+    Then I wait
     Then I wait
     Then I wait
     Then I see the text "RESUMEN"
@@ -17,10 +18,13 @@ Feature: Página principal (ISSUE01)
   @user2 @mobile
   Scenario: Como usuario visitante navego desde la home al detalle de un album
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_vinilos"
     Then I wait
     Then I wait
-    Then I tap on element with id "A Day at the Races"
+    Then I wait
+    Then I see the text "ÚLTIMOS ÁLBUMES"
+    Then I tap on element with text containing "A Day at the Races"
     Then I wait
     Then I wait
     Then I see the text "Rock"
@@ -30,9 +34,12 @@ Feature: Página principal (ISSUE01)
   @user3 @mobile
   Scenario: Como usuario visitante veo la seccion de coleccionistas en la home
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_vinilos"
     Then I wait
     Then I wait
+    Then I wait
+    Then I see the text "RESUMEN"
     Then I scroll down
     Then I scroll down
     Then I scroll down
