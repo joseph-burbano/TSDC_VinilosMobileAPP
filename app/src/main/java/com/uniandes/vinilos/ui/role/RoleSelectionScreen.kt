@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.uniandes.vinilos.model.UserRole
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +52,9 @@ fun RoleSelectionScreen(
 
         Card(
             onClick = { onRoleSelected(UserRole.VISITOR) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { contentDescription = "Ingresar como Visitante" },
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Column(
@@ -75,7 +79,9 @@ fun RoleSelectionScreen(
 
         Card(
             onClick = { onRoleSelected(UserRole.COLLECTOR) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { contentDescription = "Ingresar como Coleccionista" },
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Column(

@@ -62,6 +62,7 @@ import com.uniandes.vinilos.ui.home.HomeScreen
 import com.uniandes.vinilos.ui.role.RoleSelectionScreen
 import com.uniandes.vinilos.ui.components.AppSettingsDrawer
 import kotlinx.coroutines.launch
+import androidx.compose.material3.MaterialTheme
 
 sealed class Screen(val route: String) {
     object RoleSelection : Screen("role_selection")
@@ -171,6 +172,7 @@ fun AppNavigation(
         Scaffold(
             bottomBar = {
                 NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier.graphicsLayer {
                         translationY = offsetY.value
                         alpha = if (offsetY.value > barHeightPx * 0.5f) 0f else 1f
