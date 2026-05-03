@@ -46,6 +46,8 @@ import com.uniandes.vinilos.ui.theme.VinilosTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.Person
+import com.uniandes.vinilos.ui.components.VinilosTopBar
+import com.uniandes.vinilos.model.UserRole
 
 @Composable
 fun HomeScreen(
@@ -58,6 +60,8 @@ fun HomeScreen(
     collectorViewModel: CollectorViewModel = viewModel(
         factory = CollectorViewModel.factory(LocalContext.current)
     ),
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null, 
     onAlbumClick: (Int) -> Unit = {},
     onArtistClick: (Int) -> Unit = {},
     onCollectorClick: (Int) -> Unit = {}
@@ -93,130 +97,138 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 24.dp)
-        ) {
-            // ── Header ────────────────────────────────────────────────
+        Column(modifier = Modifier.fillMaxSize()) {  // sin verticalScroll
+
+            VinilosTopBar(
+                userRole = userRole,
+                onMenuClick = onMenuClick
+            )
+
             Column(
-                modifier = Modifier.padding(
-                    start = 24.dp, end = 24.dp,
-                    top = 24.dp, bottom = 16.dp
-                )
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 24.dp)
             ) {
-                Text(
-                    text = "RESUMEN",
-                    fontSize = 11.sp,
-                    letterSpacing = 2.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
-                )
-                Text(
-                    text = "Vinilos",
-                    fontSize = 48.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontStyle = FontStyle.Italic,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            // ── Últimos álbumes ───────────────────────────────────────
-            SectionHeader(
-                label = "ÚLTIMOS ÁLBUMES",
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(Modifier.height(12.dp))
-            if (lastAlbums.isEmpty()) {
-                LoadingRow()
-            } else {
+                // ── Header ──────────────────────────────────────────
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
-                        .testTag("home_albums_row"),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    modifier = Modifier.padding(
+                        start = 24.dp, end = 24.dp,
+                        top = 24.dp, bottom = 16.dp
+                    )
                 ) {
-                    lastAlbums.forEach { album ->
-                        AlbumCard(album = album, onClick = { onAlbumClick(album.id) })
+                    Text(
+                        text = "RESUMEN",
+                        fontSize = 11.sp,
+                        letterSpacing = 2.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                    )
+                    Text(
+                        text = "Vinilos",
+                        fontSize = 48.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                // ── Últimos álbumes ───────────────────────────────────────
+                SectionHeader(
+                    label = "ÚLTIMOS ÁLBUMES",
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Spacer(Modifier.height(12.dp))
+                if (lastAlbums.isEmpty()) {
+                    LoadingRow()
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp)
+                            .testTag("home_albums_row"),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        lastAlbums.forEach { album ->
+                            AlbumCard(album = album, onClick = { onAlbumClick(album.id) })
+                        }
                     }
                 }
-            }
 
-            Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(32.dp))
 
-            // ── Artistas consultados ──────────────────────────────────
-            SectionHeader(
-                label = "ARTISTAS CONSULTADOS",
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(Modifier.height(12.dp))
-            if (consultedArtists.isEmpty()) {
-                LoadingRow()
-            } else {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.testTag("home_consulted_artists_row")
-                ) {
-                    items(consultedArtists, key = { it.id }) { artist ->
-                        ArtistCard(
-                            artist = artist,
-                            onClick = { onArtistClick(artist.id) }
-                        )
+                // ── Artistas consultados ──────────────────────────────────
+                SectionHeader(
+                    label = "ARTISTAS CONSULTADOS",
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Spacer(Modifier.height(12.dp))
+                if (consultedArtists.isEmpty()) {
+                    LoadingRow()
+                } else {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.testTag("home_consulted_artists_row")
+                    ) {
+                        items(consultedArtists, key = { it.id }) { artist ->
+                            ArtistCard(
+                                artist = artist,
+                                onClick = { onArtistClick(artist.id) }
+                            )
+                        }
                     }
                 }
-            }
 
-            Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(32.dp))
 
-            // ── Artistas recomendados ─────────────────────────────────
-            SectionHeader(
-                label = "ARTISTAS RECOMENDADOS",
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(Modifier.height(12.dp))
-            if (recommendedArtists.isEmpty()) {
-                LoadingRow()
-            } else {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.testTag("home_recommended_artists_row")
-                ) {
-                    items(recommendedArtists, key = { it.id }) { artist ->
-                        ArtistCard(
-                            artist = artist,
-                            onClick = { onArtistClick(artist.id) }
-                        )
+                // ── Artistas recomendados ─────────────────────────────────
+                SectionHeader(
+                    label = "ARTISTAS RECOMENDADOS",
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Spacer(Modifier.height(12.dp))
+                if (recommendedArtists.isEmpty()) {
+                    LoadingRow()
+                } else {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.testTag("home_recommended_artists_row")
+                    ) {
+                        items(recommendedArtists, key = { it.id }) { artist ->
+                            ArtistCard(
+                                artist = artist,
+                                onClick = { onArtistClick(artist.id) }
+                            )
+                        }
                     }
                 }
-            }
 
-            Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(32.dp))
 
-            // ── Coleccionistas ────────────────────────────────────────
-            SectionHeader(
-                label = "COLECCIONISTAS",
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(Modifier.height(12.dp))
-            if (collectors.isEmpty()) {
-                LoadingRow()
-            } else {
-                LazyRow(
-                    contentPadding = PaddingValues(horizontal = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.testTag("home_collectors_row")
-                ) {
-                    // key = { it.id } permite a Compose reusar composables y preservar
-                    // su estado interno cuando la lista cambia, en vez de recrearlos.
-                    items(featuredCollectors, key = { it.id }) { collector ->
-                        CollectorCard(
-                            collector = collector,
-                            onClick = { onCollectorClick(collector.id) }
-                        )
+                // ── Coleccionistas ────────────────────────────────────────
+                SectionHeader(
+                    label = "COLECCIONISTAS",
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+                Spacer(Modifier.height(12.dp))
+                if (collectors.isEmpty()) {
+                    LoadingRow()
+                } else {
+                    LazyRow(
+                        contentPadding = PaddingValues(horizontal = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.testTag("home_collectors_row")
+                    ) {
+                        // key = { it.id } permite a Compose reusar composables y preservar
+                        // su estado interno cuando la lista cambia, en vez de recrearlos.
+                        items(featuredCollectors, key = { it.id }) { collector ->
+                            CollectorCard(
+                                collector = collector,
+                                onClick = { onCollectorClick(collector.id) }
+                            )
+                        }
                     }
                 }
             }

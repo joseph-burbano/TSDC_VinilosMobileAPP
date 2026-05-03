@@ -1,13 +1,70 @@
 package com.uniandes.vinilos.ui.navigation
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.dp
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.uniandes.vinilos.AppViewModel
+import com.uniandes.vinilos.model.UserRole
+import com.uniandes.vinilos.ui.albums.AlbumDetailScreen
+import com.uniandes.vinilos.ui.albums.AlbumListScreen
+import com.uniandes.vinilos.ui.albums.AlbumViewModel
+import com.uniandes.vinilos.ui.artists.ArtistDetailScreen
+import com.uniandes.vinilos.ui.artists.ArtistListScreen
+import com.uniandes.vinilos.ui.artists.ArtistViewModel
+import com.uniandes.vinilos.ui.collectors.CollectorDetailScreen
+import com.uniandes.vinilos.ui.collectors.CollectorListScreen
+import com.uniandes.vinilos.ui.collectors.CollectorViewModel
+import com.uniandes.vinilos.ui.home.HomeScreen
+import com.uniandes.vinilos.ui.role.RoleSelectionScreen
+import com.uniandes.vinilos.ui.components.AppSettingsDrawer
+import kotlinx.coroutines.launch
 
 sealed class Screen(val route: String) {
+    object RoleSelection : Screen("role_selection")
     object Home : Screen("home")
     object AlbumList : Screen("album_list")
     object AlbumDetail : Screen("album_detail/{albumId}") {
@@ -32,4 +89,200 @@ enum class BottomNavItem(
     ALBUMES("album_list", "Álbumes", Icons.Filled.MusicNote),
     ARTISTS("artist_list", "Artistas", Icons.Filled.Person),
     PEOPLE("collector_list", "colecc.", Icons.Filled.AccountCircle)
+}
+
+@Composable
+fun AppNavigation(
+    appViewModel: AppViewModel,
+    userRole: UserRole?
+) {
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    val isDarkTheme by appViewModel.isDarkTheme.collectAsState()
+    
+    val onMenuClick: () -> Unit = { scope.launch { drawerState.open() } }
+
+    val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    val context = LocalContext.current
+    val albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(context))
+    val artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.factory(context))
+    val collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.factory(context))
+
+    val isDetailScreen = currentRoute?.startsWith("album_detail") == true ||
+            currentRoute?.startsWith("artist_detail") == true ||
+            currentRoute?.startsWith("collector_detail") == true
+
+    var isBarVisible by remember { mutableStateOf(true) }
+
+    val systemNavInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val barHeightPx = with(LocalDensity.current) { (80.dp + systemNavInset).toPx() }
+    val offsetY = remember { Animatable(0f) }
+
+    LaunchedEffect(currentRoute) {
+        if (!isDetailScreen) isBarVisible = true
+    }
+
+    LaunchedEffect(isBarVisible) {
+        offsetY.animateTo(
+            targetValue = if (isBarVisible) 0f else barHeightPx,
+            animationSpec = tween(durationMillis = 250)
+        )
+    }
+
+    val nestedScrollConnection = remember(isDetailScreen) {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (isDetailScreen) {
+                    if (available.y < -5) isBarVisible = false
+                    else if (available.y > 5) isBarVisible = true
+                }
+                return Offset.Zero
+            }
+        }
+    }
+
+    val userRole by appViewModel.userRole.collectAsState()
+    val isReady by appViewModel.isReady.collectAsState()
+
+    if (!isReady) return
+
+    val startDestination = if (userRole == null)
+        Screen.RoleSelection.route
+    else
+        Screen.Home.route
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        gesturesEnabled = userRole != null,
+        drawerContent = {
+            AppSettingsDrawer(
+                userRole = userRole,
+                isDarkTheme = isDarkTheme,
+                onToggleTheme = { appViewModel.toggleDarkTheme() },
+                onBecomeCollector = { appViewModel.setUserRole(UserRole.COLLECTOR) },
+                onLeaveCollector = { appViewModel.setUserRole(UserRole.VISITOR) },
+                onCloseDrawer = { scope.launch { drawerState.close() } }
+            )
+        }
+    ) {
+        Scaffold(
+            bottomBar = {
+                NavigationBar(
+                    modifier = Modifier.graphicsLayer {
+                        translationY = offsetY.value
+                        alpha = if (offsetY.value > barHeightPx * 0.5f) 0f else 1f
+                    }
+                ) {
+                    BottomNavItem.entries.forEach { item ->
+                        NavigationBarItem(
+                            icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
+                            label = { Text(item.label) },
+                            selected = currentRoute == item.route,
+                            modifier = Modifier.semantics {
+                                contentDescription = "nav_${item.label.lowercase()}"
+                            },
+                            onClick = {
+                                navController.navigate(item.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                            }
+                        )
+                    }
+                }
+            },
+            modifier = Modifier.nestedScroll(nestedScrollConnection),
+        ) { innerPadding ->
+            NavHost(
+                navController = navController,
+                startDestination = startDestination,
+                modifier = if (offsetY.value > 0f)
+                    Modifier.padding(top = innerPadding.calculateTopPadding())
+                else
+                    Modifier.padding(innerPadding)
+            ) {
+                composable(Screen.RoleSelection.route) {
+                    RoleSelectionScreen(
+                        onRoleSelected = { role ->
+                            appViewModel.setUserRole(role)
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(Screen.RoleSelection.route) { inclusive = true }
+                            }
+                        }
+                    )
+                }
+                composable(Screen.Home.route) {
+                    HomeScreen(
+                        albumViewModel = albumViewModel,
+                        artistViewModel = artistViewModel,
+                        collectorViewModel = collectorViewModel,
+                        onMenuClick = onMenuClick,
+                        userRole = userRole, 
+                        onAlbumClick = { navController.navigate(Screen.AlbumDetail.createRoute(it)) },
+                        onArtistClick = { navController.navigate(Screen.ArtistDetail.createRoute(it)) },
+                        onCollectorClick = { navController.navigate(Screen.CollectorDetail.createRoute(it)) }
+                    )
+                }
+                composable(Screen.AlbumList.route) {
+                    AlbumListScreen(
+                        viewModel = albumViewModel,
+                        onAlbumClick = { navController.navigate(Screen.AlbumDetail.createRoute(it)) },
+                        onMenuClick = onMenuClick,
+                        userRole = userRole 
+                    )
+                }
+                composable(
+                    route = Screen.AlbumDetail.route,
+                    arguments = listOf(navArgument("albumId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val albumId = backStackEntry.arguments?.getInt("albumId") ?: return@composable
+                    AlbumDetailScreen(
+                        albumId = albumId,
+                        viewModel = albumViewModel,
+                        onBack = { navController.navigateUp() }
+                    )
+                }
+                composable(Screen.ArtistList.route) {
+                    ArtistListScreen(
+                        viewModel = artistViewModel,
+                        onArtistClick = { navController.navigate(Screen.ArtistDetail.createRoute(it)) }
+                    )
+                }
+                composable(
+                    route = Screen.ArtistDetail.route,
+                    arguments = listOf(navArgument("artistId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val artistId = backStackEntry.arguments?.getInt("artistId") ?: return@composable
+                    ArtistDetailScreen(
+                        artistId = artistId,
+                        viewModel = artistViewModel,
+                        onBack = { navController.navigateUp() }
+                    )
+                }
+                composable(Screen.CollectorList.route) {
+                    CollectorListScreen(
+                        viewModel = collectorViewModel,
+                        onCollectorClick = { navController.navigate(Screen.CollectorDetail.createRoute(it)) }
+                    )
+                }
+                composable(
+                    route = Screen.CollectorDetail.route,
+                    arguments = listOf(navArgument("collectorId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val collectorId = backStackEntry.arguments?.getInt("collectorId") ?: return@composable
+                    CollectorDetailScreen(
+                        collectorId = collectorId,
+                        viewModel = collectorViewModel,
+                        onBack = { navController.navigateUp() }
+                    )
+                }
+            }
+        }
+    }
 }
