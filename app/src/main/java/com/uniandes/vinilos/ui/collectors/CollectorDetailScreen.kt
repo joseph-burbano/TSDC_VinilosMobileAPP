@@ -35,13 +35,15 @@ import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.CollectorAlbum
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.LaunchedEffect
+import com.uniandes.vinilos.ui.components.VinilosTopBar
+import com.uniandes.vinilos.model.UserRole
 
 object CollectorDetailTestTags {
     const val SCREEN = "collector_detail_screen"
     const val LOADING = "collector_detail_loading"
     const val NAME = "collector_detail_name"
     const val IMAGE = "collector_detail_image"
-    const val BACK = "collector_detail_back"
+    const val BACK    = "top_bar_back_button" 
     const val STATS = "collector_detail_stats"
     const val VAULT = "collector_detail_vault"
 }
@@ -53,7 +55,9 @@ fun CollectorDetailScreen(
     viewModel: CollectorViewModel = viewModel(
         factory = CollectorViewModel.factory(LocalContext.current)
     ),
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null
 ) {
     LaunchedEffect(collectorId) {
         viewModel.loadCollector(collectorId)
@@ -76,31 +80,12 @@ fun CollectorDetailScreen(
         modifier = Modifier.semantics { testTag = CollectorDetailTestTags.SCREEN },
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        "Vinilos",
-                        fontStyle = FontStyle.Italic,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = onBack,
-                        modifier = Modifier.semantics {
-                            contentDescription = "Volver"
-                            testTag = CollectorDetailTestTags.BACK
-                        }
-                    ) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Volver"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+            VinilosTopBar(
+                title = "Coleccionistas",
+                showBack = true,
+                onBack = onBack,
+                onMenuClick = onMenuClick,
+                userRole = userRole
             )
         }
     ) { padding ->

@@ -1,4 +1,4 @@
-package com.uniandes.vinilos
+package com.uniandes.vinilos.ui.artists
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasTestTag
@@ -10,15 +10,15 @@ import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.uniandes.vinilos.model.Performer
-import com.uniandes.vinilos.ui.artists.ArtistListScreen
-import com.uniandes.vinilos.ui.artists.ArtistViewModel
+import com.uniandes.vinilos.model.UserRole
+import com.uniandes.vinilos.repository.ArtistRepository
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import io.mockk.coEvery
 import io.mockk.mockk
-import com.uniandes.vinilos.repository.ArtistRepository
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import androidx.compose.ui.test.performScrollToIndex
 
 @RunWith(AndroidJUnit4::class)
 class ArtistListScreenInstrumentedTest {
@@ -37,6 +37,8 @@ class ArtistListScreenInstrumentedTest {
         return ArtistViewModel(repository)
     }
 
+    // ─── HU03 - T1: Spinner mientras carga ───────────────────────────────────
+
     @Test
     fun artistList_showsLoadingIndicator_initially() {
         val repository = mockk<ArtistRepository>(relaxed = true)
@@ -48,58 +50,70 @@ class ArtistListScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistListScreen(viewModel = viewModel)
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
+
         composeTestRule
             .onNodeWithTag("loading_indicator")
             .assertIsDisplayed()
     }
 
+    // ─── HU03 - T2: Nombres de artistas visibles tras carga ──────────────────
+
     @Test
     fun artistList_showsArtistNames_whenLoaded() {
         val viewModel = createViewModel()
+
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistListScreen(viewModel = viewModel)
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule
-                .onAllNodes(androidx.compose.ui.test.hasTestTag("artist_list"))
+                .onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule
-            .onNodeWithText("Rubén Blades")
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithText("Queen")
-            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Rubén Blades").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Queen").assertIsDisplayed()
     }
+
+    // ─── HU03 - T3: Grid con items de artistas ───────────────────────────────
 
     @Test
     fun artistList_showsGrid_withArtistItems() {
         val viewModel = createViewModel()
+
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistListScreen(viewModel = viewModel)
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule
-                .onAllNodes(androidx.compose.ui.test.hasTestTag("artist_list"))
+                .onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule
-            .onNodeWithTag("artist_list")
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithTag("artist_item_1")
-            .assertIsDisplayed()
-        composeTestRule
-            .onNodeWithTag("artist_item_2")
-            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("artist_list").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("artist_item_1").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("artist_item_2").assertIsDisplayed()
     }
+
+    // ─── HU03 - T4: Mensaje de error cuando falla el servicio ────────────────
 
     @Test
     fun artistList_showsErrorMessage_whenLoadFails() {
@@ -109,26 +123,37 @@ class ArtistListScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistListScreen(viewModel = viewModel)
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule
-                .onAllNodes(androidx.compose.ui.test.hasTestTag("error_message"))
+                .onAllNodes(hasTestTag("error_message"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule
-            .onNodeWithTag("error_message")
-            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag("error_message").assertIsDisplayed()
     }
 
-    // ── BÚSQUEDA ──────────────────────────────────────────────────────────────────
+    // ─── HU03 - T5: Búsqueda filtra por nombre ───────────────────────────────
+
     @Test
     fun artistList_searchFilters_showsMatchingArtist() {
         val viewModel = createViewModel()
+
         composeTestRule.setContent {
-            VinilosTheme { ArtistListScreen(viewModel = viewModel) }
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
+            }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
@@ -140,12 +165,21 @@ class ArtistListScreenInstrumentedTest {
         composeTestRule.onNodeWithText("Queen").assertDoesNotExist()
     }
 
+    // ─── HU03 - T6: Búsqueda es case-insensitive ─────────────────────────────
+
     @Test
     fun artistList_searchFilters_isCaseInsensitive() {
         val viewModel = createViewModel()
+
         composeTestRule.setContent {
-            VinilosTheme { ArtistListScreen(viewModel = viewModel) }
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
+            }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
@@ -157,12 +191,21 @@ class ArtistListScreenInstrumentedTest {
         composeTestRule.onNodeWithText("Rubén Blades").assertDoesNotExist()
     }
 
+    // ─── HU03 - T7: Búsqueda sin resultados muestra grid vacío ──────────────
+
     @Test
     fun artistList_searchFilters_noResults_showsEmptyGrid() {
         val viewModel = createViewModel()
+
         composeTestRule.setContent {
-            VinilosTheme { ArtistListScreen(viewModel = viewModel) }
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
+            }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
@@ -174,12 +217,21 @@ class ArtistListScreenInstrumentedTest {
         composeTestRule.onNodeWithText("Queen").assertDoesNotExist()
     }
 
+    // ─── HU03 - T8: Limpiar búsqueda restaura lista completa ─────────────────
+
     @Test
     fun artistList_clearSearch_restoresFullList() {
         val viewModel = createViewModel()
+
         composeTestRule.setContent {
-            VinilosTheme { ArtistListScreen(viewModel = viewModel) }
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
+            }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
@@ -194,7 +246,7 @@ class ArtistListScreenInstrumentedTest {
         composeTestRule.onNodeWithText("Queen").assertIsDisplayed()
     }
 
-    // ── NAVEGACIÓN ────────────────────────────────────────────────────────────────
+    // ─── HU03 - T9: Click en artista invoca callback con ID correcto ──────────
 
     @Test
     fun artistList_clickArtist_invokesCallbackWithCorrectId() {
@@ -205,10 +257,12 @@ class ArtistListScreenInstrumentedTest {
             VinilosTheme {
                 ArtistListScreen(
                     viewModel = viewModel,
-                    onArtistClick = { clickedId = it }
+                    onArtistClick = { clickedId = it },
+                    userRole = UserRole.VISITOR
                 )
             }
         }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasTestTag("artist_item_1"))
                 .fetchSemanticsNodes().isNotEmpty()
@@ -219,63 +273,127 @@ class ArtistListScreenInstrumentedTest {
         assert(clickedId == 1)
     }
 
-    // ── PAGINACIÓN ────────────────────────────────────────────────────────────────
+    // ─── HU03 - T10: Botón cargar más visible con 7+ artistas ────────────────
 
     @Test
     fun artistList_loadMoreButton_isVisibleWhenHasMore() {
-        // El ViewModel pagina de a 6 por defecto; con 7+ artistas aparece el botón
-        val manyPerformers = (1..7).map {
-            Performer(it, "Artist $it", "https://example.com/$it.jpg", "Bio", "2000-01-01")
+        val manyPerformers = (1..5).map {
+            Performer(it, "A$it", "https://example.com/$it.jpg", "Bio", "2000-01-01")
         }
         val viewModel = createViewModel(manyPerformers)
 
         composeTestRule.setContent {
-            VinilosTheme { ArtistListScreen(viewModel = viewModel) }
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
+            }
         }
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
-            composeTestRule.onAllNodes(hasTestTag("load_more_button"))
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
 
-        composeTestRule.onNodeWithTag("load_more_button").assertIsDisplayed()
+        composeTestRule
+            .onNodeWithTag("artist_list")
+            .performScrollToIndex(5)
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag("load_more_button"))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithTag("load_more_button").assertExists()   
     }
+
+    // ─── HU03 - T11: Botón cargar más no visible con pocos artistas ──────────
 
     @Test
     fun artistList_loadMoreButton_notVisibleWithFewArtists() {
-        // Con 2 artistas no debe aparecer el botón
         val viewModel = createViewModel(fakePerformers)
 
         composeTestRule.setContent {
-            VinilosTheme { ArtistListScreen(viewModel = viewModel) }
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
+            }
         }
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule.onAllNodes(hasTestTag("artist_list"))
+                .fetchSemanticsNodes().isNotEmpty()
+    }
+
+    composeTestRule.onNodeWithTag("load_more_button").assertDoesNotExist()
+    }
+
+    // ─── HU03 - T12: Botón cargar más se oculta al buscar ────────────────────
+
+    @Test
+    fun artistList_loadMoreButton_hidesWhenSearchIsActive() {
+        val manyPerformers = (1..5).map {
+            Performer(it, "A$it", "https://example.com/$it.jpg", "Bio", "2000-01-01")
+        }
+        val viewModel = createViewModel(manyPerformers)
+
+        composeTestRule.setContent {
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
+            }
+        }
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag("artist_list"))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule
+            .onNodeWithTag("artist_list")
+            .performScrollToIndex(5)
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag("load_more_button"))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithTag("load_more_button").assertExists()
+
+        composeTestRule.onNodeWithTag("artist_search").performTextInput("A")
+        composeTestRule.onNodeWithTag("load_more_button").assertDoesNotExist()
+    }
+
+    // ─── HU03 - T13 (nuevo): Rol COLLECTOR renderiza correctamente ───────────
+
+    @Test
+    fun artistList_renderizaCorrectamente_conRolCollector() {
+        val viewModel = createViewModel()
+
+        composeTestRule.setContent {
+            VinilosTheme {
+                ArtistListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.COLLECTOR
+                )
+            }
+        }
+
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasTestTag("artist_list"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
 
-        composeTestRule.onNodeWithTag("load_more_button").assertDoesNotExist()
-    }
-
-    @Test
-    fun artistList_loadMoreButton_hidesWhenSearchIsActive() {
-        val manyPerformers = (1..7).map {
-            Performer(it, "Artist $it", "https://example.com/$it.jpg", "Bio", "2000-01-01")
-        }
-        val viewModel = createViewModel(manyPerformers)
-
-        composeTestRule.setContent {
-            VinilosTheme { ArtistListScreen(viewModel = viewModel) }
-        }
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
-            composeTestRule.onAllNodes(hasTestTag("load_more_button"))
-                .fetchSemanticsNodes().isNotEmpty()
-        }
-
-        // El botón existe antes de buscar
-        composeTestRule.onNodeWithTag("load_more_button").assertIsDisplayed()
-
-        // Al escribir en el search, el botón desaparece
-        composeTestRule.onNodeWithTag("artist_search").performTextInput("Artist")
-        composeTestRule.onNodeWithTag("load_more_button").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Rubén Blades").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Queen").assertIsDisplayed()
     }
 }

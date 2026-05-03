@@ -1,9 +1,10 @@
-Feature: Listado de artistas
-
+Feature: Listado de artistas (HU03)
   @user1 @mobile
   Scenario: Como usuario visitante navego el listado de artistas y veo el contenido
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_artistas"
+    Then I wait
     Then I wait
     Then I wait
     Then I see the text "ARCHIVO DE"
@@ -14,7 +15,9 @@ Feature: Listado de artistas
   @user2 @mobile
   Scenario: Como usuario visitante busco un artista por nombre y veo solo el resultado filtrado
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_artistas"
+    Then I wait
     Then I wait
     Then I wait
     Then I tap on element with accessibility id "artist_search"
@@ -26,7 +29,9 @@ Feature: Listado de artistas
   @user3 @mobile
   Scenario: Como usuario visitante busco un artista que no existe y veo la lista vacia
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_artistas"
+    Then I wait
     Then I wait
     Then I wait
     Then I tap on element with accessibility id "artist_search"

@@ -1,9 +1,10 @@
 Feature: Listado de coleccionistas (HU05)
-
   @user1 @mobile
   Scenario: Como usuario visitante navego al listado de coleccionistas y veo el contenido
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_colecc."
+    Then I wait
     Then I wait
     Then I wait
     Then I see the text "DIRECTORIO DE"
@@ -16,9 +17,12 @@ Feature: Listado de coleccionistas (HU05)
   @user2 @mobile
   Scenario: Como usuario visitante busco un coleccionista por nombre y veo solo el resultado filtrado
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_colecc."
     Then I wait
     Then I wait
+    Then I wait
+    Then I see the text "DIRECTORIO DE"
     Then I tap on element with accessibility id "collector_search"
     Then I type "Manolo"
     Then I wait
@@ -30,9 +34,12 @@ Feature: Listado de coleccionistas (HU05)
   @user3 @mobile
   Scenario: Como usuario visitante busco por artista favorito y veo el coleccionista correcto
     Given I wait
+    Then I select role if needed
     Then I tap on element with accessibility id "nav_colecc."
     Then I wait
     Then I wait
+    Then I wait
+    Then I see the text "DIRECTORIO DE"
     Then I tap on element with accessibility id "collector_search"
     Then I type "Queen"
     Then I wait

@@ -18,6 +18,7 @@ Before(async function () {
     this.userId,
   );
   this.driver = await this.deviceClient.startKrakenForUserId(this.userId);
+  await this.driver.pause(2000);
 });
 
 After(async function () {
