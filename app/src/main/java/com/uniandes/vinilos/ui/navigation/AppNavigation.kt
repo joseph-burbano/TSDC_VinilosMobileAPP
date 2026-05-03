@@ -16,6 +16,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -63,6 +65,7 @@ import com.uniandes.vinilos.ui.role.RoleSelectionScreen
 import com.uniandes.vinilos.ui.components.AppSettingsDrawer
 import kotlinx.coroutines.launch
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Column
 
 sealed class Screen(val route: String) {
     object RoleSelection : Screen("role_selection")
@@ -171,31 +174,39 @@ fun AppNavigation(
     ) {
         Scaffold(
             bottomBar = {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.background,
+                Column(
                     modifier = Modifier.graphicsLayer {
                         translationY = offsetY.value
                         alpha = if (offsetY.value > barHeightPx * 0.5f) 0f else 1f
                     }
                 ) {
-                    BottomNavItem.entries.forEach { item ->
-                        NavigationBarItem(
-                            icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
-                            label = { Text(item.label) },
-                            selected = currentRoute == item.route,
-                            modifier = Modifier.semantics {
-                                contentDescription = "nav_${item.label.lowercase()}"
-                            },
-                            onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                    HorizontalDivider(
+                        thickness = 1.5.dp,
+                        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
+                    )
+                    NavigationBar(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        tonalElevation = 0.dp,
+                    ) {
+                        BottomNavItem.entries.forEach { item ->
+                            NavigationBarItem(
+                                icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
+                                label = { Text(item.label) },
+                                selected = currentRoute == item.route,
+                                modifier = Modifier.semantics {
+                                    contentDescription = "nav_${item.label.lowercase()}"
+                                },
+                                onClick = {
+                                    navController.navigate(item.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             },
@@ -269,6 +280,7 @@ fun AppNavigation(
                         artistId = artistId,
                         viewModel = artistViewModel,
                         onBack = { navController.navigateUp() },
+                        onMenuClick = onMenuClick,
                         userRole = userRole 
                     )
                 }
