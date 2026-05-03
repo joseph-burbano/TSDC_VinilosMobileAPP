@@ -28,6 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.ui.theme.VinilosTheme
+import com.uniandes.vinilos.model.UserRole
+import com.uniandes.vinilos.ui.components.VinilosTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +37,9 @@ fun CollectorListScreen(
     viewModel: CollectorViewModel = viewModel(
         factory = CollectorViewModel.factory(LocalContext.current)
     ),
-    onCollectorClick: (Int) -> Unit = {}
+    onCollectorClick: (Int) -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null 
 ) {
     val visibleCollectors by viewModel.visibleCollectors.collectAsStateWithLifecycle(
         initialValue = emptyList()
@@ -74,118 +78,125 @@ fun CollectorListScreen(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        when {
-            isLoading -> Box(
-                Modifier
-                    .fillMaxSize()
-                    .testTag("collector_list_loading"),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.semantics {
-                        contentDescription = "collector_loading"
-                    }
-                )
-            }
-            error != null -> Box(
-                Modifier
-                    .fillMaxSize()
-                    .testTag("collector_list_error"),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = error ?: "", color = MaterialTheme.colorScheme.error)
-            }
-            else -> PullToRefreshBox(
-                isRefreshing = isRefreshing,
-                onRefresh = { viewModel.refreshCollectors() }
-            ) {
-                LazyColumn(
-                    modifier = Modifier
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            VinilosTopBar(
+                userRole = userRole,
+                onMenuClick = onMenuClick
+            )
+            when {
+                isLoading -> Box(
+                    Modifier
                         .fillMaxSize()
-                        .testTag("collector_list"),
-                    contentPadding = PaddingValues(bottom = 32.dp)
+                        .testTag("collector_list_loading"),
+                    contentAlignment = Alignment.Center
                 ) {
-                    item {
-                        Column(
-                            modifier = Modifier.padding(
-                                start = 24.dp,
-                                end = 24.dp,
-                                top = 24.dp,
-                                bottom = 4.dp
-                            )
-                        ) {
-                            Text(
-                                text = "DIRECTORIO DE",
-                                fontSize = 12.sp,
-                                letterSpacing = 2.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
-                            )
-                            var fontSize by remember { mutableStateOf(48.sp) }
-                            Text(
-                                text = "Coleccionistas",
-                                fontSize = fontSize,
-                                fontFamily = FontFamily.Serif,
-                                fontWeight = FontWeight.Medium,
-                                maxLines = 1,
-                                overflow = TextOverflow.Visible,
-                                onTextLayout = { result ->
-                                    if (result.hasVisualOverflow) {
-                                        fontSize *= 0.9f
-                                    }
-                                },
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            Text(
-                                text = "$filteredCount encontrados",
-                                fontSize = 13.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentWidth(Alignment.End)
-                            )
+                    CircularProgressIndicator(
+                        modifier = Modifier.semantics {
+                            contentDescription = "collector_loading"
                         }
-                    }
-                    item {
-                        OutlinedTextField(
-                            value = searchQuery,
-                            onValueChange = { searchQuery = it },
-                            placeholder = { Text("Buscar coleccionistas...") },
-                            leadingIcon = {
-                                Icon(Icons.Filled.Search, contentDescription = null)
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 24.dp, vertical = 8.dp)
-                                .testTag("collector_search"),
-                            singleLine = true,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                    }
-                    // key estable: Compose puede preservar el estado interno de cada
-                    // CollectorItem (estado de animaciones, recomposiciones más baratas)
-                    // cuando la lista se reordena o se filtra.
-                    items(displayCollectors, key = { it.id }) { collector ->
-                        CollectorItem(
-                            collector = collector,
-                            onClick = { onCollectorClick(collector.id) }
-                        )
-                    }
-                    if (hasMore && searchQuery.isBlank()) {
+                    )
+                }
+                error != null -> Box(
+                    Modifier
+                        .fillMaxSize()
+                        .testTag("collector_list_error"),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = error ?: "", color = MaterialTheme.colorScheme.error)
+                }
+                else -> PullToRefreshBox(
+                    isRefreshing = isRefreshing,
+                    onRefresh = { viewModel.refreshCollectors() }
+                ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag("collector_list"),
+                        contentPadding = PaddingValues(bottom = 32.dp)
+                    ) {
                         item {
-                            OutlinedButton(
-                                onClick = { viewModel.loadMore() },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 24.dp, vertical = 12.dp)
-                                    .testTag("collector_load_more"),
-                                shape = RoundedCornerShape(4.dp)
+                            Column(
+                                modifier = Modifier.padding(
+                                    start = 24.dp,
+                                    end = 24.dp,
+                                    top = 24.dp,
+                                    bottom = 4.dp
+                                )
                             ) {
                                 Text(
-                                    text = "MOSTRAR MÁS",
+                                    text = "DIRECTORIO DE",
+                                    fontSize = 12.sp,
                                     letterSpacing = 2.sp,
-                                    fontSize = 12.sp
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
                                 )
+                                var fontSize by remember { mutableStateOf(48.sp) }
+                                Text(
+                                    text = "Coleccionistas",
+                                    fontSize = fontSize,
+                                    fontFamily = FontFamily.Serif,
+                                    fontWeight = FontWeight.Medium,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Visible,
+                                    onTextLayout = { result ->
+                                        if (result.hasVisualOverflow) {
+                                            fontSize *= 0.9f
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                Text(
+                                    text = "$filteredCount encontrados",
+                                    fontSize = 13.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .wrapContentWidth(Alignment.End)
+                                )
+                            }
+                        }
+                        item {
+                            OutlinedTextField(
+                                value = searchQuery,
+                                onValueChange = { searchQuery = it },
+                                placeholder = { Text("Buscar coleccionistas...") },
+                                leadingIcon = {
+                                    Icon(Icons.Filled.Search, contentDescription = null)
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp, vertical = 8.dp)
+                                    .testTag("collector_search"),
+                                singleLine = true,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                        }
+                        // key estable: Compose puede preservar el estado interno de cada
+                        // CollectorItem (estado de animaciones, recomposiciones más baratas)
+                        // cuando la lista se reordena o se filtra.
+                        items(displayCollectors, key = { it.id }) { collector ->
+                            CollectorItem(
+                                collector = collector,
+                                onClick = { onCollectorClick(collector.id) }
+                            )
+                        }
+                        if (hasMore && searchQuery.isBlank()) {
+                            item {
+                                OutlinedButton(
+                                    onClick = { viewModel.loadMore() },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 24.dp, vertical = 12.dp)
+                                        .testTag("collector_load_more"),
+                                    shape = RoundedCornerShape(4.dp)
+                                ) {
+                                    Text(
+                                        text = "MOSTRAR MÁS",
+                                        letterSpacing = 2.sp,
+                                        fontSize = 12.sp
+                                    )
+                                }
                             }
                         }
                     }

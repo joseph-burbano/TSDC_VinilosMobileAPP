@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.uniandes.vinilos.model.UserRole
+import androidx.compose.foundation.background
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun VinilosTopBar(
@@ -32,7 +34,7 @@ fun VinilosTopBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .statusBarsPadding()
+            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 4.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -43,7 +45,10 @@ fun VinilosTopBar(
             modifier = Modifier.padding(start = 4.dp)
         ) {
             if (showBack) {
-                IconButton(onClick = onBack) {
+                IconButton(
+                    onClick = onBack,
+                    modifier = Modifier.testTag("top_bar_back_button")
+                ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Volver",
@@ -71,7 +76,7 @@ fun VinilosTopBar(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-            if (userRole != null && !showBack) {
+            if (userRole != null) {
                 Text(
                     text = "•",
                     color = MaterialTheme.colorScheme.onSurfaceVariant

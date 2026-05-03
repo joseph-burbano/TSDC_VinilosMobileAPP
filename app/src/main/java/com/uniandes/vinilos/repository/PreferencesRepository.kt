@@ -11,32 +11,41 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface IPreferencesRepository {
+    val userRole: Flow<UserRole?>
+    val isDarkTheme: Flow<Boolean>
+    suspend fun setUserRole(role: UserRole)
+    suspend fun clearUserRole()
+    suspend fun setDarkTheme(enabled: Boolean)
+}
+
 @Singleton
 class PreferencesRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) {
+) : IPreferencesRepository {
+
     companion object {
         private val KEY_ROLE       = stringPreferencesKey("user_role")
         private val KEY_DARK_THEME = booleanPreferencesKey("dark_theme")
     }
 
-    val userRole: Flow<UserRole?> = dataStore.data.map { prefs ->
+    override val userRole: Flow<UserRole?> = dataStore.data.map { prefs ->
         prefs[KEY_ROLE]?.let { runCatching { UserRole.valueOf(it) }.getOrNull() }
     }
 
-    suspend fun setUserRole(role: UserRole) {
+    override suspend fun setUserRole(role: UserRole) {
         dataStore.edit { it[KEY_ROLE] = role.name }
     }
 
-    suspend fun clearUserRole() {
+    override suspend fun clearUserRole() {
         dataStore.edit { it.remove(KEY_ROLE) }
     }
 
-    val isDarkTheme: Flow<Boolean> = dataStore.data.map { prefs ->
+    override val isDarkTheme: Flow<Boolean> = dataStore.data.map { prefs ->
         prefs[KEY_DARK_THEME] ?: false
     }
 
-    suspend fun setDarkTheme(enabled: Boolean) {
+    override suspend fun setDarkTheme(enabled: Boolean) {
         dataStore.edit { it[KEY_DARK_THEME] = enabled }
     }
 }

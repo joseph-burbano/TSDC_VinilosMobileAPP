@@ -3,6 +3,7 @@ package com.uniandes.vinilos
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uniandes.vinilos.model.UserRole
+import com.uniandes.vinilos.repository.IPreferencesRepository
 import com.uniandes.vinilos.repository.PreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,7 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepository: IPreferencesRepository
 ) : ViewModel() {
 
     val userRole: StateFlow<UserRole?> = preferencesRepository.userRole

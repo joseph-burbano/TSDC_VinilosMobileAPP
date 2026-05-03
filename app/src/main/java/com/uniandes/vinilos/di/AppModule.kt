@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.uniandes.vinilos.repository.IPreferencesRepository
 import com.uniandes.vinilos.repository.PreferencesRepository
 import dagger.Module
 import dagger.Provides
@@ -29,5 +30,5 @@ object AppModule {
     @Singleton
     fun providePreferencesRepository(
         dataStore: DataStore<Preferences>
-    ): PreferencesRepository = PreferencesRepository(dataStore)
+    ): IPreferencesRepository = PreferencesRepository(dataStore)
 }

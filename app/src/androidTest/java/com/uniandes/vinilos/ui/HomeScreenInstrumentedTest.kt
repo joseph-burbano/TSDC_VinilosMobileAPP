@@ -6,11 +6,13 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.compose.ui.test.onFirst
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.Performer
+import com.uniandes.vinilos.model.UserRole
 import com.uniandes.vinilos.repository.AlbumRepository
 import com.uniandes.vinilos.repository.ArtistRepository
 import com.uniandes.vinilos.repository.CollectorRepository
@@ -92,7 +94,7 @@ class HomeScreenInstrumentedTest {
         )
     }
 
-    // ── Carga ─────────────────────────────────────────────────────────────────
+    // ─── Carga ────────────────────────────────────────────────────────────────
 
     @Test
     fun homeScreen_muestraHeader_cuandoCarga() {
@@ -103,13 +105,17 @@ class HomeScreenInstrumentedTest {
                 HomeScreen(
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
-                    collectorViewModel = collectorVm
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR
                 )
             }
         }
 
         composeTestRule.onNodeWithText("RESUMEN").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Vinilos").assertIsDisplayed()
+        composeTestRule
+            .onAllNodesWithText("Vinilos")
+            .onFirst()
+            .assertIsDisplayed()
     }
 
     @Test
@@ -121,7 +127,8 @@ class HomeScreenInstrumentedTest {
                 HomeScreen(
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
-                    collectorViewModel = collectorVm
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -146,7 +153,8 @@ class HomeScreenInstrumentedTest {
                 HomeScreen(
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
-                    collectorViewModel = collectorVm
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -156,7 +164,8 @@ class HomeScreenInstrumentedTest {
                 .onAllNodes(hasTestTag("home_consulted_artists_row"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithTag("home_consulted_artists_row").assertExists() // ← assertExists
+
+        composeTestRule.onNodeWithTag("home_consulted_artists_row").assertExists()
     }
 
     @Test
@@ -168,7 +177,8 @@ class HomeScreenInstrumentedTest {
                 HomeScreen(
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
-                    collectorViewModel = collectorVm
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -178,6 +188,7 @@ class HomeScreenInstrumentedTest {
                 .onAllNodes(hasTestTag("home_recommended_artists_row"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
+
         composeTestRule.onNodeWithTag("home_recommended_artists_row").assertExists()
     }
 
@@ -190,7 +201,8 @@ class HomeScreenInstrumentedTest {
                 HomeScreen(
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
-                    collectorViewModel = collectorVm
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -200,12 +212,13 @@ class HomeScreenInstrumentedTest {
                 .onAllNodes(hasTestTag("home_collectors_row"))
                 .fetchSemanticsNodes().isNotEmpty()
         }
+
         composeTestRule.onNodeWithTag("home_collectors_row").assertExists()
         composeTestRule.onNodeWithTag("home_collector_100").assertExists()
         composeTestRule.onNodeWithTag("home_collector_101").assertExists()
     }
 
-    // ── Navegación ────────────────────────────────────────────────────────────
+    // ─── Navegación ───────────────────────────────────────────────────────────
 
     @Test
     fun homeScreen_clickEnAlbum_invocaCallbackConIdCorrecto() {
@@ -218,6 +231,7 @@ class HomeScreenInstrumentedTest {
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
                     collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR,
                     onAlbumClick = { clickedId = it }
                 )
             }
@@ -242,7 +256,8 @@ class HomeScreenInstrumentedTest {
                 HomeScreen(
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
-                    collectorViewModel = collectorVm
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -266,7 +281,8 @@ class HomeScreenInstrumentedTest {
                 HomeScreen(
                     albumViewModel = albumVm,
                     artistViewModel = artistVm,
-                    collectorViewModel = collectorVm
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -281,5 +297,38 @@ class HomeScreenInstrumentedTest {
             .onAllNodes(hasTestTag("home_artist_101"))
             .onFirst()
             .assertExists()
+    }
+
+    // ─── Nuevo: Rol COLLECTOR renderiza correctamente ─────────────────────────
+
+    @Test
+    fun homeScreen_renderizaCorrectamente_conRolCollector() {
+        val (albumVm, artistVm, collectorVm) = createViewModels()
+
+        composeTestRule.setContent {
+            VinilosTheme {
+                HomeScreen(
+                    albumViewModel = albumVm,
+                    artistViewModel = artistVm,
+                    collectorViewModel = collectorVm,
+                    userRole = UserRole.COLLECTOR
+                )
+            }
+        }
+
+        // El header siempre es visible independiente del rol
+        composeTestRule.onNodeWithText("RESUMEN").assertIsDisplayed()
+        composeTestRule
+            .onAllNodesWithText("Vinilos")
+            .onFirst()
+            .assertIsDisplayed()
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag("home_albums_row"))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithTag("home_albums_row").assertIsDisplayed()
     }
 }

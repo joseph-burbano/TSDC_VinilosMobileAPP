@@ -245,13 +245,17 @@ fun AppNavigation(
                     AlbumDetailScreen(
                         albumId = albumId,
                         viewModel = albumViewModel,
-                        onBack = { navController.navigateUp() }
+                        onBack = { navController.navigateUp() },
+                        onMenuClick = onMenuClick,
+                        userRole = userRole 
                     )
                 }
                 composable(Screen.ArtistList.route) {
                     ArtistListScreen(
                         viewModel = artistViewModel,
-                        onArtistClick = { navController.navigate(Screen.ArtistDetail.createRoute(it)) }
+                        onArtistClick = { navController.navigate(Screen.ArtistDetail.createRoute(it)) },
+                        onMenuClick = onMenuClick,
+                        userRole = userRole
                     )
                 }
                 composable(
@@ -262,13 +266,16 @@ fun AppNavigation(
                     ArtistDetailScreen(
                         artistId = artistId,
                         viewModel = artistViewModel,
-                        onBack = { navController.navigateUp() }
+                        onBack = { navController.navigateUp() },
+                        userRole = userRole 
                     )
                 }
                 composable(Screen.CollectorList.route) {
                     CollectorListScreen(
                         viewModel = collectorViewModel,
-                        onCollectorClick = { navController.navigate(Screen.CollectorDetail.createRoute(it)) }
+                        onCollectorClick = { navController.navigate(Screen.CollectorDetail.createRoute(it)) },
+                        onMenuClick = onMenuClick,
+                        userRole = userRole
                     )
                 }
                 composable(
@@ -279,7 +286,9 @@ fun AppNavigation(
                     CollectorDetailScreen(
                         collectorId = collectorId,
                         viewModel = collectorViewModel,
-                        onBack = { navController.navigateUp() }
+                        onBack = { navController.navigateUp() },
+                        onMenuClick = onMenuClick,
+                        userRole = userRole 
                     )
                 }
             }

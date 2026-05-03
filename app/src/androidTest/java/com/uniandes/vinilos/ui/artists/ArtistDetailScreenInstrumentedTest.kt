@@ -9,6 +9,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.model.Performer
+import com.uniandes.vinilos.model.UserRole
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import io.mockk.every
 import io.mockk.mockk
@@ -24,7 +25,6 @@ class ArtistDetailScreenInstrumentedTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    // Datos de prueba: músico con un álbum
     private val sampleAlbum = Album(
         id = 10, name = "Kind of Blue", cover = "", releaseDate = "1959-08-17",
         description = "Jazz masterpiece", genre = "Jazz", recordLabel = "Columbia"
@@ -34,7 +34,6 @@ class ArtistDetailScreenInstrumentedTest {
         birthDate = "1926-05-26", albums = listOf(sampleAlbum)
     )
 
-    // Helper: crea un ViewModel mockeado con estado configurado
     private fun mockViewModel(
         isLoading: Boolean = false,
         performer: Performer? = samplePerformer
@@ -45,13 +44,19 @@ class ArtistDetailScreenInstrumentedTest {
         return vm
     }
 
+    // ─── HU04 - T1: Spinner mientras isLoading = true ────────────────────────
+
     @Test
     fun detailScreen_muestraIndicadorDeCarga_cuandoIsLoadingEsTrue() {
         val vm = mockViewModel(isLoading = true)
 
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistDetailScreen(artistId = 1, viewModel = vm)
+                ArtistDetailScreen(
+                    artistId = 1,
+                    viewModel = vm,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -59,6 +64,8 @@ class ArtistDetailScreenInstrumentedTest {
             .onNodeWithTag(ArtistDetailTestTags.LOADING)
             .assertIsDisplayed()
     }
+
+    // ─── HU04 - T2: Spinner cuando performer es null ──────────────────────────
 
     @Test
     fun detailScreen_muestraIndicadorDeCarga_cuandoPerformerEsNull() {
@@ -66,7 +73,11 @@ class ArtistDetailScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistDetailScreen(artistId = 999, viewModel = vm)
+                ArtistDetailScreen(
+                    artistId = 999,
+                    viewModel = vm,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -75,13 +86,19 @@ class ArtistDetailScreenInstrumentedTest {
             .assertIsDisplayed()
     }
 
+    // ─── HU04 - T3: Nombre del artista visible tras carga ─────────────────────
+
     @Test
     fun detailScreen_muestraNombreDelArtista_cuandoCargaExitosa() {
         val vm = mockViewModel()
 
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistDetailScreen(artistId = samplePerformer.id, viewModel = vm)
+                ArtistDetailScreen(
+                    artistId = samplePerformer.id,
+                    viewModel = vm,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -98,13 +115,19 @@ class ArtistDetailScreenInstrumentedTest {
             .assertIsDisplayed()
     }
 
+    // ─── HU04 - T4: Sección discografía visible con álbumes ──────────────────
+
     @Test
     fun detailScreen_muestraSectionDiscografia_cuandoArtistaTieneAlbumes() {
         val vm = mockViewModel()
 
         composeTestRule.setContent {
             VinilosTheme {
-                ArtistDetailScreen(artistId = samplePerformer.id, viewModel = vm)
+                ArtistDetailScreen(
+                    artistId = samplePerformer.id,
+                    viewModel = vm,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -125,6 +148,8 @@ class ArtistDetailScreenInstrumentedTest {
             .assertExists()
     }
 
+    // ─── HU04 - T5: Botón atrás invoca callback ───────────────────────────────
+
     @Test
     fun detailScreen_botonAtras_invocaCallbackOnBack() {
         var backInvoked = false
@@ -135,7 +160,8 @@ class ArtistDetailScreenInstrumentedTest {
                 ArtistDetailScreen(
                     artistId = samplePerformer.id,
                     viewModel = vm,
-                    onBack = { backInvoked = true }
+                    onBack = { backInvoked = true },
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -148,5 +174,32 @@ class ArtistDetailScreenInstrumentedTest {
 
         composeTestRule.onNodeWithTag(ArtistDetailTestTags.BACK).performClick()
         assertTrue(backInvoked)
+    }
+
+    // ─── HU04 - T6 (nuevo): Rol COLLECTOR no rompe la pantalla ───────────────
+
+    @Test
+    fun detailScreen_renderizaCorrectamente_conRolCollector() {
+        val vm = mockViewModel()
+
+        composeTestRule.setContent {
+            VinilosTheme {
+                ArtistDetailScreen(
+                    artistId = samplePerformer.id,
+                    viewModel = vm,
+                    userRole = UserRole.COLLECTOR
+                )
+            }
+        }
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag(ArtistDetailTestTags.SCREEN))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule
+            .onNodeWithTag(ArtistDetailTestTags.NAME)
+            .assertIsDisplayed()
     }
 }

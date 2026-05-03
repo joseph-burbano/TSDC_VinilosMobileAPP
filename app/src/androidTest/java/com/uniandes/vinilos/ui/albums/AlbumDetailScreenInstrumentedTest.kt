@@ -11,6 +11,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.model.Track
+import com.uniandes.vinilos.model.UserRole
 import com.uniandes.vinilos.repository.AlbumRepository
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import io.mockk.coEvery
@@ -56,6 +57,8 @@ class AlbumDetailScreenInstrumentedTest {
         return AlbumViewModel(repo)
     }
 
+    // ─── HU02 - T1: Estado de carga ──────────────────────────────────────────
+
     @Test
     fun detailScreen_muestraSpinnerMientrasCarga() {
         val viewModel = viewModelWith {
@@ -67,12 +70,19 @@ class AlbumDetailScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumDetailScreen(albumId = sampleAlbum.id, viewModel = viewModel)
+                AlbumDetailScreen(
+                    albumId = sampleAlbum.id,
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
+        // Mientras carga, el Scaffold con SCREEN tag aún no se renderiza
         composeTestRule.onNodeWithTag(AlbumDetailTestTags.SCREEN).assertDoesNotExist()
     }
+
+    // ─── HU02 - T2: Carga exitosa muestra información del álbum ──────────────
 
     @Test
     fun detailScreen_renderizaInformacionDelAlbum_cuandoCargaExitosa() {
@@ -82,7 +92,11 @@ class AlbumDetailScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumDetailScreen(albumId = sampleAlbum.id, viewModel = viewModel)
+                AlbumDetailScreen(
+                    albumId = sampleAlbum.id,
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -102,6 +116,8 @@ class AlbumDetailScreenInstrumentedTest {
         composeTestRule.onNodeWithText("Pedro Navaja").assertExists()
     }
 
+    // ─── HU02 - T3: Botón volver funciona ────────────────────────────────────
+
     @Test
     fun detailScreen_botonVolver_invocaCallbackOnBack() {
         var backInvoked = false
@@ -114,7 +130,8 @@ class AlbumDetailScreenInstrumentedTest {
                 AlbumDetailScreen(
                     albumId = sampleAlbum.id,
                     viewModel = viewModel,
-                    onBack = { backInvoked = true }
+                    onBack = { backInvoked = true },
+                    userRole = UserRole.VISITOR
                 )
             }
         }
@@ -129,6 +146,8 @@ class AlbumDetailScreenInstrumentedTest {
         assertTrue(backInvoked)
     }
 
+    // ─── HU02 - T4: Error de red muestra mensaje ──────────────────────────────
+
     @Test
     fun detailScreen_muestraMensajeDeError_cuandoFallaElServicio() {
         val viewModel = viewModelWith {
@@ -137,7 +156,11 @@ class AlbumDetailScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumDetailScreen(albumId = sampleAlbum.id, viewModel = viewModel)
+                AlbumDetailScreen(
+                    albumId = sampleAlbum.id,
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -152,6 +175,8 @@ class AlbumDetailScreenInstrumentedTest {
             .assertIsDisplayed()
     }
 
+    // ─── HU02 - T5: ID inexistente muestra mensaje ────────────────────────────
+
     @Test
     fun detailScreen_muestraAlbumNoEncontrado_cuandoIdNoExiste() {
         val viewModel = viewModelWith {
@@ -160,7 +185,11 @@ class AlbumDetailScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumDetailScreen(albumId = 9999, viewModel = viewModel)
+                AlbumDetailScreen(
+                    albumId = 9999,
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -171,5 +200,32 @@ class AlbumDetailScreenInstrumentedTest {
         }
 
         composeTestRule.onNodeWithText("Álbum no encontrado").assertIsDisplayed()
+    }
+
+    // ─── HU02 - T6 (nuevo): Rol COLLECTOR no rompe la pantalla ───────────────
+
+    @Test
+    fun detailScreen_renderizaCorrectamente_conRolCollector() {
+        val viewModel = viewModelWith {
+            coEvery { getAlbums() } returns listOf(sampleAlbum)
+        }
+
+        composeTestRule.setContent {
+            VinilosTheme {
+                AlbumDetailScreen(
+                    albumId = sampleAlbum.id,
+                    viewModel = viewModel,
+                    userRole = UserRole.COLLECTOR
+                )
+            }
+        }
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag(AlbumDetailTestTags.SCREEN))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        composeTestRule.onNodeWithText("Poeta del pueblo").assertIsDisplayed()
     }
 }
