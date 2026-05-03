@@ -50,20 +50,25 @@ fun CollectorListScreen(
 
     var searchQuery by remember { mutableStateOf("") }
 
-    val displayCollectors = if (searchQuery.isBlank()) {
-        visibleCollectors
-    } else {
-        allCollectors.filter {
-            it.name.contains(searchQuery, ignoreCase = true) ||
-            it.email.orEmpty().contains(searchQuery, ignoreCase = true) ||
-            it.favoritePerformers.any { p ->
-                p.name.contains(searchQuery, ignoreCase = true)
+    // remember evita re-filtrar la lista en cada recomposition cuando cambian otras
+    // partes del estado (focus del TextField, animaciones del PullToRefresh).
+    val displayCollectors = remember(visibleCollectors, allCollectors, searchQuery) {
+        if (searchQuery.isBlank()) {
+            visibleCollectors
+        } else {
+            allCollectors.filter {
+                it.name.contains(searchQuery, ignoreCase = true) ||
+                it.email.orEmpty().contains(searchQuery, ignoreCase = true) ||
+                it.favoritePerformers.any { p ->
+                    p.name.contains(searchQuery, ignoreCase = true)
+                }
             }
         }
     }
 
-    val filteredCount = if (searchQuery.isBlank()) allCollectors.size
-                        else displayCollectors.size
+    val filteredCount = remember(searchQuery, allCollectors, displayCollectors) {
+        if (searchQuery.isBlank()) allCollectors.size else displayCollectors.size
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -157,7 +162,10 @@ fun CollectorListScreen(
                             shape = RoundedCornerShape(8.dp)
                         )
                     }
-                    items(displayCollectors) { collector ->
+                    // key estable: Compose puede preservar el estado interno de cada
+                    // CollectorItem (estado de animaciones, recomposiciones más baratas)
+                    // cuando la lista se reordena o se filtra.
+                    items(displayCollectors, key = { it.id }) { collector ->
                         CollectorItem(
                             collector = collector,
                             onClick = { onCollectorClick(collector.id) }

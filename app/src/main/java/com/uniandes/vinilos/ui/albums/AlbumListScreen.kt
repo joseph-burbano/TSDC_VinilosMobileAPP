@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.ui.components.AlbumCover
@@ -60,10 +61,13 @@ fun AlbumListScreen(
     viewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(LocalContext.current)),
     onAlbumClick: (Int) -> Unit = {}
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val isRefreshing by viewModel.isRefreshing.collectAsState()
-    val visibleAlbums by viewModel.visibleAlbums.collectAsState(initial = emptyList())
-    val hasMore by viewModel.hasMore.collectAsState(initial = false)
+    // collectAsStateWithLifecycle suspende la recolección cuando la pantalla pasa a STOPPED,
+    // evitando trabajo en background y previniendo escenarios pre-ANR si el ViewModel emite
+    // mientras la app está en segundo plano.
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
+    val visibleAlbums by viewModel.visibleAlbums.collectAsStateWithLifecycle()
+    val hasMore by viewModel.hasMore.collectAsStateWithLifecycle()
 
     when (val state = uiState) {
         is AlbumsUiState.Loading -> SkeletonState()
@@ -281,7 +285,9 @@ private fun AlbumListContent(
                             label = { Text("Todos") }
                         )
                     }
-                    items(allGenres) { genre ->
+                    // key estable también en chips de género para evitar recrear
+                    // FilterChip al cambiar la selección.
+                    items(allGenres, key = { it }) { genre ->
                         FilterChip(
                             selected = selectedGenre == genre,
                             onClick = { selectedGenre = if (selectedGenre == genre) null else genre },
@@ -315,7 +321,9 @@ private fun AlbumListContent(
                     }
                 }
             } else {
-                items(displayAlbums) { album ->
+                // key = { album.id } reusa composables al filtrar/buscar y preserva el
+                // estado interno de cada AlbumCard (animaciones, eventos pendientes).
+                items(displayAlbums, key = { it.id }) { album ->
                     AlbumCard(album = album, onClick = { onAlbumClick(album.id) })
                 }
                 

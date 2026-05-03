@@ -24,9 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.size.Scale
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 
@@ -38,24 +40,31 @@ fun ArtistListScreen(
         factory = ArtistViewModel.factory(LocalContext.current)
     )
 ) {
-    val visiblePerformers by viewModel.visiblePerformers.collectAsState(initial = emptyList())
-    val hasMore by viewModel.hasMore.collectAsState(initial = false)
-    val isLoading by viewModel.isLoading.collectAsState()
-    val error by viewModel.error.collectAsState()
+    // collectAsStateWithLifecycle libera la suscripción al pasar a STOPPED, ahorrando
+    // batería y evitando reposiciones innecesarias del ViewModel a la UI cuando la
+    // pantalla no está visible.
+    val visiblePerformers by viewModel.visiblePerformers.collectAsStateWithLifecycle()
+    val hasMore by viewModel.hasMore.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
 
     var searchQuery by remember { mutableStateOf("") }
+
+    val allPerformers by viewModel.performers.collectAsStateWithLifecycle()
     
-    val allPerformers by viewModel.performers.collectAsState()
-    
-    // Si hay búsqueda, mostramos todos los resultados que coincidan.
-    // Si no hay búsqueda, mostramos los paginados (visiblePerformers).
-    val displayPerformers = if (searchQuery.isBlank()) {
-        visiblePerformers
-    } else {
-        allPerformers.filter { it.name.contains(searchQuery, ignoreCase = true) }
+    // remember evita re-filtrar en cada recomposition: solo cuando cambia el query
+    // o la lista upstream.
+    val displayPerformers = remember(visiblePerformers, allPerformers, searchQuery) {
+        if (searchQuery.isBlank()) {
+            visiblePerformers
+        } else {
+            allPerformers.filter { it.name.contains(searchQuery, ignoreCase = true) }
+        }
     }
 
-    val filteredCount = if (searchQuery.isBlank()) allPerformers.size else displayPerformers.size
+    val filteredCount = remember(searchQuery, allPerformers, displayPerformers) {
+        if (searchQuery.isBlank()) allPerformers.size else displayPerformers.size
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -135,7 +144,11 @@ fun ArtistListScreen(
                         )
                     }
 
-                    itemsIndexed(displayPerformers) { _, performer ->
+                    // key estable: reduce trabajo de Compose al reordenar o filtrar.
+                    itemsIndexed(
+                        items = displayPerformers,
+                        key = { _, performer -> performer.id }
+                    ) { _, performer ->
                         PerformerGridItem(
                             performer = performer,
                             onClick = { onArtistClick(performer.id) }
@@ -168,17 +181,24 @@ fun ArtistListScreen(
 
 @Composable
 fun PerformerGridItem(performer: Performer, onClick: () -> Unit) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
             .testTag("artist_item_${performer.id}")
     ) {
+        // scale = FILL le indica a Coil que decodifique al tamaño que ocupa el composable
+        // (no al tamaño nativo de la imagen del servidor): bitmap mucho más liviano,
+        // listas de muchos artistas no inflan el heap.
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(performer.image)
-                .crossfade(true)
-                .build(),
+            model = remember(performer.image) {
+                ImageRequest.Builder(context)
+                    .data(performer.image)
+                    .crossfade(true)
+                    .scale(Scale.FILL)
+                    .build()
+            },
             contentDescription = performer.name,
             contentScale = ContentScale.Crop,
             placeholder = painterResource(android.R.drawable.ic_menu_gallery),

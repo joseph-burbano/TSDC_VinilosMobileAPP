@@ -1,0 +1,1337 @@
+﻿Vinilos Mobile App - Profile report
+DeviceLabel: poco-f5-pro
+Timestamp:   20260502-172638
+Model:       23013PC75G
+Android:     15
+ABI:         arm64-v8a
+Package:     com.uniandes.vinilos
+
+==================================================
+  1. MEMORIA (dumpsys meminfo)
+==================================================
+
+Applications Memory Usage (in Kilobytes):
+Uptime: 124565365 Realtime: 170157311
+
+** MEMINFO in pid 12968 [com.uniandes.vinilos] **
+                   Pss  Private  Private  SwapPss      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    22224    22140       48       58    23220    41248    32501     4035
+  Dalvik Heap    20316    20284        0       54    21356    31091     7773    23318
+ Dalvik Other    16370     6424        0        0    26560                           
+        Stack     3072     3072        0        0     3080                           
+       Ashmem       19        0        0        0      768                           
+      Gfx dev     3940     3940        0        0     3944                           
+    Other dev      172        0        4        0     2452                           
+     .so mmap     4364      608      312        5    60544                           
+    .jar mmap     2361        0      372        0    53812                           
+    .apk mmap      189        0       68        0     1892                           
+    .ttf mmap      621        0      288        0     1444                           
+    .dex mmap    63461    63456        0        0    64288                           
+    .oat mmap       15        0        0        0     2132                           
+    .art mmap    10583     8592     1348       60    23300                           
+   Other mmap      282       36      152        0     1816                           
+   EGL mtrack    48600    48600        0        0    48600                           
+    GL mtrack     1296     1296        0        0     1296                           
+      Unknown     1136      884      232        5     1672                           
+        TOTAL   199203   179332     2824      182   342176    72339    40274    27353
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    30224                          44656
+         Native Heap:    22140                          23220
+                Code:    65224                         204120
+               Stack:     3072                           3080
+            Graphics:    53836                          53840
+       Private Other:     7660
+              System:    17047
+             Unknown:                                   13260
+ 
+           TOTAL PSS:   199203            TOTAL RSS:   342176       TOTAL SWAP PSS:      182
+ 
+ Objects
+               Views:       13         ViewRootImpl:        1
+         AppContexts:        5           Activities:        1
+              Assets:       56        AssetManagers:        0
+       Local Binders:       21        Proxy Binders:       65
+       Parcel memory:       11         Parcel count:       44
+    Death Recipients:        2             WebViews:        0
+ 
+ SQL
+         MEMORY_USED:      200
+  PAGECACHE_OVERFLOW:       79          MALLOC_SIZE:       46
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b) cache hits cache misses cache size  Dbname
+PER CONNECTION STATS
+         4       28             18    48   122     1  /data/user/0/com.uniandes.vinilos/databases/vinilos_database
+         4        8                    0     0     0    (attached) temp
+         4       28             32     5    23     1  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (1)
+POOL STATS
+     cache hits  cache misses    cache size  Dbname
+             53           149           202  /data/user/0/com.uniandes.vinilos/databases/vinilos_database
+
+==================================================
+  2. GPU / RENDER (dumpsys gfxinfo - jank, frame stats)
+==================================================
+
+Applications Graphics Acceleration Info:
+Uptime: 124565477 Realtime: 170157423
+
+** Graphics info for pid 12968 [com.uniandes.vinilos] **
+
+Stats since: 124534906593482ns
+Total frames rendered: 1863
+Janky frames: 50 (2.68%)
+Janky frames (legacy): 210 (11.27%)
+50th percentile: 8ms
+90th percentile: 10ms
+95th percentile: 16ms
+99th percentile: 26ms
+Number Missed Vsync: 13
+Number High input latency: 3016
+Number Slow UI thread: 48
+Number Slow bitmap uploads: 0
+Number Slow issue draw commands: 11
+Number Frame deadline missed: 50
+Number Frame deadline missed (legacy): 58
+HISTOGRAM: 5ms=391 6ms=150 7ms=155 8ms=494 9ms=451 10ms=51 11ms=22 12ms=12 13ms=6 14ms=5 15ms=9 16ms=28 17ms=42 18ms=4 19ms=4 20ms=6 21ms=4 22ms=2 23ms=3 24ms=2 25ms=1 26ms=3 27ms=3 28ms=0 29ms=1 30ms=0 31ms=2 32ms=1 34ms=1 36ms=0 38ms=1 40ms=1 42ms=1 44ms=0 46ms=0 48ms=1 53ms=0 57ms=1 61ms=1 65ms=0 69ms=1 73ms=1 77ms=0 81ms=0 85ms=0 89ms=0 93ms=0 97ms=0 101ms=0 105ms=0 109ms=0 113ms=0 117ms=0 121ms=0 125ms=0 129ms=0 133ms=0 150ms=0 200ms=0 250ms=0 300ms=1 350ms=1 400ms=0 450ms=0 500ms=0 550ms=0 600ms=0 650ms=0 700ms=0 750ms=0 800ms=0 850ms=0 900ms=0 950ms=0 1000ms=0 1050ms=0 1100ms=0 1150ms=0 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=0 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=0 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+50th gpu percentile: 3ms
+90th gpu percentile: 7ms
+95th gpu percentile: 7ms
+99th gpu percentile: 10ms
+GPU HISTOGRAM: 1ms=53 2ms=552 3ms=403 4ms=167 5ms=169 6ms=202 7ms=241 8ms=25 9ms=25 10ms=24 11ms=2 12ms=0 13ms=0 14ms=0 15ms=0 16ms=0 17ms=0 18ms=0 19ms=0 20ms=0 21ms=0 22ms=0 23ms=0 24ms=0 25ms=0 4950ms=0
+
+Pipeline=Skia (OpenGL)
+Memory policy:
+  Max surface area: 2592000
+  Max resource usage: 248.83MB (x48)
+  Background retention: 50% (altUiHidden = true)
+  GPU Context timeout: 10
+Contexts: 1 (stopped = 0)
+CPU Caches:
+  Glyph Cache: 555.01 KB (1 entry)
+  Glyph Count: 84 
+Total CPU memory usage:
+  568334 bytes, 555.01 KB (0.00 bytes is purgeable)
+GPU Caches:
+  Other:
+    Other: 69.78 KB (1 entry)
+    Buffer Object: 2.50 KB (4 entries)
+    StencilAttachment: 31.00 KB (5 entries)
+  Scratch:
+    RenderTarget: 42.12 MB (15 entries)
+    Texture: 2.00 MB (2 entries)
+    Buffer Object: 78.00 KB (2 entries)
+  Image:
+    Texture: 81.89 KB (19 entries)
+Total GPU memory usage:
+  46529584 bytes, 44.37 MB (42.18 MB is purgeable)
+
+GraphicBufferAllocator buffers:
+        Handle |        Size |     W (Stride) x H | Layers |   Format |      Usage | Requestor
+0xb400007d15f6a770 | 10200.00 KiB | 1080 (1088) x 2400 |      1 |        1 | 0x10000900 | VRI[MainActivity]#0(BLAST Consumer)0
+0xb400007d15f6afe0 | 10200.00 KiB | 1080 (1088) x 2400 |      1 |        1 | 0x10000900 | VRI[MainActivity]#0(BLAST Consumer)0
+0xb400007d15f6b3d0 | 10200.00 KiB | 1080 (1088) x 2400 |      1 |        1 | 0x10000900 | VRI[MainActivity]#0(BLAST Consumer)0
+0xb400007d15f78240 | 10200.00 KiB | 1080 (1088) x 2400 |      1 |        1 | 0x10000900 | VRI[MainActivity]#0(BLAST Consumer)0
+0xb400007d15f7ffb0 | 3577.50 KiB |  954 ( 960) x  954 |      1 |        1 | 0x     100 | AHardwareBuffer pid [12968]
+0xb400007d15f8a7e0 | 2665.00 KiB |  820 ( 832) x  820 |      1 |        1 | 0x     100 | AHardwareBuffer pid [12968]
+0xb400007d15f8fbb0 | 1244.25 KiB |  564 ( 576) x  553 |      1 |        1 | 0x     100 | AHardwareBuffer pid [12968]
+Total allocated by GraphicBufferAllocator (estimate): 48286.75 KB
+Imported gralloc buffers:
++ name:AHardwareBuffer pid [12968], id:46596, size:2668.00KiB, w/h:820x820, usage: 0x100, req fmt:1, fourcc/mod:875708993/0, dataspace: 0x0, compressed: false
+	planes: R/G/B/A:	 w/h:820x820, stride:3328 bytes, size:2732032
++ name:VRI[MainActivity]#0(BLAST Consumer)0, id:46595, size:10276.00KiB, w/h:1080x2400, usage: 0x10000900, req fmt:1, fourcc/mod:875708993/0, dataspace: 0x8810000, compressed: true
+	planes: R/G/B/A:	 w/h:1080x2400, stride:4352 bytes, size:10522624
++ name:VRI[MainActivity]#0(BLAST Consumer)0, id:46594, size:10276.00KiB, w/h:1080x2400, usage: 0x10000900, req fmt:1, fourcc/mod:875708993/0, dataspace: 0x8810000, compressed: true
+	planes: R/G/B/A:	 w/h:1080x2400, stride:4352 bytes, size:10522624
++ name:AHardwareBuffer pid [12968], id:46597, size:3580.00KiB, w/h:954x954, usage: 0x100, req fmt:1, fourcc/mod:875708993/0, dataspace: 0x0, compressed: false
+	planes: R/G/B/A:	 w/h:954x954, stride:3840 bytes, size:3665920
++ name:VRI[MainActivity]#0(BLAST Consumer)0, id:46593, size:10276.00KiB, w/h:1080x2400, usage: 0x10000900, req fmt:1, fourcc/mod:875708993/0, dataspace: 0x8810000, compressed: true
+	planes: R/G/B/A:	 w/h:1080x2400, stride:4352 bytes, size:10522624
++ name:AHardwareBuffer pid [12968], id:46598, size:1248.00KiB, w/h:564x553, usage: 0x100, req fmt:1, fourcc/mod:875708993/0, dataspace: 0x0, compressed: false
+	planes: R/G/B/A:	 w/h:564x553, stride:2304 bytes, size:1277952
++ name:VRI[MainActivity]#0(BLAST Consumer)0, id:46592, size:10276.00KiB, w/h:1080x2400, usage: 0x10000900, req fmt:1, fourcc/mod:875708993/0, dataspace: 0x8810000, compressed: true
+	planes: R/G/B/A:	 w/h:1080x2400, stride:4352 bytes, size:10522624
+Total imported by gralloc: 48600.00KiB
+
+Profile data in ms:
+
+	com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@b4ca252 (visibility=0)
+View hierarchy:
+
+  com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@b4ca252
+  13 views, 28.50 kB of render nodes
+
+
+Total ViewRootImpl   : 1
+Total attached Views : 13
+Total RenderNode     : 28.50 kB (used) / 72.01 kB (capacity)
+
+
+==================================================
+  3. CPU INSTANTANEO (top -n 1 -p del PID de la app)
+==================================================
+
+[s[999C[999B[6n[u[H[J[?25l[H[J[s[999C[999B[6n[uTasks: 1 total,   0 running,   1 sleeping,   0 stopped,   0 zombie
+
+  Mem:    11159M total,    11043M used,      116M free,        4M buffers
+
+ Swap:    12287M total,     3609M used,     8678M free,     3940M cached
+
+800%cpu  19%user   0%nice  63%sys 693%idle  11%iow   7%irq   7%sirq   0%host
+
+[7m  PID USER         PR  NI VIRT  RES  SHR S[%CPU] %MEM     TIME+ ARGS            [0m
+
+12968 u0_a554      10 -10  17G 273M 143M S  0.0   2.4   0:16.67 com.uniandes.vi+
+[?25h[0m[999H[K[?25h[?25h[0m[999H[K
+
+==================================================
+  4. BATERIA / ENERGIA (dumpsys batterystats - filtrado al package)
+==================================================
+
+Statistics since last charge:
+  System starts: 0, currently on battery: false
+  Estimated battery capacity: 5160 mAh
+  Time on battery: 0ms (0.0%) realtime, 0ms (--%) uptime
+  Time on battery screen off: 0ms (--%) realtime, 0ms (--%) uptime
+  Time on battery screen doze: 0ms (--%)
+  Total run time: 33s 145ms realtime, 33s 145ms uptime
+  Charge time remaining: 1m 9s 0ms 
+  Discharge: 0 mAh
+  Screen off discharge: 0 mAh
+  Screen doze discharge: 0 mAh
+  Screen on discharge: 0 mAh
+  Device light doze discharge: 0 mAh
+  Device deep doze discharge: 0 mAh
+  Start clock time: 2026-05-02-17-26-54
+  Screen on: 0ms (--%) 0x, Interactive: 0ms (--%)
+  Screen brightnesses: (no activity)
+  Connectivity changes: 2
+
+  CONNECTIVITY POWER SUMMARY START
+  Logging duration for connectivity statistics: 0ms 
+  Cellular Statistics:
+     Cellular kernel active time: 0ms (--%)
+     Cellular Sleep time:  0ms (--%)
+     Cellular Idle time:   0ms (--%)
+     Cellular Rx time:     0ms (--%)
+     Cellular Tx time:     
+       less than 0dBm:  0ms (--%)
+       0dBm to 8dBm:  0ms (--%)
+       8dBm to 15dBm:  0ms (--%)
+       15dBm to 20dBm:  0ms (--%)
+       above 20dBm:  0ms (--%)
+     Active Cellular Radio Access Technology Breakdown:
+       (no activity)
+     Cellular data received: 0B
+     Cellular data sent: 0B
+     Cellular packets received: 0
+     Cellular packets sent: 0
+     Cellular Radio Access Technology: (no activity)
+     Cellular Rx signal strength (RSRP): (no activity)
+  Wifi Statistics:
+     Wifi kernel active time: 0ms (--%)
+     WiFi Scan time:  0ms (--%)
+     WiFi Sleep time:  0ms (--%)
+     WiFi Idle time:   0ms (--%)
+     WiFi Rx time:     0ms (--%)
+     WiFi Tx time:     0ms (--%)
+     Wifi data received: 0B
+     Wifi data sent: 0B
+     Wifi packets received: 0
+     Wifi packets sent: 0
+     Wifi states: (no activity)
+     Wifi supplicant states: (no activity)
+     Wifi Rx signal strength (RSSI): (no activity)
+  GPS Statistics:
+     GPS signal quality (Top 4 Average CN0):
+      poor (less than 20 dBHz): 0ms (--%) 
+      good (greater than 20 dBHz): 0ms (--%) 
+  CONNECTIVITY POWER SUMMARY END
+
+  Bluetooth total received: 0B, sent: 0B
+  Bluetooth scan time: 0ms 
+     Bluetooth Idle time:   0ms (--%)
+     Bluetooth Rx time:     0ms (--%)
+     Bluetooth Tx time:     0ms (--%)
+
+  Device battery use since last full charge
+    Amount discharged (lower bound): 0
+    Amount discharged (upper bound): 0
+    Amount discharged while screen on: 0
+    Amount discharged while screen off: 0
+    Amount discharged while screen doze: 0
+
+  Estimated power use (mAh):
+    Capacity: 5160, Computed drain: 0, actual drain: 0
+    Global
+
+  CPU scaling:  policy0: 300000 441600 556800 691200 806400 940800 1056000 1132800 1228800 1324800 1440000 1555200 1670400 1804800 policy4: 633600 768000 883200 998400 1113600 1209600 1324800 1440000 1555200 1651200 1766400 1881600 1996800 2112000 2227200 2342400 2496000 policy7: 787200 921600 1036800 1171200 1286400 1401600 1536000 1651200 1766400 1881600 1996800 2131200 2246400 2361600 2476800 2592000 2707200 2822400 2918400 2995200
+
+  1000:
+    Wake lock *job*/com.miui.daemon/.performance.statistics.services.MeminfoService realtime
+    Wake lock *alarm* realtime
+    Wake lock *job*/com.miui.daemon/.performance.statistics.services.IonService realtime
+    Wake lock NetworkStats realtime
+    Wake lock *telephony-radio* realtime
+    Job com.miui.daemon/.performance.statistics.services.MeminfoService: (not used)
+    Job com.miui.daemon/.performance.statistics.services.IonService: (not used)
+    Sensor 51: (not used)
+    Sensor 182: (not used)
+    Sensor 271: (not used)
+    Sensor 1342: (not used)
+    Sensor 1701: (not used)
+    Sensor 2152: (not used)
+    Apk com.miui.daemon:
+      (nothing executed)
+  u0a554:
+    Wake lock *launch* realtime
+    Wake lock Icing realtime
+
+Per process state tracking available: true
+Total cpu time reads: 50140
+Batching Duration (min): 2074
+All UID cpu time reads since the later of device start or stats reset: 12
+UIDs removed since the later of device start or stats reset: 0
+Currently mapped isolated uids:
+  1037->1000 (ref count = 1)
+  90000->10165 (ref count = 1)
+  90001->10165 (ref count = 1)
+  90002->10333 (ref count = 1)
+  90003->10333 (ref count = 1)
+  90004->10333 (ref count = 1)
+  90005->10333 (ref count = 1)
+  90006->10333 (ref count = 1)
+  90007->10165 (ref count = 1)
+  90008->10165 (ref count = 1)
+  90009->10165 (ref count = 1)
+  90010->10165 (ref count = 1)
+  90011->10165 (ref count = 1)
+  90012->10165 (ref count = 1)
+  90013->10165 (ref count = 1)
+  90014->10165 (ref count = 1)
+  90015->10165 (ref count = 1)
+  90016->10165 (ref count = 1)
+  90017->10165 (ref count = 1)
+  90018->10333 (ref count = 1)
+  90019->10333 (ref count = 1)
+  90020->10333 (ref count = 1)
+  90100->10165 (ref count = 1)
+  90101->10165 (ref count = 1)
+  90102->10165 (ref count = 1)
+  90103->10165 (ref count = 1)
+  90104->10165 (ref count = 1)
+  90105->10165 (ref count = 1)
+  90106->10165 (ref count = 1)
+  90107->10165 (ref count = 1)
+  90108->10165 (ref count = 1)
+  90109->10165 (ref count = 1)
+  90110->10333 (ref count = 1)
+  90111->10333 (ref count = 1)
+  90112->10333 (ref count = 1)
+  90113->10333 (ref count = 1)
+  90114->10333 (ref count = 1)
+  90115->10333 (ref count = 1)
+  90116->10333 (ref count = 1)
+  90117->10333 (ref count = 1)
+  90118->10333 (ref count = 1)
+  90119->10333 (ref count = 1)
+  90120->10333 (ref count = 1)
+  90200->10305 (ref count = 1)
+  90201->10305 (ref count = 1)
+  99000->10304 (ref count = 1)
+  99001->10159 (ref count = 1)
+  99002->10159 (ref count = 1)
+  99003->10179 (ref count = 1)
+  99004->10460 (ref count = 1)
+  99005->10239 (ref count = 1)
+  99006->10415 (ref count = 1)
+  99007->10418 (ref count = 1)
+  99008->10141 (ref count = 1)
+  99009->10288 (ref count = 1)
+  99010->10460 (ref count = 1)
+  99011->10288 (ref count = 1)
+  99012->10288 (ref count = 1)
+  99013->10461 (ref count = 1)
+  99014->10288 (ref count = 1)
+  99015->10507 (ref count = 1)
+  99016->10288 (ref count = 1)
+  99017->10179 (ref count = 1)
+  99018->10461 (ref count = 1)
+  99019->10462 (ref count = 1)
+  99020->10304 (ref count = 1)
+  99021->10284 (ref count = 1)
+  99022->10284 (ref count = 1)
+  99023->10288 (ref count = 1)
+  99024->10288 (ref count = 1)
+  99025->10300 (ref count = 1)
+  99026->10288 (ref count = 1)
+  99027->10288 (ref count = 1)
+  99028->10461 (ref count = 1)
+  99029->10288 (ref count = 1)
+  99030->10304 (ref count = 1)
+  99031->10288 (ref count = 1)
+  99032->10288 (ref count = 1)
+  99033->10288 (ref count = 1)
+  99034->10288 (ref count = 1)
+  99035->10418 (ref count = 1)
+  99036->10284 (ref count = 1)
+  99037->10288 (ref count = 1)
+  99038->10288 (ref count = 1)
+  99039->10304 (ref count = 1)
+  99040->10507 (ref count = 1)
+  99041->10288 (ref count = 1)
+  99042->10301 (ref count = 1)
+  99043->10288 (ref count = 1)
+  99044->10288 (ref count = 1)
+  99045->10288 (ref count = 1)
+  99046->10159 (ref count = 1)
+  99047->10288 (ref count = 1)
+  99048->10324 (ref count = 1)
+  99049->10179 (ref count = 1)
+  99050->10507 (ref count = 1)
+  99051->10507 (ref count = 1)
+  99052->10288 (ref count = 1)
+  99053->10288 (ref count = 1)
+  99054->10335 (ref count = 1)
+  99055->10326 (ref count = 1)
+  99056->10141 (ref count = 1)
+  99057->10284 (ref count = 1)
+  99058->10507 (ref count = 1)
+  99059->10288 (ref count = 1)
+  99060->10179 (ref count = 1)
+  99061->10304 (ref count = 1)
+  99062->10461 (ref count = 1)
+  99063->10320 (ref count = 1)
+  99064->10284 (ref count = 1)
+  99065->10288 (ref count = 1)
+  99066->10288 (ref count = 1)
+  99067->10280 (ref count = 1)
+  99068->10538 (ref count = 1)
+  99069->10546 (ref count = 1)
+  99070->10307 (ref count = 1)
+  99071->10179 (ref count = 1)
+  99072->10328 (ref count = 1)
+  99073->10288 (ref count = 1)
+  99074->10288 (ref count = 1)
+  99075->10159 (ref count = 1)
+  99076->10288 (ref count = 1)
+  99077->10288 (ref count = 1)
+  99078->10159 (ref count = 1)
+  99079->10288 (ref count = 1)
+  99080->10304 (ref count = 1)
+  99081->10298 (ref count = 1)
+  99082->10288 (ref count = 1)
+  99083->10507 (ref count = 1)
+  99084->10288 (ref count = 1)
+  99085->10288 (ref count = 1)
+  99086->10288 (ref count = 1)
+  99087->10288 (ref count = 1)
+  99088->10179 (ref count = 1)
+  99089->10288 (ref count = 1)
+  99090->10324 (ref count = 1)
+  99091->10288 (ref count = 1)
+  99092->10507 (ref count = 1)
+  99093->10288 (ref count = 1)
+  99094->10159 (ref count = 1)
+  99095->10288 (ref count = 1)
+  99096->10288 (ref count = 1)
+  99097->10179 (ref count = 1)
+  99098->10288 (ref count = 1)
+  99099->10179 (ref count = 1)
+  99100->10288 (ref count = 1)
+  99101->10288 (ref count = 1)
+  99102->10288 (ref count = 1)
+  99103->10141 (ref count = 1)
+  99104->10418 (ref count = 1)
+  99105->10141 (ref count = 1)
+  99106->10288 (ref count = 1)
+  99107->10212 (ref count = 1)
+  99108->10288 (ref count = 1)
+  99109->10376 (ref count = 1)
+  99110->10507 (ref count = 1)
+  99111->10159 (ref count = 1)
+  99112->10391 (ref count = 1)
+  99113->10179 (ref count = 1)
+  99114->10288 (ref count = 1)
+  99115->10288 (ref count = 1)
+  99116->10301 (ref count = 1)
+  99117->10288 (ref count = 1)
+  99118->10288 (ref count = 1)
+  99119->10288 (ref count = 1)
+  99120->10462 (ref count = 1)
+  99121->10304 (ref count = 1)
+  99122->10288 (ref count = 1)
+  99123->10179 (ref count = 1)
+  99124->10461 (ref count = 1)
+  99125->10538 (ref count = 1)
+  99126->10326 (ref count = 1)
+  99127->10179 (ref count = 1)
+  99128->10303 (ref count = 1)
+  99129->10507 (ref count = 1)
+  99130->10335 (ref count = 1)
+  99131->10546 (ref count = 1)
+  99132->10527 (ref count = 1)
+  99133->10304 (ref count = 1)
+  99134->10179 (ref count = 1)
+  99135->10307 (ref count = 1)
+  99136->10288 (ref count = 1)
+  99137->10303 (ref count = 1)
+  99138->10284 (ref count = 1)
+  99139->10288 (ref count = 1)
+  99140->10288 (ref count = 1)
+  99141->10461 (ref count = 1)
+  99142->10303 (ref count = 1)
+  99143->10288 (ref count = 1)
+  99144->10288 (ref count = 1)
+  99145->10288 (ref count = 1)
+  99146->10159 (ref count = 1)
+  99147->10304 (ref count = 1)
+  99148->10288 (ref count = 1)
+  99149->10288 (ref count = 1)
+  99150->10276 (ref count = 1)
+  99151->10179 (ref count = 1)
+  99152->10159 (ref count = 1)
+  99153->10288 (ref count = 1)
+  99154->10412 (ref count = 1)
+  99155->10509 (ref count = 1)
+  99156->10324 (ref count = 1)
+  99157->10288 (ref count = 1)
+  99158->10288 (ref count = 1)
+  99159->10288 (ref count = 1)
+  99160->10288 (ref count = 1)
+  99161->10304 (ref count = 1)
+  99162->10179 (ref count = 1)
+  99163->10288 (ref count = 1)
+  99164->10157 (ref count = 1)
+
+BatteryStats constants:
+    track_cpu_active_cluster_time=true
+    kernel_uid_readers_throttle_time=1000
+    external_stats_collection_rate_limit_ms=600000
+    battery_level_collection_delay_ms=300000
+    procstate_change_collection_delay_ms=60000
+    max_history_files=32
+    max_history_buffer_kb=128
+    battery_charged_delay_ms=900000
+    battery_charging_enforce_level=90
+    per_uid_modem_power_model=modem_activity_info_rx_tx
+    phone_on_external_stats_collection=true
+    reset_while_plugged_in_minimum_duration_hours=47
+
+
+On-battery energy consumer stats (microcoulombs) 
+    Not supported on this device.
+
+CPU wakeup stats:
+  Config:
+    wakeup_stats_retention_ms=+3d0h0m0s0ms
+    wakeup_matching_window_ms=+1s0ms
+    waking_activity_retention_ms=+5m0s0ms
+  
+  Irq device map:
+    Loaded from xml resource: 0x117000a
+    Map:
+      pm8xxx_rtc_alarm: [Alarm]
+  
+  Recent waking activity:
+    Subsystem Alarm:
+      -54s991ms: 1000 [PER ], 
+      -57s394ms: u0a98 [SVC ], u0a514 [CEM ], 
+      -57s932ms: u0a303 [RCVR], u0a348 [CEM ], 
+      -57s942ms: u0a376 [SVC ], 
+      -1m2s411ms: 1000 [PER ], 
+      -2m37s800ms: u0a141 [FGS ], 
+      -3m6s258ms: 1000 [PER ], 
+      -3m30s945ms: u0a141 [FGS ], 
+      -4m22s440ms: 1000 [PER ], 
+      -4m38s553ms: u0a141 [FGS ], 
+      -5m31s660ms: u0a141 [FGS ], 
+    Subsystem Sound_trigger:
+      -3h23m1s957ms: u0a159 [BFGS], 
+    Subsystem Sensor:
+      -11s359ms: 1000 [PER ], 
+      -15s899ms: 1000 [PER ], 
+      -26s483ms: 1000 [PER ], 
+      -1m18s537ms: 1000 [PER ], 
+      -1m57s469ms: 1000 [PER ], 
+  
+  Current proc-state map (537):
+    1000:PER , 1001:PER , 1002:PER , 1027:PER , 1037:NONE, 1068:PER , 1073:PER , 2000:NONE, 6101:NONE, 6102:CEM , 6110:NONE, u0a3:NONE, u0a4:NONE, u0a5:NONE, u0a13:NONE, u0a14:NONE, u0a33:NONE, u0a38:NONE, u0a41:NONE, u0a42:NONE, u0a43:NONE, u0a45:NONE, u0a46:NONE, u0a47:NONE, u0a48:NONE, u0a50:NONE, u0a51:NONE, u0a52:NONE, u0a60:PER , u0a65:NONE, u0a66:NONE, u0a67:NONE, u0a68:NONE, u0a69:NONE, u0a74:NONE, u0a75:NONE, u0a76:NONE, u0a78:PER , u0a80:CEM , u0a81:CEM , u0a84:CEM , u0a85:NONE, u0a86:NONE, u0a87:NONE, u0a88:NONE, u0a95:NONE, u0a97:CEM , u0a98:SVC , u0a103:NONE, u0a110:LAST, u0a111:NONE, u0a114:NONE, u0a116:NONE, u0a117:CEM , u0a118:PER , u0a119:PER , u0a120:PER , u0a121:PER , u0a122:NONE, u0a124:NONE, u0a125:NONE, u0a126:NONE, u0a127:NONE, u0a128:BFGS, u0a129:NONE, u0a133:NONE, u0a134:NONE, u0a135:NONE, u0a136:NONE, u0a137:NONE, u0a138:NONE, u0a139:NONE, u0a140:CEM , u0a141:FGS , u0a142:NONE, u0a143:NONE, u0a144:NONE, u0a145:NONE, u0a146:NONE, u0a147:NONE, u0a148:NONE, u0a149:BFGS, u0a150:BFGS, u0a151:NONE, u0a152:NONE, u0a153:NONE, u0a154:CEM , u0a155:CEM , u0a157:TRNB, u0a158:NONE, u0a159:BFGS, u0a161:FGS , u0a162:NONE, u0a164:NONE, u0a165:CACC, u0a166:CEM , u0a168:CEM , u0a169:NONE, u0a170:NONE, u0a171:BFGS, u0a172:CEM , u0a173:NONE, u0a174:NONE, u0a175:NONE, u0a176:NONE, u0a177:FGS , u0a178:NONE, u0a179:NONE, u0a180:NONE, u0a181:NONE, u0a182:NONE, u0a184:TRNB, u0a185:NONE, u0a186:IMPF, u0a187:NONE, u0a188:FGS , u0a192:NONE, u0a193:NONE, u0a194:NONE, u0a195:NONE, u0a196:NONE, u0a198:BFGS, u0a199:IMPF, u0a200:PER , u0a203:NONE, u0a204:NONE, u0a205:NONE, u0a206:NONE, u0a208:NONE, u0a210:NONE, u0a211:NONE, u0a212:FGS , u0a213:PER , u0a214:CEM , u0a215:NONE, u0a216:NONE, u0a219:TRNB, u0a224:CEM , u0a229:PER , u0a230:PER , u0a236:NONE, u0a237:IMPF, u0a238:NONE, u0a239:NONE, u0a240:PER , u0a242:NONE, u0a243:CEM , u0a244:BFGS, u0a245:FGS , u0a247:PER , u0a250:IMPF, u0a253:NONE, u0a257:NONE, u0a258:NONE, u0a259:NONE, u0a260:CEM , u0a261:NONE, u0a262:BFGS, u0a263:CEM , u0a264:NONE, u0a266:NONE, u0a267:NONE, u0a268:NONE, u0a269:NONE, u0a271:NONE, u0a272:NONE, u0a273:NONE, u0a274:NONE, u0a276:NONE, u0a277:NONE, u0a278:CEM , u0a279:NONE, u0a280:CEM , u0a281:NONE, u0a283:NONE, u0a284:NONE, u0a286:NONE, u0a288:NONE, u0a289:NONE, u0a290:NONE, u0a291:CEM , u0a292:NONE, u0a295:NONE, u0a296:CEM , u0a298:NONE, u0a299:NONE, u0a300:NONE, u0a301:NONE, u0a302:NONE, u0a303:RCVR, u0a304:CAC , u0a305:NONE, u0a306:NONE, u0a307:NONE, u0a308:NONE, u0a309:NONE, u0a310:CEM , u0a313:NONE, u0a314:NONE, u0a317:NONE, u0a319:NONE, u0a320:NONE, u0a322:NONE, u0a323:NONE, u0a324:NONE, u0a326:NONE, u0a327:NONE, u0a328:NONE, u0a329:NONE, u0a330:NONE, u0a331:NONE, u0a332:NONE, u0a333:NONE, u0a335:NONE, u0a336:NONE, u0a337:NONE, u0a340:CEM , u0a341:NONE, u0a342:NONE, u0a343:NONE, u0a345:NONE, u0a347:NONE, u0a348:CEM , u0a349:NONE, u0a350:NONE, u0a351:NONE, u0a352:NONE, u0a353:NONE, u0a354:NONE, u0a355:NONE, u0a357:SVC , u0a361:NONE, u0a371:NONE, u0a375:NONE, u0a376:SVC , u0a379:NONE, u0a380:NONE, u0a382:NONE, u0a383:NONE, u0a384:PER , u0a387:NONE, u0a388:NONE, u0a390:NONE, u0a391:NONE, u0a392:FGS , u0a393:NONE, u0a394:BFGS, u0a396:NONE, u0a398:NONE, u0a401:NONE, u0a403:NONE, u0a404:NONE, u0a405:NONE, u0a406:NONE, u0a410:NONE, u0a411:NONE, u0a412:NONE, u0a413:PER , u0a414:NONE, u0a415:NONE, u0a417:NONE, u0a418:NONE, u0a419:NONE, u0a420:NONE, u0a421:NONE, u0a423:NONE, u0a424:NONE, u0a425:NONE, u0a427:BFGS, u0a429:NONE, u0a432:NONE, u0a433:NONE, u0a434:NONE, u0a436:NONE, u0a437:NONE, u0a439:NONE, u0a440:NONE, u0a442:NONE, u0a444:NONE, u0a446:NONE, u0a447:NONE, u0a448:NONE, u0a450:NONE, u0a451:NONE, u0a453:NONE, u0a454:NONE, u0a456:NONE, u0a457:NONE, u0a460:NONE, u0a461:NONE, u0a462:FGS , u0a467:NONE, u0a471:NONE, u0a474:NONE, u0a476:NONE, u0a479:NONE, u0a480:NONE, u0a481:NONE, u0a482:NONE, u0a483:NONE, u0a486:BFGS, u0a487:CEM , u0a489:NONE, u0a491:NONE, u0a492:NONE, u0a493:NONE, u0a495:NONE, u0a496:NONE, u0a497:NONE, u0a498:NONE, u0a504:NONE, u0a505:NONE, u0a507:NONE, u0a508:NONE, u0a509:NONE, u0a511:NONE, u0a513:NONE, u0a514:CEM , u0a516:NONE, u0a521:NONE, u0a527:NONE, u0a531:NONE, u0a533:NONE, u0a538:SVC , u0a540:NONE, u0a546:NONE, u0a549:NONE, u0a554:TOP , u0ai0:NONE, u0ai1:NONE, u0ai2:NONE, u0ai3:NONE, u0ai4:NONE, u0ai5:NONE, u0ai6:NONE, u0ai7:NONE, u0ai8:NONE, u0ai9:NONE, u0ai10:NONE, u0ai11:NONE, u0ai12:NONE, u0ai13:NONE, u0ai14:NONE, u0ai15:NONE, u0ai16:NONE, u0ai17:NONE, u0ai18:NONE, u0ai19:NONE, u0ai20:NONE, u0ai100:NONE, u0ai101:NONE, u0ai102:NONE, u0ai103:NONE, u0ai104:NONE, u0ai105:NONE, u0ai106:NONE, u0ai107:NONE, u0ai108:NONE, u0ai109:NONE, u0ai110:NONE, u0ai111:NONE, u0ai112:NONE, u0ai113:NONE, u0ai114:NONE, u0ai115:NONE, u0ai116:NONE, u0ai117:NONE, u0ai118:NONE, u0ai119:NONE, u0ai120:NONE, u0ai200:NONE, u0ai201:NONE, u0ai9000:NONE, u0i1:NONE, u0i2:NONE, u0i3:NONE, u0i4:NONE, u0i5:NONE, u0i6:NONE, u0i7:NONE, u0i8:NONE, u0i9:NONE, u0i10:NONE, u0i11:NONE, u0i12:NONE, u0i13:NONE, u0i14:NONE, u0i15:NONE, u0i16:NONE, u0i17:NONE, u0i18:NONE, u0i19:NONE, u0i20:NONE, u0i21:NONE, u0i22:NONE, u0i23:NONE, u0i24:NONE, u0i25:NONE, u0i26:NONE, u0i27:NONE, u0i28:NONE, u0i29:NONE, u0i30:NONE, u0i31:NONE, u0i32:NONE, u0i33:NONE, u0i34:NONE, u0i35:NONE, u0i36:NONE, u0i37:NONE, u0i38:NONE, u0i39:NONE, u0i40:NONE, u0i41:NONE, u0i42:NONE, u0i43:NONE, u0i44:NONE, u0i45:NONE, u0i46:NONE, u0i47:NONE, u0i48:NONE, u0i49:NONE, u0i50:NONE, u0i51:NONE, u0i52:NONE, u0i53:NONE, u0i54:NONE, u0i55:NONE, u0i56:NONE, u0i57:NONE, u0i58:NONE, u0i59:NONE, u0i60:NONE, u0i61:NONE, u0i62:NONE, u0i63:NONE, u0i64:NONE, u0i65:NONE, u0i66:NONE, u0i67:NONE, u0i68:NONE, u0i69:NONE, u0i70:NONE, u0i71:NONE, u0i72:NONE, u0i73:NONE, u0i74:NONE, u0i75:NONE, u0i76:NONE, u0i77:NONE, u0i78:NONE, u0i79:NONE, u0i80:NONE, u0i81:NONE, u0i82:NONE, u0i83:NONE, u0i84:NONE, u0i85:NONE, u0i86:NONE, u0i87:NONE, u0i88:NONE, u0i89:NONE, u0i90:NONE, u0i91:NONE, u0i92:NONE, u0i93:NONE, u0i94:NONE, u0i95:NONE, u0i96:NONE, u0i97:NONE, u0i98:NONE, u0i99:NONE, u0i100:NONE, u0i101:NONE, u0i102:NONE, u0i103:NONE, u0i104:NONE, u0i105:NONE, u0i106:NONE, u0i107:NONE, u0i108:NONE, u0i109:SVC , u0i110:NONE, u0i111:BFGS, u0i112:NONE, u0i113:NONE, u0i114:NONE, u0i115:NONE, u0i116:NONE, u0i117:NONE, u0i118:NONE, u0i119:NONE, u0i120:FGS , u0i121:NONE, u0i122:NONE, u0i123:NONE, u0i124:NONE, u0i125:NONE, u0i126:NONE, u0i127:NONE, u0i128:NONE, u0i129:NONE, u0i130:NONE, u0i131:NONE, u0i132:NONE, u0i133:NONE, u0i134:NONE, u0i135:NONE, u0i136:NONE, u0i137:NONE, u0i138:NONE, u0i139:NONE, u0i140:NONE, u0i141:NONE, u0i142:NONE, u0i143:NONE, u0i144:NONE, u0i145:NONE, u0i146:NONE, u0i147:NONE, u0i148:NONE, u0i149:NONE, u0i150:NONE, u0i151:NONE, u0i152:CEM , u0i153:NONE, u0i154:NONE, u0i155:NONE, u0i156:NONE, u0i157:NONE, u0i158:NONE, u0i159:NONE, u0i160:NONE, u0i161:CACC, u0i162:NONE, u0i163:NONE, u0i164:NONE
+  
+  Wakeup events:
+    -9m49s247ms:
+      Wakeup{mType=1, mElapsedMillis=169568695, mUptimeMillis=124246194, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -10m0s258ms:
+      Wakeup{mType=1, mElapsedMillis=169557684, mUptimeMillis=124243204, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14m3s240ms:
+      Wakeup{mType=1, mElapsedMillis=169314702, mUptimeMillis=124060532, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14m52s249ms:
+      Wakeup{mType=1, mElapsedMillis=169265693, mUptimeMillis=124033949, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -21m7s242ms:
+      Wakeup{mType=1, mElapsedMillis=168890700, mUptimeMillis=123890970, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -29m1s249ms:
+      Wakeup{mType=1, mElapsedMillis=168416693, mUptimeMillis=123591506, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -50m31s225ms:
+      Wakeup{mType=1, mElapsedMillis=167126717, mUptimeMillis=122467560, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -52m51s224ms:
+      Wakeup{mType=1, mElapsedMillis=166986718, mUptimeMillis=122390199, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -53m51s196ms:
+      Wakeup{mType=1, mElapsedMillis=166926746, mUptimeMillis=122371617, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -54m51s224ms:
+      Wakeup{mType=1, mElapsedMillis=166866718, mUptimeMillis=122343333, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -55m51s214ms:
+      Wakeup{mType=1, mElapsedMillis=166806728, mUptimeMillis=122328222, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -58m51s229ms:
+      Wakeup{mType=1, mElapsedMillis=166626713, mUptimeMillis=122289055, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1h3m3s205ms:
+      Wakeup{mType=1, mElapsedMillis=166374737, mUptimeMillis=122243238, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h5m5s218ms:
+      Wakeup{mType=1, mElapsedMillis=166252724, mUptimeMillis=122221617, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h9m51s223ms:
+      Wakeup{mType=1, mElapsedMillis=165966719, mUptimeMillis=122150697, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1h12m17s241ms:
+      Wakeup{mType=1, mElapsedMillis=165820701, mUptimeMillis=122106306, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1h15m37s185ms:
+      Wakeup{mType=1, mElapsedMillis=165620757, mUptimeMillis=122034756, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h16m8s164ms:
+      Wakeup{mType=1, mElapsedMillis=165589778, mUptimeMillis=122021531, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h28m10s203ms:
+      Wakeup{mType=1, mElapsedMillis=164867739, mUptimeMillis=121487070, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h28m41s216ms:
+      Wakeup{mType=1, mElapsedMillis=164836726, mUptimeMillis=121481748, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h28m51s203ms:
+      Wakeup{mType=1, mElapsedMillis=164826739, mUptimeMillis=121481452, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1h29m12s184ms:
+      Wakeup{mType=1, mElapsedMillis=164805758, mUptimeMillis=121476974, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h30m13s158ms:
+      Wakeup{mType=1, mElapsedMillis=164744784, mUptimeMillis=121446191, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h30m44s193ms:
+      Wakeup{mType=1, mElapsedMillis=164713749, mUptimeMillis=121442034, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h30m51s179ms:
+      Wakeup{mType=1, mElapsedMillis=164706763, mUptimeMillis=121441718, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1h31m15s201ms:
+      Wakeup{mType=1, mElapsedMillis=164682741, mUptimeMillis=121437382, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1h31m51s220ms:
+      Wakeup{mType=1, mElapsedMillis=164646722, mUptimeMillis=121431420, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1h38m51s198ms:
+      Wakeup{mType=1, mElapsedMillis=164226744, mUptimeMillis=121318506, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -2h2m48s167ms:
+      Wakeup{mType=1, mElapsedMillis=162789775, mUptimeMillis=120025381, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -2h5m51s161ms:
+      Wakeup{mType=1, mElapsedMillis=162606781, mUptimeMillis=119916887, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -3h34m36s139ms:
+      Wakeup{mType=1, mElapsedMillis=157281803, mUptimeMillis=114718038, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS , u0a376 SVC ]
+    -3h37m20s137ms:
+      Wakeup{mType=1, mElapsedMillis=157117805, mUptimeMillis=114585602, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 FGS ]
+    -3h37m26s123ms:
+      Wakeup{mType=1, mElapsedMillis=157111819, mUptimeMillis=114585280, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -3h37m55s134ms:
+      Wakeup{mType=1, mElapsedMillis=157082808, mUptimeMillis=114569739, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -3h38m8s105ms:
+      Wakeup{mType=1, mElapsedMillis=157069837, mUptimeMillis=114568675, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -3h38m21s138ms:
+      Wakeup{mType=1, mElapsedMillis=157056804, mUptimeMillis=114567980, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 FGS ]
+    -3h38m34s135ms:
+      Wakeup{mType=1, mElapsedMillis=157043807, mUptimeMillis=114567680, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -3h38m58s134ms:
+      Wakeup{mType=1, mElapsedMillis=157019808, mUptimeMillis=114560857, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 FGS ]
+    -3h39m11s117ms:
+      Wakeup{mType=1, mElapsedMillis=157006825, mUptimeMillis=114557683, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 FGS ]
+    -9h51m53s916ms:
+      Wakeup{mType=1, mElapsedMillis=134644026, mUptimeMillis=92563103, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h1m53s909ms:
+      Wakeup{mType=1, mElapsedMillis=134044033, mUptimeMillis=92496806, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h41m35s861ms:
+      Wakeup{mType=1, mElapsedMillis=131662081, mUptimeMillis=91759548, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a280 LAST, u0a303 RCVR]
+    -10h41m53s877ms:
+      Wakeup{mType=1, mElapsedMillis=131644065, mUptimeMillis=91758015, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h45m35s891ms:
+      Wakeup{mType=1, mElapsedMillis=131422051, mUptimeMillis=91740108, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a376 SVC ]
+    -10h46m12s883ms:
+      Wakeup{mType=1, mElapsedMillis=131385059, mUptimeMillis=91734814, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a538 NONE]
+    -10h50m46s853ms:
+      Wakeup{mType=1, mElapsedMillis=131111089, mUptimeMillis=91714589, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h51m53s894ms:
+      Wakeup{mType=1, mElapsedMillis=131044048, mUptimeMillis=91708180, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h56m47s855ms:
+      Wakeup{mType=1, mElapsedMillis=130750087, mUptimeMillis=91672105, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -10h58m4s887ms:
+      Wakeup{mType=1, mElapsedMillis=130673055, mUptimeMillis=91656923, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -11h0m4s885ms:
+      Wakeup{mType=1, mElapsedMillis=130553057, mUptimeMillis=91646936, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -11h10m12s837ms:
+      Wakeup{mType=1, mElapsedMillis=129945105, mUptimeMillis=91531173, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -11h14m3s858ms:
+      Wakeup{mType=1, mElapsedMillis=129714084, mUptimeMillis=91508742, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -11h21m53s828ms:
+      Wakeup{mType=1, mElapsedMillis=129244114, mUptimeMillis=91458004, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -11h22m50s872ms:
+      Wakeup{mType=1, mElapsedMillis=129187070, mUptimeMillis=91450897, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -11h26m52s854ms:
+      Wakeup{mType=1, mElapsedMillis=128945088, mUptimeMillis=91431590, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -11h30m21s861ms:
+      Wakeup{mType=1, mElapsedMillis=128736081, mUptimeMillis=91419672, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -11h31m53s869ms:
+      Wakeup{mType=1, mElapsedMillis=128644073, mUptimeMillis=91410161, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -11h46m42s816ms:
+      Wakeup{mType=1, mElapsedMillis=127755126, mUptimeMillis=91106241, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a538 NONE]
+    -11h51m53s811ms:
+      Wakeup{mType=1, mElapsedMillis=127444131, mUptimeMillis=91017070, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -11h56m50s846ms:
+      Wakeup{mType=1, mElapsedMillis=127147096, mUptimeMillis=90982985, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a98 SVC , u0a280 CEM ]
+    -11h58m40s858ms:
+      Wakeup{mType=1, mElapsedMillis=127037084, mUptimeMillis=90968131, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h26m37s768ms:
+      Wakeup{mType=1, mElapsedMillis=121760174, mUptimeMillis=85874413, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h35m45s793ms:
+      Wakeup{mType=1, mElapsedMillis=121212149, mUptimeMillis=85773325, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h37m46s778ms:
+      Wakeup{mType=1, mElapsedMillis=121091164, mUptimeMillis=85735629, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h39m46s783ms:
+      Wakeup{mType=1, mElapsedMillis=120971159, mUptimeMillis=85719430, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h40m46s770ms:
+      Wakeup{mType=1, mElapsedMillis=120911172, mUptimeMillis=85713912, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h40m58s776ms:
+      Wakeup{mType=1, mElapsedMillis=120899166, mUptimeMillis=85710109, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a348 CEM , u0a376 SVC , u0a538 SVC ]
+    -13h41m29s746ms:
+      Wakeup{mType=1, mElapsedMillis=120868196, mUptimeMillis=85706048, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h42m0s791ms:
+      Wakeup{mType=1, mElapsedMillis=120837151, mUptimeMillis=85700095, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h42m31s777ms:
+      Wakeup{mType=1, mElapsedMillis=120806165, mUptimeMillis=85696139, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h43m2s763ms:
+      Wakeup{mType=1, mElapsedMillis=120775179, mUptimeMillis=85690740, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h43m33s775ms:
+      Wakeup{mType=1, mElapsedMillis=120744167, mUptimeMillis=85684430, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h44m34s745ms:
+      Wakeup{mType=1, mElapsedMillis=120683197, mUptimeMillis=85672465, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h45m5s780ms:
+      Wakeup{mType=1, mElapsedMillis=120652162, mUptimeMillis=85667529, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h48m46s785ms:
+      Wakeup{mType=1, mElapsedMillis=120431157, mUptimeMillis=85563715, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h50m45s779ms:
+      Wakeup{mType=1, mElapsedMillis=120312163, mUptimeMillis=85536223, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h51m6s788ms:
+      Wakeup{mType=1, mElapsedMillis=120291154, mUptimeMillis=85531380, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h51m37s787ms:
+      Wakeup{mType=1, mElapsedMillis=120260155, mUptimeMillis=85527699, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h51m46s791ms:
+      Wakeup{mType=1, mElapsedMillis=120251151, mUptimeMillis=85526600, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h52m8s774ms:
+      Wakeup{mType=1, mElapsedMillis=120229168, mUptimeMillis=85523350, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h52m45s783ms:
+      Wakeup{mType=1, mElapsedMillis=120192159, mUptimeMillis=85519553, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h53m40s777ms:
+      Wakeup{mType=1, mElapsedMillis=120137165, mUptimeMillis=85512792, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h55m45s783ms:
+      Wakeup{mType=1, mElapsedMillis=120012159, mUptimeMillis=85471518, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h56m14s791ms:
+      Wakeup{mType=1, mElapsedMillis=119983151, mUptimeMillis=85464489, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -14h2m45s791ms:
+      Wakeup{mType=1, mElapsedMillis=119592151, mUptimeMillis=85333750, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -14h24m45s777ms:
+      Wakeup{mType=1, mElapsedMillis=118272165, mUptimeMillis=84159151, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h25m45s769ms:
+      Wakeup{mType=1, mElapsedMillis=118212173, mUptimeMillis=84152338, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h26m46s756ms:
+      Wakeup{mType=1, mElapsedMillis=118151186, mUptimeMillis=84143012, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -14h30m15s765ms:
+      Wakeup{mType=1, mElapsedMillis=117942177, mUptimeMillis=84107935, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h30m46s764ms:
+      Wakeup{mType=1, mElapsedMillis=117911178, mUptimeMillis=84104303, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h31m16s724ms:
+      Wakeup{mType=1, mElapsedMillis=117881218, mUptimeMillis=84100727, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h52m49s749ms:
+      Wakeup{mType=1, mElapsedMillis=116588193, mUptimeMillis=82888246, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h53m20s756ms:
+      Wakeup{mType=1, mElapsedMillis=116557186, mUptimeMillis=82885838, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -15h47m59s726ms:
+      Wakeup{mType=1, mElapsedMillis=113278216, mUptimeMillis=79646304, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -15h48m47s738ms:
+      Wakeup{mType=1, mElapsedMillis=113230204, mUptimeMillis=79635023, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h10m46s674ms:
+      Wakeup{mType=1, mElapsedMillis=108311268, mUptimeMillis=74894096, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h11m45s632ms:
+      Wakeup{mType=1, mElapsedMillis=108252310, mUptimeMillis=74883814, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h12m46s680ms:
+      Wakeup{mType=1, mElapsedMillis=108191262, mUptimeMillis=74874710, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h13m46s662ms:
+      Wakeup{mType=1, mElapsedMillis=108131280, mUptimeMillis=74862386, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h14m45s665ms:
+      Wakeup{mType=1, mElapsedMillis=108072277, mUptimeMillis=74853685, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h15m45s607ms:
+      Wakeup{mType=1, mElapsedMillis=108012335, mUptimeMillis=74845214, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h17m45s681ms:
+      Wakeup{mType=1, mElapsedMillis=107892261, mUptimeMillis=74824227, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h18m45s671ms:
+      Wakeup{mType=1, mElapsedMillis=107832271, mUptimeMillis=74815085, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h26m59s651ms:
+      Wakeup{mType=1, mElapsedMillis=107338291, mUptimeMillis=74407430, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h33m58s650ms:
+      Wakeup{mType=1, mElapsedMillis=106919292, mUptimeMillis=74283438, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h34m42s666ms:
+      Wakeup{mType=1, mElapsedMillis=106875276, mUptimeMillis=74275436, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a390 SVC ]
+    -17h43m45s662ms:
+      Wakeup{mType=1, mElapsedMillis=106332280, mUptimeMillis=73782768, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a376 SVC ]
+    -17h46m45s657ms:
+      Wakeup{mType=1, mElapsedMillis=106152285, mUptimeMillis=73755757, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -17h47m30s644ms:
+      Wakeup{mType=1, mElapsedMillis=106107298, mUptimeMillis=73746727, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h49m1s613ms:
+      Wakeup{mType=1, mElapsedMillis=106016329, mUptimeMillis=73706529, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h50m33s612ms:
+      Wakeup{mType=1, mElapsedMillis=105924330, mUptimeMillis=73671143, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h51m4s652ms:
+      Wakeup{mType=1, mElapsedMillis=105893290, mUptimeMillis=73664886, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h51m35s630ms:
+      Wakeup{mType=1, mElapsedMillis=105862312, mUptimeMillis=73659977, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h52m6s643ms:
+      Wakeup{mType=1, mElapsedMillis=105831299, mUptimeMillis=73654541, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h52m37s655ms:
+      Wakeup{mType=1, mElapsedMillis=105800287, mUptimeMillis=73648596, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h53m8s659ms:
+      Wakeup{mType=1, mElapsedMillis=105769283, mUptimeMillis=73642694, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h53m39s658ms:
+      Wakeup{mType=1, mElapsedMillis=105738284, mUptimeMillis=73640392, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h54m10s658ms:
+      Wakeup{mType=1, mElapsedMillis=105707284, mUptimeMillis=73636707, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h54m42s645ms:
+      Wakeup{mType=1, mElapsedMillis=105675297, mUptimeMillis=73633040, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -18h18m14s639ms:
+      Wakeup{mType=1, mElapsedMillis=104263303, mUptimeMillis=72284711, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -18h18m46s641ms:
+      Wakeup{mType=1, mElapsedMillis=104231301, mUptimeMillis=72276136, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -19h15m6s615ms:
+      Wakeup{mType=1, mElapsedMillis=100851327, mUptimeMillis=69008938, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -19h24m14s602ms:
+      Wakeup{mType=1, mElapsedMillis=100303340, mUptimeMillis=68895072, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -19h39m18s585ms:
+      Wakeup{mType=1, mElapsedMillis=99399357, mUptimeMillis=68674553, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -19h43m51s610ms:
+      Wakeup{mType=1, mElapsedMillis=99126332, mUptimeMillis=68506666, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -20h14m15s572ms:
+      Wakeup{mType=1, mElapsedMillis=97302370, mUptimeMillis=67216802, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -20h14m43s561ms:
+      Wakeup{mType=1, mElapsedMillis=97274381, mUptimeMillis=67214943, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -20h15m46s547ms:
+      Wakeup{mType=1, mElapsedMillis=97211395, mUptimeMillis=67210055, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -20h27m11s560ms:
+      Wakeup{mType=1, mElapsedMillis=96526382, mUptimeMillis=66806369, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a98 SVC , u0a310 NONE]
+    -20h28m46s574ms:
+      Wakeup{mType=1, mElapsedMillis=96431368, mUptimeMillis=66800102, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -20h31m35s557ms:
+      Wakeup{mType=1, mElapsedMillis=96262385, mUptimeMillis=66783120, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a376 SVC ]
+    -20h33m36s574ms:
+      Wakeup{mType=1, mElapsedMillis=96141368, mUptimeMillis=66762209, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -20h41m8s560ms:
+      Wakeup{mType=1, mElapsedMillis=95689382, mUptimeMillis=66396739, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a98 SVC , u0a280 CEM ]
+    -20h41m16s559ms:
+      Wakeup{mType=1, mElapsedMillis=95681383, mUptimeMillis=66395589, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a376 SVC ]
+    -21h16m51s541ms:
+      Wakeup{mType=1, mElapsedMillis=93546401, mUptimeMillis=65129018, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a376 SVC ]
+    -21h18m35s538ms:
+      Wakeup{mType=1, mElapsedMillis=93442404, mUptimeMillis=65119931, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -21h27m3s537ms:
+      Wakeup{mType=1, mElapsedMillis=92934405, mUptimeMillis=64962571, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -21h28m31s530ms:
+      Wakeup{mType=1, mElapsedMillis=92846412, mUptimeMillis=64907167, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -21h43m33s516ms:
+      Wakeup{mType=1, mElapsedMillis=91944426, mUptimeMillis=64676277, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -21h43m49s517ms:
+      Wakeup{mType=1, mElapsedMillis=91928425, mUptimeMillis=64665973, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -21h44m14s526ms:
+      Wakeup{mType=1, mElapsedMillis=91903416, mUptimeMillis=64664946, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -21h45m50s513ms:
+      Wakeup{mType=1, mElapsedMillis=91807429, mUptimeMillis=64629447, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -21h50m2s505ms:
+      Wakeup{mType=1, mElapsedMillis=91555437, mUptimeMillis=64580066, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a280 LAST, u0a376 SVC ]
+    -21h54m15s516ms:
+      Wakeup{mType=1, mElapsedMillis=91302426, mUptimeMillis=64539524, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h3m17s515ms:
+      Wakeup{mType=1, mElapsedMillis=90760427, mUptimeMillis=64415862, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -22h8m8s513ms:
+      Wakeup{mType=1, mElapsedMillis=90469429, mUptimeMillis=64375013, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -22h18m7s482ms:
+      Wakeup{mType=1, mElapsedMillis=89870460, mUptimeMillis=63916308, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -22h24m15s496ms:
+      Wakeup{mType=1, mElapsedMillis=89502446, mUptimeMillis=63889105, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h25m46s491ms:
+      Wakeup{mType=1, mElapsedMillis=89411451, mUptimeMillis=63869838, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h36m48s485ms:
+      Wakeup{mType=1, mElapsedMillis=88749457, mUptimeMillis=63649649, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a280 LAST, u0a303 CEM ]
+    -22h44m14s483ms:
+      Wakeup{mType=1, mElapsedMillis=88303459, mUptimeMillis=63425122, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h50m50s460ms:
+      Wakeup{mType=1, mElapsedMillis=87907482, mUptimeMillis=63371505, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h51m20s472ms:
+      Wakeup{mType=1, mElapsedMillis=87877470, mUptimeMillis=63354749, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a538 NONE]
+    -22h52m0s490ms:
+      Wakeup{mType=1, mElapsedMillis=87837452, mUptimeMillis=63336936, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -22h54m1s508ms:
+      Wakeup{mType=1, mElapsedMillis=87716434, mUptimeMillis=63331997, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -22h54m15s484ms:
+      Wakeup{mType=1, mElapsedMillis=87702458, mUptimeMillis=63331409, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h57m31s491ms:
+      Wakeup{mType=1, mElapsedMillis=87506451, mUptimeMillis=63301960, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a280 CEM ]
+    -22h59m4s477ms:
+      Wakeup{mType=1, mElapsedMillis=87413465, mUptimeMillis=63292189, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a98 SVC , u0a376 SVC ]
+    -23h13m50s468ms:
+      Wakeup{mType=1, mElapsedMillis=86527474, mUptimeMillis=62711347, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -23h14m4s449ms:
+      Wakeup{mType=1, mElapsedMillis=86513493, mUptimeMillis=62710738, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -23h15m10s467ms:
+      Wakeup{mType=1, mElapsedMillis=86447475, mUptimeMillis=62704181, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -23h26m50s476ms:
+      Wakeup{mType=1, mElapsedMillis=85747466, mUptimeMillis=62600923, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -23h27m7s476ms:
+      Wakeup{mType=1, mElapsedMillis=85730466, mUptimeMillis=62590377, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -23h28m39s449ms:
+      Wakeup{mType=1, mElapsedMillis=85638493, mUptimeMillis=62581670, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -23h31m14s457ms:
+      Wakeup{mType=1, mElapsedMillis=85483485, mUptimeMillis=62552118, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a538 NONE]
+    -23h34m14s452ms:
+      Wakeup{mType=1, mElapsedMillis=85303490, mUptimeMillis=62543687, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -23h43m15s450ms:
+      Wakeup{mType=1, mElapsedMillis=84762492, mUptimeMillis=62497954, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -23h50m2s440ms:
+      Wakeup{mType=1, mElapsedMillis=84355502, mUptimeMillis=62431873, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -23h52m3s445ms:
+      Wakeup{mType=1, mElapsedMillis=84234497, mUptimeMillis=62316579, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a303 CEM ]
+    -1d0h4m15s442ms:
+      Wakeup{mType=1, mElapsedMillis=83502500, mUptimeMillis=62234039, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d0h8m0s416ms:
+      Wakeup{mType=1, mElapsedMillis=83277526, mUptimeMillis=62222256, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d0h14m14s436ms:
+      Wakeup{mType=1, mElapsedMillis=82903506, mUptimeMillis=62206334, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d0h34m15s417ms:
+      Wakeup{mType=1, mElapsedMillis=81702525, mUptimeMillis=61733497, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d0h38m23s420ms:
+      Wakeup{mType=1, mElapsedMillis=81454522, mUptimeMillis=61640582, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d0h38m58s390ms:
+      Wakeup{mType=1, mElapsedMillis=81419552, mUptimeMillis=61626454, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 BFGS]
+    -1d0h39m22s440ms:
+      Wakeup{mType=1, mElapsedMillis=81395502, mUptimeMillis=61623387, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d0h39m34s434ms:
+      Wakeup{mType=1, mElapsedMillis=81383508, mUptimeMillis=61622791, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d0h39m46s427ms:
+      Wakeup{mType=1, mElapsedMillis=81371515, mUptimeMillis=61621222, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d0h42m0s415ms:
+      Wakeup{mType=1, mElapsedMillis=81237527, mUptimeMillis=61561900, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d0h43m11s386ms:
+      Wakeup{mType=1, mElapsedMillis=81166556, mUptimeMillis=61548170, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d0h43m24s435ms:
+      Wakeup{mType=1, mElapsedMillis=81153507, mUptimeMillis=61544892, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d0h43m59s426ms:
+      Wakeup{mType=1, mElapsedMillis=81118516, mUptimeMillis=61535477, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a538 SVC ]
+    -1d0h44m38s424ms:
+      Wakeup{mType=1, mElapsedMillis=81079518, mUptimeMillis=61519685, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d1h36m36s346ms:
+      Wakeup{mType=1, mElapsedMillis=77961596, mUptimeMillis=58409901, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 BFGS]
+    -1d1h37m17s379ms:
+      Wakeup{mType=1, mElapsedMillis=77920563, mUptimeMillis=58390175, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a98 SVC , u0a141 BFGS]
+    -1d4h48m9s284ms:
+      Wakeup{mType=1, mElapsedMillis=66468658, mUptimeMillis=47056094, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d4h53m11s244ms:
+      Wakeup{mType=1, mElapsedMillis=66166698, mUptimeMillis=47010416, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d4h55m15s292ms:
+      Wakeup{mType=1, mElapsedMillis=66042650, mUptimeMillis=46964643, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1002 PER , u0a280 CEM ]
+    -1d5h2m31s260ms:
+      Wakeup{mType=1, mElapsedMillis=65606682, mUptimeMillis=46710302, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d5h10m19s231ms:
+      Wakeup{mType=1, mElapsedMillis=65138711, mUptimeMillis=46647841, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d5h33m58s262ms:
+      Wakeup{mType=1, mElapsedMillis=63719680, mUptimeMillis=46209540, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d5h41m48s258ms:
+      Wakeup{mType=1, mElapsedMillis=63249684, mUptimeMillis=46148474, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d5h52m31s257ms:
+      Wakeup{mType=1, mElapsedMillis=62606685, mUptimeMillis=46075152, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d6h18m29s228ms:
+      Wakeup{mType=1, mElapsedMillis=61048714, mUptimeMillis=45749431, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d6h22m31s203ms:
+      Wakeup{mType=1, mElapsedMillis=60806739, mUptimeMillis=45639156, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d6h27m13s191ms:
+      Wakeup{mType=1, mElapsedMillis=60524751, mUptimeMillis=45594962, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d6h52m31s214ms:
+      Wakeup{mType=1, mElapsedMillis=59006728, mUptimeMillis=45208651, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d7h3m16s208ms:
+      Wakeup{mType=1, mElapsedMillis=58361734, mUptimeMillis=44994792, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d7h14m18s169ms:
+      Wakeup{mType=1, mElapsedMillis=57699773, mUptimeMillis=44738122, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d7h20m11s207ms:
+      Wakeup{mType=1, mElapsedMillis=57346735, mUptimeMillis=44679727, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a376 SVC ]
+    -1d7h21m5s215ms:
+      Wakeup{mType=1, mElapsedMillis=57292727, mUptimeMillis=44673398, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -1d7h26m58s178ms:
+      Wakeup{mType=1, mElapsedMillis=56939764, mUptimeMillis=44541112, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -1d7h27m15s196ms:
+      Wakeup{mType=1, mElapsedMillis=56922746, mUptimeMillis=44532224, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d14h49m14s935ms:
+      Wakeup{mType=1, mElapsedMillis=30403007, mUptimeMillis=18466415, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d15h1m34s942ms:
+      Wakeup{mType=1, mElapsedMillis=29663000, mUptimeMillis=18354450, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d15h3m35s948ms:
+      Wakeup{mType=1, mElapsedMillis=29541994, mUptimeMillis=18331146, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a376 SVC ]
+    -1d15h5m35s947ms:
+      Wakeup{mType=1, mElapsedMillis=29421995, mUptimeMillis=18324402, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d15h11m54s938ms:
+      Wakeup{mType=1, mElapsedMillis=29043004, mUptimeMillis=18224234, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d15h21m35s884ms:
+      Wakeup{mType=1, mElapsedMillis=28462058, mUptimeMillis=18104397, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d15h32m30s925ms:
+      Wakeup{mType=1, mElapsedMillis=27807017, mUptimeMillis=17640894, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d15h44m49s920ms:
+      Wakeup{mType=1, mElapsedMillis=27068022, mUptimeMillis=17577221, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d15h49m51s915ms:
+      Wakeup{mType=1, mElapsedMillis=26766027, mUptimeMillis=17541742, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a390 SVC ]
+    -1d16h2m30s909ms:
+      Wakeup{mType=1, mElapsedMillis=26007033, mUptimeMillis=17428340, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d16h22m30s860ms:
+      Wakeup{mType=1, mElapsedMillis=24807082, mUptimeMillis=17228755, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d16h32m30s835ms:
+      Wakeup{mType=1, mElapsedMillis=24207107, mUptimeMillis=17131598, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d16h34m21s881ms:
+      Wakeup{mType=1, mElapsedMillis=24096061, mUptimeMillis=17124477, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d16h36m41s890ms:
+      Wakeup{mType=1, mElapsedMillis=23956052, mUptimeMillis=17105697, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d16h38m42s895ms:
+      Wakeup{mType=1, mElapsedMillis=23835047, mUptimeMillis=17092052, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d16h42m30s889ms:
+      Wakeup{mType=1, mElapsedMillis=23607053, mUptimeMillis=17064889, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d16h45m33s901ms:
+      Wakeup{mType=1, mElapsedMillis=23424041, mUptimeMillis=17026396, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d16h53m44s884ms:
+      Wakeup{mType=1, mElapsedMillis=22933058, mUptimeMillis=16932095, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d18h22m30s830ms:
+      Wakeup{mType=1, mElapsedMillis=17607112, mUptimeMillis=12058884, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d18h32m30s819ms:
+      Wakeup{mType=1, mElapsedMillis=17007123, mUptimeMillis=11870314, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d18h35m44s807ms:
+      Wakeup{mType=1, mElapsedMillis=16813135, mUptimeMillis=11770968, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a280 LAST, u0a376 SVC ]
+    -1d18h38m35s821ms:
+      Wakeup{mType=1, mElapsedMillis=16642121, mUptimeMillis=11692669, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d18h51m16s794ms:
+      Wakeup{mType=1, mElapsedMillis=15881148, mUptimeMillis=11461730, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a376 SVC ]
+    -1d18h51m29s804ms:
+      Wakeup{mType=1, mElapsedMillis=15868138, mUptimeMillis=11457339, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d18h56m57s816ms:
+      Wakeup{mType=1, mElapsedMillis=15540126, mUptimeMillis=11329225, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a98 SVC , u0a280 CEM ]
+    -1d18h58m47s813ms:
+      Wakeup{mType=1, mElapsedMillis=15430129, mUptimeMillis=11288622, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d19h32m30s791ms:
+      Wakeup{mType=1, mElapsedMillis=13407151, mUptimeMillis=10164026, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d20h21m29s775ms:
+      Wakeup{mType=1, mElapsedMillis=10468167, mUptimeMillis=8615017, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 FGS ]
+    -1d20h22m30s762ms:
+      Wakeup{mType=1, mElapsedMillis=10407180, mUptimeMillis=8586487, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d21h20m16s716ms:
+      Wakeup{mType=1, mElapsedMillis=6941226, mUptimeMillis=6070912, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a376 SVC ]
+    -1d21h21m1s731ms:
+      Wakeup{mType=1, mElapsedMillis=6896211, mUptimeMillis=6065826, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h22m40s734ms:
+      Wakeup{mType=1, mElapsedMillis=6797208, mUptimeMillis=5995904, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h23m39s724ms:
+      Wakeup{mType=1, mElapsedMillis=6738218, mUptimeMillis=5956613, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h23m52s738ms:
+      Wakeup{mType=1, mElapsedMillis=6725204, mUptimeMillis=5954907, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h24m27s723ms:
+      Wakeup{mType=1, mElapsedMillis=6690219, mUptimeMillis=5946758, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h24m40s728ms:
+      Wakeup{mType=1, mElapsedMillis=6677214, mUptimeMillis=5944866, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h25m19s734ms:
+      Wakeup{mType=1, mElapsedMillis=6638208, mUptimeMillis=5939763, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h26m28s740ms:
+      Wakeup{mType=1, mElapsedMillis=6569202, mUptimeMillis=5896323, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 BFGS]
+    -1d21h27m15s725ms:
+      Wakeup{mType=1, mElapsedMillis=6522217, mUptimeMillis=5860111, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a141 BFGS]
+    -1d21h27m27s736ms:
+      Wakeup{mType=1, mElapsedMillis=6510206, mUptimeMillis=5859189, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS, u0a280 CEM ]
+    -1d21h27m51s730ms:
+      Wakeup{mType=1, mElapsedMillis=6486212, mUptimeMillis=5854721, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a141 BFGS]
+    -1d21h43m32s712ms:
+      Wakeup{mType=1, mElapsedMillis=5545230, mUptimeMillis=5020759, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d21h44m33s717ms:
+      Wakeup{mType=1, mElapsedMillis=5484225, mUptimeMillis=5006513, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d21h48m33s722ms:
+      Wakeup{mType=1, mElapsedMillis=5244220, mUptimeMillis=4887887, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d21h55m28s698ms:
+      Wakeup{mType=1, mElapsedMillis=4829244, mUptimeMillis=4658208, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d21h56m32s702ms:
+      Wakeup{mType=1, mElapsedMillis=4765240, mUptimeMillis=4620802, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d22h17m0s705ms:
+      Wakeup{mType=1, mElapsedMillis=3537237, mUptimeMillis=3414280, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d22h17m32s654ms:
+      Wakeup{mType=1, mElapsedMillis=3505288, mUptimeMillis=3408305, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d22h25m1s691ms:
+      Wakeup{mType=1, mElapsedMillis=3056251, mUptimeMillis=2995302, mDevices=[IrqDevice{mLine=261, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+  Attribution stats:
+    Subsystem Alarm: 158/252
+    Total: 252
+
+
+==================================================
+  5. PROPIEDADES DEL DISPOSITIVO
+==================================================
+
+model:    23013PC75G
+brand:    POCO
+abi:      arm64-v8a
+android:  15
+sdk:      35
+wm size:  Physical size: 1440x3200Override size: 1080x2400
+wm dens:  Physical density: 560Override density: 420

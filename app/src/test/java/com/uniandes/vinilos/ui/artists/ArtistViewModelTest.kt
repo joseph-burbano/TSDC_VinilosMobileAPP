@@ -126,6 +126,7 @@ class ArtistViewModelTest {
         assertEquals(4, vm.visiblePerformers.first().size)
 
         vm.loadMore()
+        advanceUntilIdle()
 
         assertEquals(5, vm.visiblePerformers.first().size)
     }
