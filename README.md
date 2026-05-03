@@ -30,8 +30,11 @@ Aplicación Android para navegar y gestionar un catálogo de álbumes de música
 7. [Pruebas unitarias (JVM)](#pruebas-unitarias-jvm)
 8. [Pruebas instrumentadas (Compose / Espresso)](#pruebas-instrumentadas-compose--espresso)
 9. [Pruebas E2E con Kraken](#pruebas-e2e-con-kraken)
-10. [Notas para Windows](#notas-para-windows)
-11. [Solución de problemas](#solución-de-problemas)
+10. [Optimizaciones aplicadas](#optimizaciones-aplicadas)
+11. [Análisis estático con Android Lint](#análisis-estático-con-android-lint)
+12. [Perfilado en dispositivos físicos](#perfilado-en-dispositivos-físicos)
+13. [Notas para Windows](#notas-para-windows)
+14. [Solución de problemas](#solución-de-problemas)
 
 ---
 
@@ -323,6 +326,168 @@ kraken/reports/<timestamp>/index.html
 ```
 
 El reporte HTML incluye cada step ejecutado y screenshots automáticos.
+
+---
+
+## Optimizaciones aplicadas
+
+La aplicación incluye un conjunto de optimizaciones orientadas a tres frentes: **caché**, **programación asíncrona** y **uso eficiente de memoria**. Cada cambio responde a uno de los criterios de evaluación del entregable.
+
+### 1. Caché HTTP en disco (OkHttp)
+
+`NetworkServiceAdapter` monta una `okhttp3.Cache` de **10 MiB** en `context.cacheDir/vinilos_http_cache`. Un *network interceptor* reescribe `Cache-Control: max-age=60` en todas las respuestas (el backend NestJS no envía ese header) y un *application interceptor* activa modo `only-if-cached` con `max-stale = 7 días` cuando no hay red. Los timeouts del cliente (`connect`/`read`/`write = 15 s`, `callTimeout = 30 s`) y `retryOnConnectionFailure = true` completan la configuración.
+
+La inicialización ocurre en `VinilosApplication.onCreate()` para inyectar el `Context` necesario para el directorio de caché y la detección de conectividad. Se añadió el permiso `ACCESS_NETWORK_STATE` al manifiesto.
+
+**Efecto:** dentro de la ventana de 60 s las llamadas idénticas se sirven desde disco — 0 latencia, 0 datos móviles. En modo avión, la app puede servir contenido cacheado por hasta 7 días en vez de fallar con `IOException`.
+
+### 2. `stateIn(Eagerly)` en flujos derivados con `combine`
+
+Los tres ViewModels (`AlbumViewModel`, `ArtistViewModel`, `CollectorViewModel`) exponen `visibleX` y `hasMore` como `StateFlow` caliente compartido vía `stateIn(viewModelScope, SharingStarted.Eagerly, initialValue)`, en lugar del `Flow` frío resultado del `combine` original. Una sola suscripción upstream se comparte entre todos los `collectAsStateWithLifecycle` y mantiene el último valor cacheado en memoria.
+
+**Efecto:** N collectors → 1 suscripción upstream (antes N evaluaciones de la lambda en cada cambio).
+
+### 3. `collectAsStateWithLifecycle` en todas las pantallas
+
+Se reemplazó `collectAsState()` por `collectAsStateWithLifecycle()` en las 6 pantallas Compose. La dependencia `androidx.lifecycle:lifecycle-runtime-compose:2.10.0` se declara explícitamente en `gradle/libs.versions.toml`.
+
+**Efecto:** la recolección se cancela cuando el `LifecycleOwner` pasa a `STOPPED` (app a background) y se reanuda al volver a `STARTED`. Ahorra batería y previene escenarios pre-ANR si el ViewModel sigue emitiendo en background.
+
+### 4. Coil `ImageRequest` con `scale(Scale.FILL)` y `crossfade(true)`
+
+Donde se usaba `AsyncImage(model = url)` directamente, ahora se construye un `ImageRequest` explícito dentro de `remember(url)` con `.scale(Scale.FILL).crossfade(true)`. Aplica a `HomeScreen` (`AlbumCard`, `ArtistCard`), `CollectorDetailScreen` (`HeroSection`, `VaultAlbumCard`) y `ArtistListScreen` (`PerformerGridItem`).
+
+**Efecto:** Coil decodifica el bitmap al tamaño del composable en vez del tamaño nativo del servidor — bitmaps típicamente 10–40× más pequeños en heap.
+
+### 5. `remember` y `derivedStateOf` en cálculos derivados
+
+Cálculos como `flatMap+distinctBy+take` en `HomeScreen`, filtros de búsqueda en las pantallas de listado y agregaciones (`avgGrade` en `CollectorDetailScreen`) que antes corrían en cada recomposition ahora se memorizan con `remember(...)` y `derivedStateOf`.
+
+**Efecto:** Compose puede recomponer un screen muchas veces por segundo durante una animación; sin memoización, cada recomposition recalcula filtros sobre listas completas.
+
+### 6. Keys estables en items de listas Lazy
+
+Todos los `items(list)` y `itemsIndexed(list)` en `AlbumListScreen`, `ArtistListScreen`, `CollectorListScreen` y `HomeScreen` reciben `key = { it.id }` (o `key = { it }` para colecciones de strings).
+
+**Efecto:** al filtrar o reordenar la lista, Compose mueve el composable existente sin recrearlo. Reduce el trabajo de composición y evita re-decode de imágenes con Coil.
+
+### 7. Limpieza derivada del lint
+
+Se eliminaron los 7 colores legacy del template (`purple_*`, `teal_*`, `black`, `white`) que no se referenciaban en ningún lado, y el `android:label` redundante de la `<activity>` en el manifiesto (ya está en `<application>`).
+
+---
+
+## Análisis estático con Android Lint
+
+Lint detecta problemas de correctness, performance, accesibilidad y seguridad sin necesidad de ejecutar la app. La app se valida sobre cero errores y se actúa sobre los warnings accionables.
+
+### Cómo correrlo
+
+```bash
+./gradlew lint              # corre lint sobre debug + release
+./gradlew lintDebug         # solo variant debug (más rápido)
+```
+
+### Dónde ver los resultados
+
+Cada ejecución genera los reportes en `app/build/reports/`:
+
+```
+app/build/reports/lint-results-debug.html      # reporte navegable
+app/build/reports/lint-results-debug.xml       # formato máquina
+app/build/reports/lint-results-debug.txt       # formato consola
+```
+
+El HTML agrupa los issues por categoría (Correctness, Performance, Security, Accessibility, etc.) y muestra el archivo + línea + extracto del código afectado.
+
+> Para conservar un snapshot del lint junto con el código (en vez del path efímero de `app/build/`), el repo incluye una copia versionada de la última ejecución en [`reports/lint/`](reports/lint/).
+
+### Estado actual
+
+La última ejecución reporta **21 warnings, 0 errors**. Las decisiones tomadas se resumen en la siguiente tabla:
+
+| Issue                        | Categoría   | Detalle                                                                | Decisión                                |
+| ---------------------------- | ----------- | ---------------------------------------------------------------------- | --------------------------------------- |
+| `RedundantLabel`             | Correctness | `MainActivity` tiene `android:label` duplicado del `<application>`     | Corregido                               |
+| `UnusedResources`            | Performance | 7 colores legacy en `colors.xml` (purple_\*/teal_\*/black/white)       | Corregido                               |
+| `UnusedResources`            | Performance | `ic_launcher_background.xml` / `ic_launcher_foreground.xml` (drawable) | Falso positivo (los usa el wizard)      |
+| `AndroidGradlePluginVersion` | Correctness | AGP 9.1.1 → 9.2.0 disponible                                           | Diferido (cambio amplio fuera de scope) |
+| `GradleDependency`           | Correctness | Compose BOM, Room, Navigation obsoletos                                | Diferido (cambio amplio fuera de scope) |
+| `NewerVersionAvailable`      | Correctness | Kotlin 2.2.10, Mockk, OkHttp logging-interceptor                       | Diferido (cambio amplio fuera de scope) |
+| `Aligned16KB`                | Correctness | `libmockkjvmtiagent.so` no alineado a 16 KB                            | Ignorado (solo afecta `androidTest`)    |
+
+Las actualizaciones de versiones de dependencias requieren *regression testing* dedicado y se manejan en una rama separada.
+
+---
+
+## Perfilado en dispositivos físicos
+
+Para medir el impacto real de las optimizaciones, el repositorio incluye un script PowerShell que captura métricas vía `adb dumpsys` mientras se recorre manualmente la app. Los reportes se generan por dispositivo y luego se consolidan en un informe `.docx` con gráficas.
+
+### Pre-requisitos
+
+- ADB en `PATH` (incluido en Android SDK platform-tools).
+- Dispositivo Android con depuración USB activada y autorizado (`adb devices` debe listarlo).
+- PowerShell 5.1+ (incluido en Windows). En otras plataformas, ver "Solución de problemas".
+- Para regenerar el `.docx`: Python 3.10+, `python-docx` y `matplotlib`.
+
+### 1. Capturar métricas en un dispositivo
+
+Desde la raíz del repositorio:
+
+```powershell
+.\scripts\profile-device.ps1 -DeviceLabel "<nombre-del-telefono>"
+```
+
+`-DeviceLabel` es libre; sirve para nombrar el reporte (ej. `samsung-a52`, `pixel-7`, `redmi-note-13-pro`).
+
+El script ejecuta:
+
+1. Verifica que haya un dispositivo conectado y captura su modelo, versión de Android y ABI.
+2. Reinstala el APK debug (`./gradlew installDebug`). Se puede saltar con `-SkipInstall`.
+3. Resetea contadores de batería (`dumpsys batterystats --reset`) y GPU (`dumpsys gfxinfo <pkg> reset`) para obtener una línea base limpia.
+4. Lanza la app y muestra el recorrido manual a ejecutar.
+5. Cuando se presiona Enter, captura cuatro snapshots vía `adb dumpsys`:
+   - **`meminfo`** — desglose de memoria PSS por categoría (Java/Native/Code/Graphics/Stack).
+   - **`gfxinfo`** — frames totales, % de janky frames, percentiles P50/P90/P95/P99 del tiempo de render.
+   - **`batterystats --charged`** — tiempo de CPU acumulado y energía estimada.
+   - **`top -n 1 -p <pid>`** — %CPU instantáneo del proceso.
+
+### Recorrido manual a ejecutar
+
+Mientras el script espera el `Enter`, se debe recorrer:
+
+1. Pantalla **Inicio** (Vinilos).
+2. Tab **Álbumes** → entrar a un álbum → volver.
+3. Tab **Artistas** → entrar a un artista → volver.
+4. Tab **Coleccionistas** → entrar a un coleccionista → volver.
+5. Hacer **pull-to-refresh** en alguna lista.
+
+Aproximadamente 5 segundos por pantalla es suficiente para acumular frames representativos.
+
+### 2. Dónde quedan los reportes
+
+```
+profile-results/<DeviceLabel>-<timestamp>.txt
+```
+
+Los reportes capturados durante esta entrega están versionados en [`profile-results/`](profile-results/) como evidencia (3 dispositivos físicos: Redmi Note 9 Pro / Android 10, Poco F5 Pro / Android 15, Redmi Note 13 Pro / Android 14).
+
+### 3. Generar el informe consolidado en .docx
+
+Con al menos un `.txt` en `profile-results/`, se ejecuta:
+
+```bash
+python scripts/generate-report.py
+```
+
+El script parsea todos los `.txt`, genera 4 gráficas con `matplotlib` (PSS apilado por categoría, % de jank, frames saludables vs jankerados, percentiles de frame time) y construye `Informe-Optimizaciones-Vinilos.docx` en la raíz del repo. Las gráficas intermedias se guardan en `build/report-charts/`.
+
+El informe `.docx` cubre las optimizaciones aplicadas, los hallazgos del lint y la comparación entre los dispositivos perfilados (con tablas y gráficas). El archivo no se versiona (está en `.gitignore`); se regenera bajo demanda a partir de los `.txt` versionados en `profile-results/`.
+
+### Cómo opera la métrica de batería
+
+Mientras el dispositivo está conectado por USB, `dumpsys batterystats` reporta `Time on battery: 0 ms` porque no acumula stats durante la carga. Para una medición cuantitativa de mAh hay que repetir el perfilado con el dispositivo desconectado y la app en uso continuo durante varios minutos.
 
 ---
 

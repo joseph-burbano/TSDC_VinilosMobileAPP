@@ -10,8 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +33,7 @@ fun AlbumDetailScreen(
     viewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(LocalContext.current)),
     onBack: () -> Unit = {}
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val state = uiState) {
         is AlbumsUiState.Loading -> {

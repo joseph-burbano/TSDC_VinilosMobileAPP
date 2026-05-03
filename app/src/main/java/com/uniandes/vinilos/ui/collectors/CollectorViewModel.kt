@@ -8,11 +8,13 @@ import com.uniandes.vinilos.database.VinilosDatabase
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.repository.CollectorRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-import kotlinx.coroutines.flow.combine
 
 class CollectorViewModel(
     private val repository: CollectorRepository
@@ -32,13 +34,25 @@ class CollectorViewModel(
 
     private val pageSize = 4
     private val _visibleCount = MutableStateFlow(pageSize)
-    val visibleCollectors = combine(_collectors, _visibleCount) { list, count ->
-        list.take(count)
-    }
 
-    val hasMore = combine(_collectors, _visibleCount) { list, count ->
-        list.size > count
-    }
+    // stateIn convierte el Flow derivado en StateFlow caliente: comparte una sola
+    // suscripción entre todos los `collectAsStateWithLifecycle` y mantiene en memoria
+    // el último valor para que las recomposiciones no disparen recolecciones nuevas.
+    val visibleCollectors: StateFlow<List<Collector>> =
+        combine(_collectors, _visibleCount) { list, count -> list.take(count) }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = emptyList()
+            )
+
+    val hasMore: StateFlow<Boolean> =
+        combine(_collectors, _visibleCount) { list, count -> list.size > count }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = false
+            )
 
     fun loadMore() {
         _visibleCount.value += pageSize

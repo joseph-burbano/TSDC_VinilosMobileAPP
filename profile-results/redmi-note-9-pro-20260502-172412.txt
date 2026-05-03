@@ -1,0 +1,261 @@
+﻿Vinilos Mobile App - Profile report
+DeviceLabel: redmi-note-9-pro
+Timestamp:   20260502-172412
+Model:       M2003J15SC
+Android:     10
+ABI:         arm64-v8a
+Package:     com.uniandes.vinilos
+
+==================================================
+  1. MEMORIA (dumpsys meminfo)
+==================================================
+
+Applications Memory Usage (in Kilobytes):
+Uptime: 2086113 Realtime: 2095245
+
+** MEMINFO in pid 1651 [com.uniandes.vinilos] **
+                   Pss  Private  Private  SwapPss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap    25959    25872        0      114    36896    34215     2680
+  Dalvik Heap     8696     8684        0       30    13939     6970     6969
+ Dalvik Other     6076     6076        0        0                           
+        Stack      204      204        0        0                           
+       Ashmem        2        0        0        0                           
+    Other dev       17        0       16        0                           
+     .so mmap     7479      156     1752       32                           
+    .jar mmap     4690        0     1968        0                           
+    .apk mmap      664        0       24        0                           
+    .ttf mmap     1248        0      952        0                           
+    .dex mmap    63452    63444        8        0                           
+    .oat mmap      468        0       44        0                           
+    .art mmap     5821     5612        0       15                           
+   Other mmap     3523     1248       88        0                           
+   EGL mtrack    16591    16591        0        0                           
+    GL mtrack    32928    32928        0        0                           
+      Unknown     1978     1960        0       16                           
+        TOTAL   180003   162775     4852      207    50835    41185     9649
+ 
+ App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:    14296
+         Native Heap:    25872
+                Code:    68348
+               Stack:      204
+            Graphics:    49519
+       Private Other:     9388
+              System:    12376
+ 
+               TOTAL:   180003       TOTAL SWAP PSS:      207
+ 
+ Objects
+               Views:       13         ViewRootImpl:        1
+         AppContexts:        6           Activities:        1
+              Assets:       18        AssetManagers:        0
+       Local Binders:       15        Proxy Binders:       33
+       Parcel memory:        8         Parcel count:       34
+    Death Recipients:        0      OpenSSL Sockets:        4
+            WebViews:        0
+ 
+ SQL
+         MEMORY_USED:      526
+  PAGECACHE_OVERFLOW:       94          MALLOC_SIZE:      117
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)          cache  Dbname
+         4       28             56        15/42/6  /data/user/0/com.uniandes.vinilos/databases/vinilos_database
+         4        8                         0/0/0    (attached) temp
+         4       28             38         0/15/2  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (2)
+         4       28             87         5/24/6  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (1)
+
+==================================================
+  2. GPU / RENDER (dumpsys gfxinfo - jank, frame stats)
+==================================================
+
+Applications Graphics Acceleration Info:
+Uptime: 2086661 Realtime: 2095793
+
+** Graphics info for pid 1651 [com.uniandes.vinilos] **
+
+Stats since: 2044698332581ns
+Total frames rendered: 1213
+Janky frames: 194 (15.99%)
+50th percentile: 6ms
+90th percentile: 19ms
+95th percentile: 23ms
+99th percentile: 109ms
+Number Missed Vsync: 9
+Number High input latency: 1134
+Number Slow UI thread: 25
+Number Slow bitmap uploads: 1
+Number Slow issue draw commands: 15
+Number Frame deadline missed: 34
+HISTOGRAM: 5ms=565 6ms=103 7ms=126 8ms=62 9ms=77 10ms=36 11ms=20 12ms=10 13ms=4 14ms=6 15ms=4 16ms=9 17ms=12 18ms=52 19ms=29 20ms=14 21ms=9 22ms=11 23ms=5 24ms=3 25ms=4 26ms=3 27ms=1 28ms=2 29ms=1 30ms=2 31ms=1 32ms=2 34ms=2 36ms=1 38ms=1 40ms=4 42ms=1 44ms=3 46ms=0 48ms=4 53ms=0 57ms=2 61ms=2 65ms=1 69ms=2 73ms=1 77ms=2 81ms=0 85ms=0 89ms=0 93ms=1 97ms=0 101ms=0 105ms=0 109ms=2 113ms=1 117ms=0 121ms=0 125ms=1 129ms=0 133ms=0 150ms=1 200ms=2 250ms=0 300ms=0 350ms=0 400ms=0 450ms=3 500ms=1 550ms=0 600ms=0 650ms=0 700ms=0 750ms=0 800ms=0 850ms=0 900ms=0 950ms=0 1000ms=0 1050ms=0 1100ms=0 1150ms=1 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=1 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=0 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+Font Cache (CPU):
+  Size: 729.08 kB 
+  Glyph Count: 104 
+CPU Caches:
+GPU Caches:
+  Other:
+    Other: 34.41 KB (1 entry)
+    Buffer Object: 32.05 KB (3 entries)
+  Image:
+    Texture: 7.28 MB (13 entries)
+  Scratch:
+    RenderTarget: 16.16 MB (7 entries)
+    Buffer Object: 48.00 KB (1 entry)
+    Texture: 4.00 MB (1 entry)
+Other Caches:
+                         Current / Maximum
+  VectorDrawableAtlas    0.00 kB /   0.00 KB (entries = 0)
+  Layers Total           0.00 KB (numLayers = 0)
+Total GPU memory usage:
+  28881348 bytes, 27.54 MB (16.26 MB is purgeable)
+
+
+Pipeline=Skia (OpenGL)
+
+Layout Cache Info:
+  Usage: 308/5000 entries
+  Hit ratio: 3252/3560 (0.913483)
+Profile data in ms:
+
+	com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@82e900d (visibility=0)
+View hierarchy:
+
+  com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@82e900d
+  13 views, 15.98 kB of display lists
+
+
+Total ViewRootImpl: 1
+Total Views:        13
+Total DisplayList:  15.98 kB
+
+
+==================================================
+  3. CPU INSTANTANEO (top -n 1 -p del PID de la app)
+==================================================
+
+[s[999C[999B[6n[u[H[J[?25l[H[J[s[999C[999B[6n[uTasks: 1 total,   0 running,   1 sleeping,   0 stopped,   0 zombie
+
+  Mem:      3.6G total,      3.5G used,       89M free,       23M buffers
+
+ Swap:      2.0G total,      641M used,      1.3G free,      1.3G cached
+
+800%cpu   4%user   0%nice  11%sys 786%idle   0%iow   0%irq   0%sirq   0%host
+
+[7m  PID USER         PR  NI VIRT  RES  SHR S[%CPU] %MEM     TIME+ ARGS            [0m
+
+ 1651 u0_a216      10 -10 6.5G 264M 155M S  0.0   7.0   0:22.80 com.uniandes.vi+
+[?25h[0m[1000;1H[K[?25h[?25h[0m[1000;1H[K
+
+==================================================
+  4. BATERIA / ENERGIA (dumpsys batterystats - filtrado al package)
+==================================================
+
+Statistics since last charge:
+  System starts: 0, currently on battery: false
+  Estimated battery capacity: 5020 mAh
+  Min learned battery capacity: 5020 mAh
+  Max learned battery capacity: 5020 mAh
+  Time on battery: 0ms (0.0%) realtime, 0ms (--%) uptime
+  Time on battery screen off: 0ms (--%) realtime, 0ms (--%) uptime
+  Time on battery screen doze: 0ms (--%)
+  Total run time: 48s 146ms realtime, 48s 146ms uptime
+  Discharge: 0 mAh
+  Screen off discharge: 0 mAh
+  Screen doze discharge: 0 mAh
+  Screen on discharge: 0 mAh
+  Device light doze discharge: 0 mAh
+  Device deep doze discharge: 0 mAh
+  Start clock time: 2026-05-02-17-24-28
+  Screen on: 0ms (--%) 0x, Interactive: 0ms (--%)
+  Screen brightnesses: (no activity)
+
+  CONNECTIVITY POWER SUMMARY START
+  Logging duration for connectivity statistics: 0ms 
+  Cellular Statistics:
+     Cellular kernel active time: 0ms (--%)
+     Cellular Sleep time:  0ms (--%)
+     Cellular Idle time:   0ms (--%)
+     Cellular Rx time:     0ms (--%)
+     Cellular Tx time:     
+       less than 0dBm:  0ms (--%)
+       0dBm to 8dBm:  0ms (--%)
+       8dBm to 15dBm:  0ms (--%)
+       15dBm to 20dBm:  0ms (--%)
+       above 20dBm:  0ms (--%)
+     Cellular data received: 0B
+     Cellular data sent: 0B
+     Cellular packets received: 0
+     Cellular packets sent: 0
+     Cellular Radio Access Technology: (no activity)
+     Cellular Rx signal strength (RSRP): (no activity)
+  Wifi Statistics:
+     Wifi kernel active time: 0ms (--%)
+     WiFi Scan time:  0ms (--%)
+     WiFi Sleep time:  0ms (--%)
+     WiFi Idle time:   0ms (--%)
+     WiFi Rx time:     0ms (--%)
+     WiFi Tx time:     0ms (--%)
+     Wifi data received: 0B
+     Wifi data sent: 0B
+     Wifi packets received: 0
+     Wifi packets sent: 0
+     Wifi states: (no activity)
+     Wifi supplicant states: (no activity)
+     Wifi Rx signal strength (RSSI): (no activity)
+  GPS Statistics:
+     GPS signal quality (Top 4 Average CN0):
+      poor (less than 20 dBHz): 0ms (--%) 
+      good (greater than 20 dBHz): 0ms (--%) 
+  CONNECTIVITY POWER SUMMARY END
+
+  Bluetooth total received: 0B, sent: 0B
+  Bluetooth scan time: 0ms 
+     Bluetooth Idle time:   0ms (--%)
+     Bluetooth Rx time:     0ms (--%)
+     Bluetooth Tx time:     0ms (--%)
+
+  Device battery use since last full charge
+    Amount discharged (lower bound): 0
+    Amount discharged (upper bound): 0
+    Amount discharged while screen on: 0
+    Amount discharged while screen off: 0
+    Amount discharged while screen doze: 0
+
+  Estimated power use (mAh):
+    Capacity: 5020, Computed drain: 0, actual drain: 0
+    Uid 0: 0 Excluded from smearing
+
+  Resource Power Manager Stats
+
+  CPU freqs: 1800000 1625000 1500000 1450000 1375000 1325000 1275000 1175000 1100000 1050000 999000 950000 900000 850000 774000 500000 2000000 1950000 1900000 1850000 1800000 1710000 1621000 1532000 1443000 1354000 1295000 1176000 1087000 998000 909000 850000
+
+  1000:
+    Wake lock *alarm* realtime
+    Wake lock NetworkStats realtime
+    Wake lock *telephony-radio* realtime
+    Wake lock GnssLocationProvider realtime
+    Sensor 27: (not used)
+  u0a216:
+    Wake lock *launch* realtime
+
+Total cpu time reads: 0
+Batched cpu time reads: 0
+Batching Duration (min): 34
+All UID cpu time reads since the later of device start or stats reset: 12
+UIDs removed since the later of device start or stats reset: 1
+
+==================================================
+  5. PROPIEDADES DEL DISPOSITIVO
+==================================================
+
+model:    M2003J15SC
+brand:    Redmi
+abi:      arm64-v8a
+android:  10
+sdk:      29
+wm size:  Physical size: 1080x2340
+wm dens:  Physical density: 440

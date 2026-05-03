@@ -11,8 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,7 +49,7 @@ fun ArtistDetailScreen(
     viewModel: ArtistViewModel,
     onBack: () -> Unit = {}
 ) {
-    val isLoading by viewModel.isLoading.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val performer = viewModel.findById(artistId)
 
     // Mientras la lista no haya cargado, performer es null
