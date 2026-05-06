@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,7 +34,6 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.CollectorAlbum
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.LaunchedEffect
 import com.uniandes.vinilos.ui.components.VinilosTopBar
 import com.uniandes.vinilos.model.UserRole

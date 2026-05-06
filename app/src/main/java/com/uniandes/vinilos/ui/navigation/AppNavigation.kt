@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -102,7 +102,7 @@ fun AppNavigation(
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val isDarkTheme by appViewModel.isDarkTheme.collectAsState()
+    val isDarkTheme by appViewModel.isDarkTheme.collectAsStateWithLifecycle()
     
     val onMenuClick: () -> Unit = { scope.launch { drawerState.open() } }
 
@@ -148,8 +148,8 @@ fun AppNavigation(
         }
     }
 
-    val userRole by appViewModel.userRole.collectAsState()
-    val isReady by appViewModel.isReady.collectAsState()
+    val userRole by appViewModel.userRole.collectAsStateWithLifecycle()
+    val isReady by appViewModel.isReady.collectAsStateWithLifecycle()
 
     if (!isReady) return
 

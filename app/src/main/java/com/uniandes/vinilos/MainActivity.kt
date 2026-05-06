@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -27,8 +27,8 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            val isDarkTheme by appViewModel.isDarkTheme.collectAsState()
-            val userRole by appViewModel.userRole.collectAsState()
+            val isDarkTheme by appViewModel.isDarkTheme.collectAsStateWithLifecycle()
+            val userRole by appViewModel.userRole.collectAsStateWithLifecycle()
 
             VinilosTheme(darkTheme = isDarkTheme) {
                 AppNavigation(
