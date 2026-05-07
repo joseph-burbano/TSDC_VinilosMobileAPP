@@ -42,7 +42,7 @@ class CollectorViewModel(
         combine(_collectors, _visibleCount) { list, count -> list.take(count) }
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.Eagerly,
+                started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = emptyList()
             )
 
@@ -50,7 +50,7 @@ class CollectorViewModel(
         combine(_collectors, _visibleCount) { list, count -> list.size > count }
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.Eagerly,
+                started = SharingStarted.WhileSubscribed(5_000L),
                 initialValue = false
             )
 

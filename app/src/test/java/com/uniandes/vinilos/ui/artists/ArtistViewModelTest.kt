@@ -8,6 +8,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -86,11 +87,11 @@ class ArtistViewModelTest {
         coEvery { repo.getPerformers() } returns sample
 
         val vm = ArtistViewModel(repo)
+        backgroundScope.launch { vm.visiblePerformers.collect {} }
         advanceUntilIdle()
 
         // pageSize = 4, sample tiene 5
-        val visible = vm.visiblePerformers.first()
-        assertEquals(4, visible.size)
+        assertEquals(4, vm.visiblePerformers.value.size)
     }
 
     @Test
@@ -99,9 +100,10 @@ class ArtistViewModelTest {
         coEvery { repo.getPerformers() } returns sample  // 5 > pageSize(4)
 
         val vm = ArtistViewModel(repo)
+        backgroundScope.launch { vm.hasMore.collect {} }
         advanceUntilIdle()
 
-        assertTrue(vm.hasMore.first())
+        assertTrue(vm.hasMore.value)
     }
 
     @Test
@@ -121,14 +123,15 @@ class ArtistViewModelTest {
         coEvery { repo.getPerformers() } returns sample
 
         val vm = ArtistViewModel(repo)
+        backgroundScope.launch { vm.visiblePerformers.collect {} }
         advanceUntilIdle()
 
-        assertEquals(4, vm.visiblePerformers.first().size)
+        assertEquals(4, vm.visiblePerformers.value.size)
 
         vm.loadMore()
         advanceUntilIdle()
 
-        assertEquals(5, vm.visiblePerformers.first().size)
+        assertEquals(5, vm.visiblePerformers.value.size)
     }
 
     // ── findById ───────────────────────────────────────────────────────────────

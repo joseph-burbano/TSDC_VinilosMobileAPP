@@ -10,6 +10,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -119,11 +120,11 @@ class CollectorViewModelTest {
         coEvery { repo.getCollectors() } returns sample
 
         val vm = CollectorViewModel(repo)
+        backgroundScope.launch { vm.visibleCollectors.collect {} }
         advanceUntilIdle()
 
         // pageSize = 4, sample tiene 5
-        val visible = vm.visibleCollectors.first()
-        assertEquals(4, visible.size)
+        assertEquals(4, vm.visibleCollectors.value.size)
     }
 
     @Test
@@ -132,9 +133,10 @@ class CollectorViewModelTest {
         coEvery { repo.getCollectors() } returns sample // 5 > pageSize(4)
 
         val vm = CollectorViewModel(repo)
+        backgroundScope.launch { vm.hasMore.collect {} }
         advanceUntilIdle()
 
-        assertTrue(vm.hasMore.first())
+        assertTrue(vm.hasMore.value)
     }
 
     @Test
@@ -154,14 +156,15 @@ class CollectorViewModelTest {
         coEvery { repo.getCollectors() } returns sample
 
         val vm = CollectorViewModel(repo)
+        backgroundScope.launch { vm.visibleCollectors.collect {} }
         advanceUntilIdle()
 
-        assertEquals(4, vm.visibleCollectors.first().size)
+        assertEquals(4, vm.visibleCollectors.value.size)
 
         vm.loadMore()
         advanceUntilIdle()
 
-        assertEquals(5, vm.visibleCollectors.first().size)
+        assertEquals(5, vm.visibleCollectors.value.size)
     }
 
     // ── Refresh ────────────────────────────────────────────────────────────────
