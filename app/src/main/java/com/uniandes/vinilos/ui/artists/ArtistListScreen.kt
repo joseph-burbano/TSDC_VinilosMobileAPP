@@ -24,139 +24,163 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.size.Scale
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.ui.theme.VinilosTheme
+import com.uniandes.vinilos.model.UserRole
+import com.uniandes.vinilos.ui.components.VinilosTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArtistListScreen(
     onArtistClick: (Int) -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null,
     viewModel: ArtistViewModel = viewModel(
         factory = ArtistViewModel.factory(LocalContext.current)
     )
 ) {
-    val visiblePerformers by viewModel.visiblePerformers.collectAsState(initial = emptyList())
-    val hasMore by viewModel.hasMore.collectAsState(initial = false)
-    val isLoading by viewModel.isLoading.collectAsState()
-    val error by viewModel.error.collectAsState()
+    // collectAsStateWithLifecycle libera la suscripción al pasar a STOPPED, ahorrando
+    // batería y evitando reposiciones innecesarias del ViewModel a la UI cuando la
+    // pantalla no está visible.
+    val visiblePerformers by viewModel.visiblePerformers.collectAsStateWithLifecycle()
+    val hasMore by viewModel.hasMore.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
 
     var searchQuery by remember { mutableStateOf("") }
+
+    val allPerformers by viewModel.performers.collectAsStateWithLifecycle()
     
-    val allPerformers by viewModel.performers.collectAsState()
-    
-    // Si hay búsqueda, mostramos todos los resultados que coincidan.
-    // Si no hay búsqueda, mostramos los paginados (visiblePerformers).
-    val displayPerformers = if (searchQuery.isBlank()) {
-        visiblePerformers
-    } else {
-        allPerformers.filter { it.name.contains(searchQuery, ignoreCase = true) }
+    // remember evita re-filtrar en cada recomposition: solo cuando cambia el query
+    // o la lista upstream.
+    val displayPerformers = remember(visiblePerformers, allPerformers, searchQuery) {
+        if (searchQuery.isBlank()) {
+            visiblePerformers
+        } else {
+            allPerformers.filter { it.name.contains(searchQuery, ignoreCase = true) }
+        }
     }
 
-    val filteredCount = if (searchQuery.isBlank()) allPerformers.size else displayPerformers.size
+    val filteredCount = remember(searchQuery, allPerformers, displayPerformers) {
+        if (searchQuery.isBlank()) allPerformers.size else displayPerformers.size
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background   
     ) {
-        when {
-            isLoading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize().testTag("loading_indicator"),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            VinilosTopBar(
+                userRole = userRole,
+                onMenuClick = onMenuClick
+            )
+            when {
+                isLoading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize().testTag("loading_indicator"),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
-            }
-            error != null -> {
-                Box(
-                    modifier = Modifier.fillMaxSize().testTag("error_message"),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = error ?: "Error desconocido",
-                        color = MaterialTheme.colorScheme.error
-                    )
+                error != null -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize().testTag("error_message"),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = error ?: "Error desconocido",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
                 }
-            }
-            else -> {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize().testTag("artist_list"),
-                    contentPadding = PaddingValues(horizontal = 24.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        Column(modifier = Modifier.padding(bottom = 12.dp)) {
-                            Text(
-                                text = "ARCHIVO DE",
-                                fontSize = 12.sp,
-                                letterSpacing = 2.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
-                            )
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.Bottom
-                            ) {
+                else -> {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        modifier = Modifier.fillMaxSize().testTag("artist_list"),
+                        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(24.dp)
+                    ) {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Column(modifier = Modifier.padding(bottom = 12.dp)) {
                                 Text(
-                                    text = "Artistas",
-                                    fontSize = 48.sp,
-                                    fontFamily = FontFamily.Serif,
-                                    fontWeight = FontWeight.Medium,
-                                    lineHeight = 56.sp
+                                    text = "ARCHIVO DE",
+                                    fontSize = 12.sp,
+                                    letterSpacing = 2.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
                                 )
-                                Text(
-                                    text = "$filteredCount encontrados",
-                                    fontSize = 13.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.padding(bottom = 12.dp)
-                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.Bottom
+                                ) {
+                                    Text(
+                                        text = "Artistas",
+                                        fontSize = 48.sp,
+                                        fontFamily = FontFamily.Serif,
+                                        fontWeight = FontWeight.Medium,
+                                        lineHeight = 56.sp
+                                    )
+                                    Text(
+                                        text = "$filteredCount encontrados",
+                                        fontSize = 13.sp,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.padding(bottom = 12.dp)
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    item(span = { GridItemSpan(maxLineSpan) }) {
-                        OutlinedTextField(
-                            value = searchQuery,
-                            onValueChange = { searchQuery = it },
-                            placeholder = { Text("Buscar artistas...") },
-                            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp)
-                                .testTag("artist_search"),
-                            singleLine = true,
-                            shape = RoundedCornerShape(8.dp)
-                        )
-                    }
-
-                    itemsIndexed(displayPerformers) { _, performer ->
-                        PerformerGridItem(
-                            performer = performer,
-                            onClick = { onArtistClick(performer.id) }
-                        )
-                    }
-
-                    if (hasMore && searchQuery.isBlank()) {
                         item(span = { GridItemSpan(maxLineSpan) }) {
-                            OutlinedButton(
-                                onClick = { viewModel.loadMore() },
+                            OutlinedTextField(
+                                value = searchQuery,
+                                onValueChange = { searchQuery = it },
+                                placeholder = { Text("Buscar artistas...") },
+                                leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 12.dp)
-                                    .testTag("load_more_button"),
-                                shape = RoundedCornerShape(4.dp)
-                            ) {
-                                Text(
-                                    text = "CARGAR MÁS",
-                                    letterSpacing = 2.sp,
-                                    fontSize = 12.sp
-                                )
+                                    .padding(bottom = 8.dp)
+                                    .testTag("artist_search"),
+                                singleLine = true,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                        }
+
+                        // key estable: reduce trabajo de Compose al reordenar o filtrar.
+                        itemsIndexed(
+                            items = displayPerformers,
+                            key = { _, performer -> performer.id }
+                        ) { _, performer ->
+                            PerformerGridItem(
+                                performer = performer,
+                                onClick = { onArtistClick(performer.id) }
+                            )
+                        }
+
+                        if (hasMore && searchQuery.isBlank()) {
+                            item(span = { GridItemSpan(maxLineSpan) }) {
+                                OutlinedButton(
+                                    onClick = { viewModel.loadMore() },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 12.dp)
+                                        .testTag("load_more_button"),
+                                    shape = RoundedCornerShape(4.dp)
+                                ) {
+                                    Text(
+                                        text = "CARGAR MÁS",
+                                        letterSpacing = 2.sp,
+                                        fontSize = 12.sp
+                                    )
+                                }
                             }
                         }
                     }
@@ -168,17 +192,24 @@ fun ArtistListScreen(
 
 @Composable
 fun PerformerGridItem(performer: Performer, onClick: () -> Unit) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
             .testTag("artist_item_${performer.id}")
     ) {
+        // scale = FILL le indica a Coil que decodifique al tamaño que ocupa el composable
+        // (no al tamaño nativo de la imagen del servidor): bitmap mucho más liviano,
+        // listas de muchos artistas no inflan el heap.
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(performer.image)
-                .crossfade(true)
-                .build(),
+            model = remember(performer.image) {
+                ImageRequest.Builder(context)
+                    .data(performer.image)
+                    .crossfade(true)
+                    .scale(Scale.FILL)
+                    .build()
+            },
             contentDescription = performer.name,
             contentScale = ContentScale.Crop,
             placeholder = painterResource(android.R.drawable.ic_menu_gallery),

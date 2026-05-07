@@ -1,0 +1,125 @@
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:2: Warning: A newer version of com.android.application than 9.1.1 is available: 9.2.0 [AndroidGradlePluginVersion]
+agp = "9.1.1"
+      ~~~~~~~
+
+   Explanation for issues of type "AndroidGradlePluginVersion":
+   This detector looks for usage of the Android Gradle Plugin where the
+   version you are using is not the current stable release. Using older
+   versions is fine, and there are cases where you deliberately want to stick
+   with an older version. However, you may simply not be aware that a more
+   recent version is available, and that is what this lint check helps find.
+
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:13: Warning: A newer version of androidx.compose:compose-bom than 2026.02.01 is available: 2026.04.01 [GradleDependency]
+composeBom = "2026.02.01"
+             ~~~~~~~~~~~~
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:15: Warning: A newer version of androidx.navigation:navigation-compose than 2.8.0 is available: 2.9.8 [GradleDependency]
+navigationCompose = "2.8.0"
+                    ~~~~~~~
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:18: Warning: A newer version of androidx.room:room-compiler than 2.7.0 is available: 2.8.4 [GradleDependency]
+room = "2.7.0"
+       ~~~~~~~
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:18: Warning: A newer version of androidx.room:room-ktx than 2.7.0 is available: 2.8.4 [GradleDependency]
+room = "2.7.0"
+       ~~~~~~~
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:18: Warning: A newer version of androidx.room:room-runtime than 2.7.0 is available: 2.8.4 [GradleDependency]
+room = "2.7.0"
+       ~~~~~~~
+
+   Explanation for issues of type "GradleDependency":
+   This detector looks for usages of libraries where the version you are using
+   is not the current stable release. Using older versions is fine, and there
+   are cases where you deliberately want to stick with an older version.
+   However, you may simply not be aware that a more recent version is
+   available, and that is what this lint check helps find.
+
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:12: Warning: A newer version of org.jetbrains.kotlin.plugin.compose than 2.2.10 is available: 2.3.21 [NewerVersionAvailable]
+kotlin = "2.2.10"
+         ~~~~~~~~
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:19: Warning: A newer version of io.mockk:mockk than 1.13.17 is available: 1.14.9 [NewerVersionAvailable]
+mockk = "1.13.17"
+        ~~~~~~~~~
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:19: Warning: A newer version of io.mockk:mockk-android than 1.13.17 is available: 1.14.9 [NewerVersionAvailable]
+mockk = "1.13.17"
+        ~~~~~~~~~
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\gradle\libs.versions.toml:21: Warning: A newer version of com.squareup.okhttp3:logging-interceptor than 4.12.0 is available: 5.3.2 [NewerVersionAvailable]
+okhttp = "4.12.0"
+         ~~~~~~~~
+
+   Explanation for issues of type "NewerVersionAvailable":
+   This detector checks with a central repository to see if there are newer
+   versions available for the dependencies used by this project. This is
+   similar to the GradleDependency check, which checks for newer versions
+   available in the Android SDK tools and libraries, but this works with any
+   MavenCentral dependency, and connects to the library every time, which
+   makes it more flexible but also much slower.
+
+C:\Users\Usuario\.gradle\caches\9.3.1\transforms\73e41457cf692e16e64b16b56c093bb2\workspace\transformed\mockk-agent-android-1.13.17\jni\arm64-v8a\libmockkjvmtiagent.so: Warning: The native library arm64-v8a/libmockkjvmtiagent.so (from io.mockk:mockk-agent-android:1.13.17) is not 16 KB aligned [Aligned16KB]
+
+   Explanation for issues of type "Aligned16KB":
+   Android has traditionally used 4 KB memory page sizes. However, to support
+   future devices that only work with 16 KB aligned libraries apps containing
+   native libraries need to be built with 16 KB alignment.
+
+   Apps with 4 KB aligned native libraries may not work correctly on devices
+   requiring 16 KB alignment. To ensure compatibility and future-proof your
+   app, it is strongly recommended that your native libraries are aligned to
+   16 KB boundaries.
+
+   If your app uses any NDK libraries, directly or indirectly through an SDK,
+   you should rebuild your app to meet this recommendation. Make sure all
+   native libraries within your application, including those from
+   dependencies, are built with 16 KB page alignment.
+
+   This lint check looks at all native libraries that your app depends on. If
+   any are found to be aligned to 4 KB instead of 16 KB, you will need to
+   address this.
+
+   When a library is flagged, first try to update to a newer version that
+   supports 16 KB alignment. If an updated version is not available, contact
+   the library vendor to ask about their plans for 16 KB support and request a
+   compatible version. Updating your libraries proactively will help ensure
+   your app works properly on a wider range of devices.
+
+   https://developer.android.com/guide/practices/page-sizes
+
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\app\src\main\res\drawable\ic_launcher_background.xml:2: Warning: The resource R.drawable.ic_launcher_background appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+C:\Users\Usuario\StudioProjects\TSDC_VinilosMobileAPP\app\src\main\res\drawable\ic_launcher_foreground.xml:1: Warning: The resource R.drawable.ic_launcher_foreground appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+   Available options:
+
+   **skip-libraries** (default is true):
+   Whether the unused resource check should skip reporting unused resources in libraries.
+
+   Many libraries will declare resources that are part of the library surface; other modules depending on the library will also reference the resources. To avoid reporting all these resources as unused (in the context of a library), the unused resource check normally skips reporting unused resources in libraries. Instead, run the unused resource check on the consuming app module (along with `checkDependencies=true`).
+
+   However, there are cases where you want to check that all the resources declared in a library are used; in that case, you can disable the skip option.
+
+   To configure this option, use a `lint.xml` file with an <option> like this:
+
+   ```xml
+   <lint>
+       <issue id="UnusedResources">
+           <option name="skip-libraries" value="true" />
+       </issue>
+   </lint>
+   ```
+
+0 errors, 13 warnings

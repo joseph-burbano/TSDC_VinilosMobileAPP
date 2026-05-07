@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/TU_ORG/TU_REPO/actions/workflows/NOMBRE_WORKFLOW.yml/badge.svg" alt="CI"/>
+  <img src="https://github.com/joseph-burbano/TSDC_VinilosMobileAPP/actions/workflows/ci.yml/badge.svg" alt="CI"/>
   <img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=android&logoColor=white" alt="Android"/>
   <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=kotlin&logoColor=white" alt="Kotlin"/>
   <img src="https://img.shields.io/badge/Jetpack%20Compose-4285F4?style=flat&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose"/>
@@ -30,26 +30,32 @@ Aplicación Android para navegar y gestionar un catálogo de álbumes de música
 7. [Pruebas unitarias (JVM)](#pruebas-unitarias-jvm)
 8. [Pruebas instrumentadas (Compose / Espresso)](#pruebas-instrumentadas-compose--espresso)
 9. [Pruebas E2E con Kraken](#pruebas-e2e-con-kraken)
-10. [Notas para Windows](#notas-para-windows)
-11. [Solución de problemas](#solución-de-problemas)
+10. [Optimizaciones aplicadas](#optimizaciones-aplicadas)
+11. [Análisis estático con Android Lint](#análisis-estático-con-android-lint)
+12. [Perfilado en dispositivos físicos](#perfilado-en-dispositivos-físicos)
+13. [Notas para Windows](#notas-para-windows)
+14. [Solución de problemas](#solución-de-problemas)
 
 ---
 
 ## Stack
 
-| Capa         | Herramienta                             | Versión              |
-| ------------ | --------------------------------------- | -------------------- |
-| Lenguaje     | Kotlin                                  | 2.2.10               |
-| Build        | AGP / Gradle wrapper                    | 9.1.1                |
-| UI           | Jetpack Compose (BOM)                   | 2026.02.01           |
-| Navegación   | Navigation Compose                      | 2.8.0                |
-| Red          | Retrofit + Gson + OkHttp Logging        | 3.0.0 / 4.12.0       |
-| Persistencia | Room + KSP                              | 2.7.0 / 2.2.10-2.0.2 |
-| Imágenes     | Coil                                    | 2.7.0                |
-| Async        | Coroutines                              | 1.10.2               |
-| Mocks JVM    | MockK                                   | 1.13.17              |
-| Tests HTTP   | MockWebServer                           | 5.3.2                |
-| Tests E2E    | Kraken-Node + Appium 2.x + UIAutomator2 | 1.0.24 / 2.11.5+     |
+| Capa            | Herramienta                             | Versión              |
+| --------------- | --------------------------------------- | -------------------- |
+| Lenguaje        | Kotlin                                  | 2.2.10               |
+| Build           | AGP / Gradle wrapper                    | 9.1.1                |
+| UI              | Jetpack Compose (BOM)                   | 2026.02.01           |
+| Navegación      | Navigation Compose                      | 2.8.0                |
+| Red             | Retrofit + Gson + OkHttp Logging        | 3.0.0 / 4.12.0       |
+| Persistencia    | Room + KSP                              | 2.7.0 / 2.2.10-2.0.2 |
+| Imágenes        | Coil                                    | 2.7.0                |
+| Async           | Coroutines                              | 1.10.2               |
+| Mocks JVM       | MockK                                   | 1.13.17              |
+| Tests HTTP      | MockWebServer                           | 5.3.2                |
+| Tests E2E       | Kraken-Node + Appium 2.x + UIAutomator2 | 1.0.24 / 2.11.5+     |
+| Preferencias    | Jetpack DataStore                       | 1.1.1                |
+| Inyección de DI | Hilt                                    | 2.59.2               |
+| Splash          | Core SplashScreen                       | 1.0.1                |
 
 ---
 
@@ -71,12 +77,14 @@ Para más detalles sobre la arquitectura MVVM en Android, consultar (usar traduc
                  │ observa
 ┌────────────────▼────────────────────┐
 │           VIEWMODEL                 │
+│   AppViewModel (roles + tema)       │
 │   ui/[feature]/[Feature]ViewModel   │
 │   (StateFlow)                       │
 └────────────────┬────────────────────┘
                  │ solicita datos
 ┌────────────────▼────────────────────┐
 │           REPOSITORY                │
+│   PreferencesRepository (DataStore) │
 │   repository/[Feature]Repository    │
 │   cache-first: Room → API REST      │
 └──────────┬─────────────┬────────────┘
@@ -99,11 +107,14 @@ TSDC_VinilosMobileAPP/
 │   └── src/
 │       ├── main/java/com/uniandes/vinilos/
 │       │   ├── MainActivity.kt
+│       │   ├── AppViewModel.kt
+│       │   ├── VinilosApplication.kt
+│       │   ├── di/
 │       │   ├── database/               # Room: entities, DAOs, mappers
 │       │   ├── model/                  # data classes de dominio
 │       │   ├── network/                # Retrofit (VinilosApi, NetworkServiceAdapter)
 │       │   ├── repository/             # cache-first repositories
-│       │   ├── ui/{albums,artists,collectors,home,navigation,theme}
+│       │   ├── ui/{albums,artists,collectors,home,navigation,theme,role}
 │       │   └── util/                   # Constants, FakeData
 │       ├── test/                       # JVM unit tests (MockK + MockWebServer)
 │       └── androidTest/                # Compose / Espresso tests
@@ -159,11 +170,10 @@ curl http://localhost:3000/albums/1
 
 **Configuración de red según donde corras la app:**
 
-| Entorno                           | URL que ve la app                | Configuración                                                               |
-| --------------------------------- | -------------------------------- | --------------------------------------------------------------------------- |
-| Emulador Android Studio (default) | `http://10.0.2.2:3000/`          | Funciona automáticamente — `10.0.2.2` es el alias QEMU al host              |
-| Dispositivo físico (USB)          | `http://localhost:3000/`         | Requiere `adb reverse tcp:3000 tcp:3000` (se aplica solo en `installDebug`) |
-| Dispositivo físico en LAN         | `http://<IP-LAN-de-tu-PC>:3000/` | Edita `Constants.BASE_URL` localmente (no commitear)                        |
+| Entorno                      | URL que ve la app                                               | Configuración                                                          |
+| ---------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Backend desplegado           | `https://vinyls-backend-miso-g-013-5fad2b4cf522.herokuapp.com/` | Configuración por defecto en `Constants.BASE_URL`                      |
+| Emulador o dispositivo local | `http://10.0.2.2:3000/` / `http://localhost:3000/`              | Sobrescribe `Constants.BASE_URL` si quieres apuntar a un backend local |
 
 La URL base vive en `app/src/main/java/com/uniandes/vinilos/util/Constants.kt`.
 
@@ -190,13 +200,20 @@ Ubicación: `app/src/test/java/com/uniandes/vinilos/`.
 
 ### Qué cubren
 
-| Suite                  | Archivo                              | Casos | Qué valida                                                                                   |
-| ---------------------- | ------------------------------------ | ----- | -------------------------------------------------------------------------------------------- |
-| ArtistRepositoryTest   | `repository/ArtistRepositoryTest.kt` | 4     | Cache-first (DAO → API), combina músicos y bandas, refresh borra y refetchea                 |
-| AlbumRepositoryTest    | `repository/AlbumRepositoryTest.kt`  | 8     | Patrón cache-first, mapeo DTO → modelo, `releaseDate` ISO truncado al año, `refreshAlbums()` |
-| AlbumViewModelTest     | `ui/albums/AlbumViewModelTest.kt`    | 9     | Estados Loading/Success/Error, `IOException`, `HttpException`, refresh, `findById`           |
-| VinilosApiContractTest | `network/VinilosApiContractTest.kt`  | 3     | Contrato HTTP `GET /albums` con MockWebServer                                                |
-| ExampleUnitTest        | `ExampleUnitTest.kt`                 | 1     | Smoke del runner                                                                             |
+| Suite                        | Archivo                                         | Casos | Qué valida                                                                                                         |
+| ---------------------------- | ----------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------ |
+| ArtistViewModelTest          | `ui/artists/ArtistViewModelTest.kt`             | 13    | Carga, paginación, refresh, errores, findById                                                                      |
+| ArtistViewModelDetailTest    | `ui/artists/ArtistViewModelDetailTest.kt`       | 5     | findById con álbumes, null, diferenciación                                                                         |
+| ArtistRepositoryTest         | `repository/ArtistRepositoryTest.kt`            | 4     | Cache-first (DAO → API), combina músicos y bandas, refresh borra y refetchea                                       |
+| AlbumRepositoryTest          | `repository/AlbumRepositoryTest.kt`             | 8     | Patrón cache-first, mapeo DTO → modelo, `releaseDate` ISO truncado al año, `refreshAlbums()`                       |
+| AlbumViewModelTest           | `ui/albums/AlbumViewModelTest.kt`               | 9     | Estados Loading/Success/Error, `IOException`, `HttpException`, refresh, `findById`                                 |
+| AlbumViewModelDetailTest     | `ui/albums/AlbumViewModelDetailTest.kt`         | 7     | findById con tracks, performers, null                                                                              |
+| CollectorViewModelTest       | `ui/collectors/CollectorViewModelTest.kt`       | 12    | Carga, paginación, refresh, errores, loadCollector                                                                 |
+| CollectorViewModelDetailTest | `ui/collectors/CollectorViewModelDetailTest.kt` | 7     | findById con álbumes, performers, null                                                                             |
+| CollectorRepositoryTest      | `repository/CollectorRepositoryTest.kt`         | 9     | Cache-first, `getCollector(id)` individual, refresh, excepciones del API, null si falla                            |
+| VinilosApiContractTest       | `network/VinilosApiContractTest.kt`             | 3     | Contrato HTTP `GET /albums` con MockWebServer                                                                      |
+| AppViewModelTest             | `ui/AppViewModelTest.kt`                        | 8     | userRole inicial null, setUserRole VISITOR/COLLECTOR, clearUserRole, isDarkTheme default, toggleDarkTheme, isReady |
+| ExampleUnitTest              | `ExampleUnitTest.kt`                            | 1     | Smoke del runner                                                                                                   |
 
 ### Cómo correrlas
 
@@ -233,11 +250,16 @@ Ubicación: `app/src/androidTest/java/com/uniandes/vinilos/`.
 
 ### Qué cubren
 
-| HU   | Suite                             | Casos | Qué valida                                                                                                                                                              |
-| ---- | --------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| HU01 | AlbumListScreenInstrumentedTest   | 5     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío                                                                          |
-| HU02 | AlbumDetailScreenInstrumentedTest | 5     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado" |
-| HU03 | ArtistListScreenTest              | 4     | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error                                                                                       |
+| HU      | Suite                                 | Casos | Qué valida                                                                                                                                                                                                                                      |
+| ------- | ------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HU01    | AlbumListScreenInstrumentedTest       | 6     | Skeleton durante carga, render del listado, mensaje de error, botón "Reintentar", estado vacío, render con rol Collector                                                                                                                        |
+| HU02    | AlbumDetailScreenInstrumentedTest     | 6     | Spinner mientras carga, render completo del detalle (título, género, año, sello, secciones ARTISTAS y CANCIONES), botón Volver, mensaje de error, "Álbum no encontrado", render con rol Collector                                               |
+| HU03    | ArtistListScreenInstrumentedTest      | 13    | Spinner durante carga, nombres de artistas, grilla con testTags, mensaje de error, búsqueda (filtro, case-insensitive, sin resultados, limpiar), navegación por click, paginación (visible, oculto, oculto al buscar), render con rol Collector |
+| HU04    | ArtistDetailScreenInstrumentedTest    | 6     | Loading, nombre, discografía, botón volver, performer null, render con rol Collector                                                                                                                                                            |
+| HU05    | CollectorListScreenInstrumentedTest   | 14    | Loading, coleccionistas, artista favorito, error, navegación, búsqueda (nombre, case-insensitive, artista favorito, sin resultados, limpiar), paginación (visible, oculto, oculto al buscar), render con rol Collector                          |
+| HU06    | CollectorDetailScreenInstrumentedTest | 7     | Loading (isLoading=true), loading (collector null), nombre, stats, vault, botón volver, render con rol Collector                                                                                                                                |
+| ISSUE01 | HomeScreenInstrumentedTest            | 9     | Header, secciones álbumes/artistas/coleccionistas, navegación por click, coleccionistas en pantalla, artistas en pantalla, render con rol Collector                                                                                             |
+| ISSUE02 | (todos los anteriores)                | +7    | Parámetro userRole propagado a VinilosTopBar en todas las pantallas, tag top_bar_back_button en VinilosTopBar, un test \_conRolCollector por cada suite                                                                                         |
 
 ### Cómo correrlas
 
@@ -271,12 +293,16 @@ Pruebas de **caja negra** sobre el APK real, dirigidas con Cucumber + Kraken-Nod
 
 ### Qué cubren
 
-| HU   | Feature              | Archivo                                | Qué valida                                                                           |
-| ---- | -------------------- | -------------------------------------- | ------------------------------------------------------------------------------------ |
-| HU01 | Listado de álbumes   | `kraken/features/album_list.feature`   | Navegar al catálogo, ver el header y confirmar que un álbum aparece en la lista      |
-| HU02 | Detalle de álbum     | `kraken/features/album_detail.feature` | Tap en un álbum, verificar género, secciones ARTISTAS y CANCIONES, volver con Volver |
-| HU03 | Listado de artistas  | `kraken/features/artist_list.feature`  | Navega al listado de artistas y verifica su contenido                                |
-| —    | Navegación principal | `kraken/features/navbar.feature`       | Las 4 tabs son visibles y navegables                                                 |
+| HU      | Feature                   | Archivo                                    | Qué valida                                                                           |
+| ------- | ------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------ |
+| HU01    | Listado de álbumes        | `kraken/features/album_list.feature`       | Navegar al catálogo, ver el header y confirmar que un álbum aparece en la lista      |
+| HU02    | Detalle de álbum          | `kraken/features/album_detail.feature`     | Tap en un álbum, verificar género, secciones ARTISTAS y CANCIONES, volver con Volver |
+| HU03    | Listado de artistas       | `kraken/features/artist_list.feature`      | Navega al listado de artistas y verifica su contenido                                |
+| HU04    | Detalle de artista        | `kraken/features/artist_detail.feature`    | Tap en artista, ver secciones, volver                                                |
+| HU05    | Listado de coleccionistas | `kraken/features/collector_list.feature`   | Navegar al listado, ver header y coleccionista                                       |
+| HU06    | Detalle de coleccionista  | `kraken/features/collector_detail.feature` | Tap en coleccionista, ver ELITE CURATOR y The Vault, volver                          |
+| ISSUE01 | Página principal          | `kraken/features/home.feature`             | Header, últimos álbumes con scroll, navegación a detalle, sección coleccionistas     |
+| —       | Navegación principal      | `kraken/features/navbar.feature`           | Las 4 tabs son visibles y navegables                                                 |
 
 ### Setup inicial (una sola vez por máquina)
 
@@ -310,6 +336,168 @@ kraken/reports/<timestamp>/index.html
 ```
 
 El reporte HTML incluye cada step ejecutado y screenshots automáticos.
+
+---
+
+## Optimizaciones aplicadas
+
+La aplicación incluye un conjunto de optimizaciones orientadas a tres frentes: **caché**, **programación asíncrona** y **uso eficiente de memoria**. Cada cambio responde a uno de los criterios de evaluación del entregable.
+
+### 1. Caché HTTP en disco (OkHttp)
+
+`NetworkServiceAdapter` monta una `okhttp3.Cache` de **10 MiB** en `context.cacheDir/vinilos_http_cache`. Un _network interceptor_ reescribe `Cache-Control: max-age=60` en todas las respuestas (el backend NestJS no envía ese header) y un _application interceptor_ activa modo `only-if-cached` con `max-stale = 7 días` cuando no hay red. Los timeouts del cliente (`connect`/`read`/`write = 15 s`, `callTimeout = 30 s`) y `retryOnConnectionFailure = true` completan la configuración.
+
+La inicialización ocurre en `VinilosApplication.onCreate()` para inyectar el `Context` necesario para el directorio de caché y la detección de conectividad. Se añadió el permiso `ACCESS_NETWORK_STATE` al manifiesto.
+
+**Efecto:** dentro de la ventana de 60 s las llamadas idénticas se sirven desde disco — 0 latencia, 0 datos móviles. En modo avión, la app puede servir contenido cacheado por hasta 7 días en vez de fallar con `IOException`.
+
+### 2. `stateIn(Eagerly)` en flujos derivados con `combine`
+
+Los tres ViewModels (`AlbumViewModel`, `ArtistViewModel`, `CollectorViewModel`) exponen `visibleX` y `hasMore` como `StateFlow` caliente compartido vía `stateIn(viewModelScope, SharingStarted.Eagerly, initialValue)`, en lugar del `Flow` frío resultado del `combine` original. Una sola suscripción upstream se comparte entre todos los `collectAsStateWithLifecycle` y mantiene el último valor cacheado en memoria.
+
+**Efecto:** N collectors → 1 suscripción upstream (antes N evaluaciones de la lambda en cada cambio).
+
+### 3. `collectAsStateWithLifecycle` en todas las pantallas
+
+Se reemplazó `collectAsState()` por `collectAsStateWithLifecycle()` en las 6 pantallas Compose. La dependencia `androidx.lifecycle:lifecycle-runtime-compose:2.10.0` se declara explícitamente en `gradle/libs.versions.toml`.
+
+**Efecto:** la recolección se cancela cuando el `LifecycleOwner` pasa a `STOPPED` (app a background) y se reanuda al volver a `STARTED`. Ahorra batería y previene escenarios pre-ANR si el ViewModel sigue emitiendo en background.
+
+### 4. Coil `ImageRequest` con `scale(Scale.FILL)` y `crossfade(true)`
+
+Donde se usaba `AsyncImage(model = url)` directamente, ahora se construye un `ImageRequest` explícito dentro de `remember(url)` con `.scale(Scale.FILL).crossfade(true)`. Aplica a `HomeScreen` (`AlbumCard`, `ArtistCard`), `CollectorDetailScreen` (`HeroSection`, `VaultAlbumCard`) y `ArtistListScreen` (`PerformerGridItem`).
+
+**Efecto:** Coil decodifica el bitmap al tamaño del composable en vez del tamaño nativo del servidor — bitmaps típicamente 10–40× más pequeños en heap.
+
+### 5. `remember` y `derivedStateOf` en cálculos derivados
+
+Cálculos como `flatMap+distinctBy+take` en `HomeScreen`, filtros de búsqueda en las pantallas de listado y agregaciones (`avgGrade` en `CollectorDetailScreen`) que antes corrían en cada recomposition ahora se memorizan con `remember(...)` y `derivedStateOf`.
+
+**Efecto:** Compose puede recomponer un screen muchas veces por segundo durante una animación; sin memoización, cada recomposition recalcula filtros sobre listas completas.
+
+### 6. Keys estables en items de listas Lazy
+
+Todos los `items(list)` y `itemsIndexed(list)` en `AlbumListScreen`, `ArtistListScreen`, `CollectorListScreen` y `HomeScreen` reciben `key = { it.id }` (o `key = { it }` para colecciones de strings).
+
+**Efecto:** al filtrar o reordenar la lista, Compose mueve el composable existente sin recrearlo. Reduce el trabajo de composición y evita re-decode de imágenes con Coil.
+
+### 7. Limpieza derivada del lint
+
+Se eliminaron los 7 colores legacy del template (`purple_*`, `teal_*`, `black`, `white`) que no se referenciaban en ningún lado, y el `android:label` redundante de la `<activity>` en el manifiesto (ya está en `<application>`).
+
+---
+
+## Análisis estático con Android Lint
+
+Lint detecta problemas de correctness, performance, accesibilidad y seguridad sin necesidad de ejecutar la app. La app se valida sobre cero errores y se actúa sobre los warnings accionables.
+
+### Cómo correrlo
+
+```bash
+./gradlew lint              # corre lint sobre debug + release
+./gradlew lintDebug         # solo variant debug (más rápido)
+```
+
+### Dónde ver los resultados
+
+Cada ejecución genera los reportes en `app/build/reports/`:
+
+```
+app/build/reports/lint-results-debug.html      # reporte navegable
+app/build/reports/lint-results-debug.xml       # formato máquina
+app/build/reports/lint-results-debug.txt       # formato consola
+```
+
+El HTML agrupa los issues por categoría (Correctness, Performance, Security, Accessibility, etc.) y muestra el archivo + línea + extracto del código afectado.
+
+> Para conservar un snapshot del lint junto con el código (en vez del path efímero de `app/build/`), el repo incluye una copia versionada de la última ejecución en [`reports/lint/`](reports/lint/).
+
+### Estado actual
+
+La última ejecución reporta **21 warnings, 0 errors**. Las decisiones tomadas se resumen en la siguiente tabla:
+
+| Issue                        | Categoría   | Detalle                                                                | Decisión                                |
+| ---------------------------- | ----------- | ---------------------------------------------------------------------- | --------------------------------------- |
+| `RedundantLabel`             | Correctness | `MainActivity` tiene `android:label` duplicado del `<application>`     | Corregido                               |
+| `UnusedResources`            | Performance | 7 colores legacy en `colors.xml` (purple*\*/teal*\*/black/white)       | Corregido                               |
+| `UnusedResources`            | Performance | `ic_launcher_background.xml` / `ic_launcher_foreground.xml` (drawable) | Falso positivo (los usa el wizard)      |
+| `AndroidGradlePluginVersion` | Correctness | AGP 9.1.1 → 9.2.0 disponible                                           | Diferido (cambio amplio fuera de scope) |
+| `GradleDependency`           | Correctness | Compose BOM, Room, Navigation obsoletos                                | Diferido (cambio amplio fuera de scope) |
+| `NewerVersionAvailable`      | Correctness | Kotlin 2.2.10, Mockk, OkHttp logging-interceptor                       | Diferido (cambio amplio fuera de scope) |
+| `Aligned16KB`                | Correctness | `libmockkjvmtiagent.so` no alineado a 16 KB                            | Ignorado (solo afecta `androidTest`)    |
+
+Las actualizaciones de versiones de dependencias requieren _regression testing_ dedicado y se manejan en una rama separada.
+
+---
+
+## Perfilado en dispositivos físicos
+
+Para medir el impacto real de las optimizaciones, el repositorio incluye un script PowerShell que captura métricas vía `adb dumpsys` mientras se recorre manualmente la app. Los reportes se generan por dispositivo y luego se consolidan en un informe `.docx` con gráficas.
+
+### Pre-requisitos
+
+- ADB en `PATH` (incluido en Android SDK platform-tools).
+- Dispositivo Android con depuración USB activada y autorizado (`adb devices` debe listarlo).
+- PowerShell 5.1+ (incluido en Windows). En otras plataformas, ver "Solución de problemas".
+- Para regenerar el `.docx`: Python 3.10+, `python-docx` y `matplotlib`.
+
+### 1. Capturar métricas en un dispositivo
+
+Desde la raíz del repositorio:
+
+```powershell
+.\scripts\profile-device.ps1 -DeviceLabel "<nombre-del-telefono>"
+```
+
+`-DeviceLabel` es libre; sirve para nombrar el reporte (ej. `samsung-a52`, `pixel-7`, `redmi-note-13-pro`).
+
+El script ejecuta:
+
+1. Verifica que haya un dispositivo conectado y captura su modelo, versión de Android y ABI.
+2. Reinstala el APK debug (`./gradlew installDebug`). Se puede saltar con `-SkipInstall`.
+3. Resetea contadores de batería (`dumpsys batterystats --reset`) y GPU (`dumpsys gfxinfo <pkg> reset`) para obtener una línea base limpia.
+4. Lanza la app y muestra el recorrido manual a ejecutar.
+5. Cuando se presiona Enter, captura cuatro snapshots vía `adb dumpsys`:
+   - **`meminfo`** — desglose de memoria PSS por categoría (Java/Native/Code/Graphics/Stack).
+   - **`gfxinfo`** — frames totales, % de janky frames, percentiles P50/P90/P95/P99 del tiempo de render.
+   - **`batterystats --charged`** — tiempo de CPU acumulado y energía estimada.
+   - **`top -n 1 -p <pid>`** — %CPU instantáneo del proceso.
+
+### Recorrido manual a ejecutar
+
+Mientras el script espera el `Enter`, se debe recorrer:
+
+1. Pantalla **Inicio** (Vinilos).
+2. Tab **Álbumes** → entrar a un álbum → volver.
+3. Tab **Artistas** → entrar a un artista → volver.
+4. Tab **Coleccionistas** → entrar a un coleccionista → volver.
+5. Hacer **pull-to-refresh** en alguna lista.
+
+Aproximadamente 5 segundos por pantalla es suficiente para acumular frames representativos.
+
+### 2. Dónde quedan los reportes
+
+```
+profile-results/<DeviceLabel>-<timestamp>.txt
+```
+
+Los reportes capturados durante esta entrega están versionados en [`profile-results/`](profile-results/) como evidencia (3 dispositivos físicos: Redmi Note 9 Pro / Android 10, Poco F5 Pro / Android 15, Redmi Note 13 Pro / Android 14).
+
+### 3. Generar el informe consolidado en .docx
+
+Con al menos un `.txt` en `profile-results/`, se ejecuta:
+
+```bash
+python scripts/generate-report.py
+```
+
+El script parsea todos los `.txt`, genera 4 gráficas con `matplotlib` (PSS apilado por categoría, % de jank, frames saludables vs jankerados, percentiles de frame time) y construye `Informe-Optimizaciones-Vinilos.docx` en la raíz del repo. Las gráficas intermedias se guardan en `build/report-charts/`.
+
+El informe `.docx` cubre las optimizaciones aplicadas, los hallazgos del lint y la comparación entre los dispositivos perfilados (con tablas y gráficas). El archivo no se versiona (está en `.gitignore`); se regenera bajo demanda a partir de los `.txt` versionados en `profile-results/`.
+
+### Cómo opera la métrica de batería
+
+Mientras el dispositivo está conectado por USB, `dumpsys batterystats` reporta `Time on battery: 0 ms` porque no acumula stats durante la carga. Para una medición cuantitativa de mAh hay que repetir el perfilado con el dispositivo desconectado y la app en uso continuo durante varios minutos.
 
 ---
 
@@ -362,7 +550,7 @@ Pasa cuando un Gradle daemon previo dejó abierto un `.jar`:
 
 ### "Failed to connect to /127.0.0.1:3000" en logcat
 
-La constante en `Constants.kt` debe ser `http://10.0.2.2:3000/` para emulador. Si se sobreescribió a `127.0.0.1`, restáurala o aplica `adb reverse tcp:3000 tcp:3000` después de cada reinicio del adb daemon.
+Si estás usando el backend local, la constante en `Constants.kt` debe ser `http://10.0.2.2:3000/` para emulador. Si se sobreescribió a `127.0.0.1`, restáurala o aplica `adb reverse tcp:3000 tcp:3000` después de cada reinicio del adb daemon.
 
 ### El listado se queda vacío y no muestra error
 

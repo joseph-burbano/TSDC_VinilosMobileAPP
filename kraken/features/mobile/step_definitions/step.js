@@ -1,4 +1,5 @@
 const { Given, When, Then } = require("@cucumber/cucumber");
+const assert = require("assert");
 
 Then("I tap on element with id {string}", async function (text) {
   const element = await this.driver.$(
@@ -28,6 +29,17 @@ Then("I tap on element with accessibility id {string}", async function (id) {
   await element.click();
 });
 
+Then("I scroll up", async function () {
+  await this.driver.execute("mobile: scrollGesture", {
+    left: 100,
+    top: 300,
+    width: 800,
+    height: 800,
+    direction: "up",
+    percent: 3,
+  });
+});
+
 Then("I scroll down", async function () {
   await this.driver.execute("mobile: scrollGesture", {
     left: 100,
@@ -37,4 +49,32 @@ Then("I scroll down", async function () {
     direction: "down",
     percent: 3,
   });
+});
+
+Then("I don't see the text {string}", async function (text) {
+  const elements = await this.driver.$$(
+    `android=new UiSelector().textContains("${text}")`,
+  );
+  assert.strictEqual(elements.length, 0);
+});
+
+Then("I type {string}", async function (text) {
+  const element = await this.driver.$(`android=new UiSelector().focused(true)`);
+  await element.setValue(text);
+});
+
+Then("I tap on element with text containing {string}", async function (text) {
+  const element = await this.driver.$(
+    `android=new UiSelector().textContains("${text}")`,
+  );
+  await element.click();
+});
+
+Then("I select role if needed", async function () {
+  const elements = await this.driver.$$(
+    `android=new UiSelector().textContains("Visitante")`,
+  );
+  if (elements.length > 0) {
+    await elements[0].click();
+  }
 });

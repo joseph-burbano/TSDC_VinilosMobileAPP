@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.uniandes.vinilos.model.Album
+import com.uniandes.vinilos.model.CollectorAlbum
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.model.Track
 
@@ -35,6 +36,15 @@ class Converters {
     @TypeConverter
     fun jsonToAlbums(json: String): List<Album> {
         val type = object : TypeToken<List<Album>>() {}.type
+        return gson.fromJson(json, type) ?: emptyList()
+    }
+
+    @TypeConverter
+    fun collectorAlbumsToJson(items: List<CollectorAlbum>): String = gson.toJson(items)
+
+    @TypeConverter
+    fun jsonToCollectorAlbums(json: String): List<CollectorAlbum> {
+        val type = object : TypeToken<List<CollectorAlbum>>() {}.type
         return gson.fromJson(json, type) ?: emptyList()
     }
 }

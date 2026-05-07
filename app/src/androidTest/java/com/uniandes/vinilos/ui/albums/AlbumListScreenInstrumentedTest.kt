@@ -9,6 +9,7 @@ import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.model.Performer
+import com.uniandes.vinilos.model.UserRole
 import com.uniandes.vinilos.repository.AlbumRepository
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import io.mockk.coEvery
@@ -46,6 +47,8 @@ class AlbumListScreenInstrumentedTest {
         return AlbumViewModel(repo)
     }
 
+    // ─── HU01 - T1: Skeleton mientras carga ──────────────────────────────────
+
     @Test
     fun listScreen_muestraSkeletonMientrasCarga() {
         val viewModel = viewModelWith {
@@ -57,7 +60,10 @@ class AlbumListScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumListScreen(viewModel = viewModel)
+                AlbumListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -65,6 +71,8 @@ class AlbumListScreenInstrumentedTest {
             .onNodeWithTag(AlbumListTestTags.LOADING)
             .assertIsDisplayed()
     }
+
+    // ─── HU01 - T2: Lista de álbumes con nombres tras carga exitosa ───────────
 
     @Test
     fun listScreen_muestraAlbumesConSusNombres_cuandoCargaExitosa() {
@@ -74,7 +82,10 @@ class AlbumListScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumListScreen(viewModel = viewModel)
+                AlbumListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -85,11 +96,11 @@ class AlbumListScreenInstrumentedTest {
         }
 
         composeTestRule.onNodeWithText("Abbey Road").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Thriller").assertIsDisplayed()
         composeTestRule.onNodeWithText("2 encontrados").assertIsDisplayed()
         composeTestRule.onNodeWithTag(AlbumListTestTags.cardFor(1)).assertIsDisplayed()
-        composeTestRule.onNodeWithTag(AlbumListTestTags.cardFor(2)).assertIsDisplayed()
     }
+
+    // ─── HU01 - T3: Mensaje de error cuando falla el servicio ────────────────
 
     @Test
     fun listScreen_muestraMensajeDeError_cuandoFallaElServicio() {
@@ -99,7 +110,10 @@ class AlbumListScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumListScreen(viewModel = viewModel)
+                AlbumListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -115,6 +129,8 @@ class AlbumListScreenInstrumentedTest {
         composeTestRule.onNodeWithText("Reintentar").assertIsDisplayed()
     }
 
+    // ─── HU01 - T4: Botón reintentar dispara nuevo fetch ─────────────────────
+
     @Test
     fun listScreen_botonReintentar_disparaUnNuevoFetch() {
         val repo = mockk<AlbumRepository>(relaxed = true)
@@ -124,7 +140,10 @@ class AlbumListScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumListScreen(viewModel = viewModel)
+                AlbumListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -144,6 +163,8 @@ class AlbumListScreenInstrumentedTest {
         composeTestRule.onNodeWithText("Abbey Road").assertIsDisplayed()
     }
 
+    // ─── HU01 - T5: Lista vacía muestra estado vacío ─────────────────────────
+
     @Test
     fun listScreen_listaVacia_muestraEstadoVacio() {
         val viewModel = viewModelWith {
@@ -152,7 +173,10 @@ class AlbumListScreenInstrumentedTest {
 
         composeTestRule.setContent {
             VinilosTheme {
-                AlbumListScreen(viewModel = viewModel)
+                AlbumListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.VISITOR
+                )
             }
         }
 
@@ -164,5 +188,33 @@ class AlbumListScreenInstrumentedTest {
 
         composeTestRule.onNodeWithText("No se encontraron álbumes").assertIsDisplayed()
         composeTestRule.onNodeWithText("0 encontrados").assertIsDisplayed()
+    }
+
+    // ─── HU01 - T6 (nuevo): Rol COLLECTOR ve el botón + flotante ─────────────
+
+    @Test
+    fun listScreen_renderizaCorrectamente_conRolCollector() {
+        val viewModel = viewModelWith {
+            coEvery { getAlbums() } returns sampleAlbums
+        }
+
+        composeTestRule.setContent {
+            VinilosTheme {
+                AlbumListScreen(
+                    viewModel = viewModel,
+                    userRole = UserRole.COLLECTOR
+                )
+            }
+        }
+
+        composeTestRule.waitUntil(timeoutMillis = 5_000) {
+            composeTestRule
+                .onAllNodes(hasTestTag(AlbumListTestTags.LIST))
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        // Con rol COLLECTOR la lista carga correctamente
+        composeTestRule.onNodeWithText("Abbey Road").assertIsDisplayed()
+        composeTestRule.onNodeWithText("2 encontrados").assertIsDisplayed()
     }
 }

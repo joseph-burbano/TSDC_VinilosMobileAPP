@@ -7,11 +7,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,15 +24,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Track
 import com.uniandes.vinilos.ui.components.AlbumCover
 import com.uniandes.vinilos.ui.theme.VinilosTheme
+import com.uniandes.vinilos.ui.components.VinilosTopBar
+import androidx.compose.foundation.background
+import com.uniandes.vinilos.model.UserRole
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlbumDetailScreen(
     albumId: Int,
     viewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(LocalContext.current)),
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     when (val state = uiState) {
         is AlbumsUiState.Loading -> {
@@ -67,23 +71,12 @@ fun AlbumDetailScreen(
     Scaffold(
         modifier = Modifier.testTag(AlbumDetailTestTags.SCREEN),
         topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(
-                        onClick = onBack,
-                        modifier = Modifier.testTag(AlbumDetailTestTags.BACK)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Volver",
-                            tint = Color.White
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = coverColor
-                )
+            VinilosTopBar(
+                title = "Albumes",
+                showBack = true,
+                onBack = onBack,
+                onMenuClick = onMenuClick,
+                userRole = userRole
             )
         }
     ) { padding ->
@@ -269,7 +262,7 @@ private fun TrackRow(index: Int, track: Track) {
 
 object AlbumDetailTestTags {
     const val SCREEN = "album_detail_screen"
-    const val BACK = "album_detail_back"
+    const val BACK   = "top_bar_back_button"
 }
 
 @Preview(showBackground = true, showSystemUi = true)

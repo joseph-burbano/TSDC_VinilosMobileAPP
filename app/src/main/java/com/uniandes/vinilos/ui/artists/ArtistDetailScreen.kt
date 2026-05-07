@@ -11,8 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,6 +30,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.uniandes.vinilos.model.Album
 import com.uniandes.vinilos.model.Performer
+import com.uniandes.vinilos.model.UserRole
+import androidx.compose.material.icons.filled.Menu
+import com.uniandes.vinilos.ui.components.VinilosTopBar
 
 // ── TestTags ──────────────────────────────────────────────────────────────────
 object ArtistDetailTestTags {
@@ -38,7 +41,7 @@ object ArtistDetailTestTags {
     const val NAME    = "artist_detail_name"
     const val IMAGE   = "artist_detail_image"
     const val ALBUMS  = "artist_detail_albums"
-    const val BACK    = "artist_detail_back"
+    const val BACK    = "top_bar_back_button" 
     const val STATS   = "artist_detail_stats"
 }
 
@@ -47,15 +50,22 @@ object ArtistDetailTestTags {
 fun ArtistDetailScreen(
     artistId: Int,
     viewModel: ArtistViewModel,
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    onMenuClick: () -> Unit = {},
+    userRole: UserRole? = null 
 ) {
-    val isLoading by viewModel.isLoading.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val performer = viewModel.findById(artistId)
 
     // Mientras la lista no haya cargado, performer es null
     when {
         isLoading || performer == null -> ArtistDetailLoading()
-        else -> ArtistDetailContent(performer = performer, onBack = onBack)
+        else -> ArtistDetailContent(
+            performer = performer,
+            onBack = onBack,
+            onMenuClick = onMenuClick,
+            userRole = userRole  
+        )
     }
 }
 
@@ -74,19 +84,40 @@ private fun ArtistDetailLoading() {
 
 // ── Contenido cuando hay datos ────────────────────────────────────────────────
 @Composable
-private fun ArtistDetailContent(performer: Performer, onBack: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .testTag(ArtistDetailTestTags.SCREEN)
+private fun ArtistDetailContent(
+        performer: Performer,
+        onBack: () -> Unit,
+        onMenuClick: () -> Unit,
+        userRole: UserRole? = null
     ) {
-        HeroSection(performer = performer, onBack = onBack)
-        DescriptionSection(performer = performer)
-        GenreChipsSection(albums = performer.albums)
-        StatsSection(performer = performer)
-        DiscographySection(albums = performer.albums)
-        Spacer(modifier = Modifier.height(32.dp))
+    Scaffold(
+        topBar = {
+            VinilosTopBar(
+                title = "Artistas",
+                showBack = true,
+                onBack = onBack,
+                onMenuClick = onMenuClick,
+                userRole = userRole
+            )
+        }
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(padding)
+                .testTag(ArtistDetailTestTags.SCREEN)
+        ) {
+            HeroSection(
+                performer = performer,
+                onBack = onBack    // ya no necesita el botón flotante
+            )
+            DescriptionSection(performer = performer)
+            GenreChipsSection(albums = performer.albums)
+            StatsSection(performer = performer)
+            DiscographySection(albums = performer.albums)
+            Spacer(modifier = Modifier.height(32.dp))
+        }
     }
 }
 
@@ -124,22 +155,6 @@ private fun HeroSection(performer: Performer, onBack: () -> Unit) {
                     )
                 )
         )
-
-        // Botón atrás (arriba izquierda)
-        IconButton(
-            onClick = onBack,
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(8.dp)
-                .testTag(ArtistDetailTestTags.BACK)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Volver",
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-
         // Texto superpuesto sobre la foto (parte inferior)
         Column(
             modifier = Modifier
