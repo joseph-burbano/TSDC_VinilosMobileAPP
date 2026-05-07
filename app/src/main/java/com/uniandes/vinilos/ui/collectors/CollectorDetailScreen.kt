@@ -34,6 +34,7 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.CollectorAlbum
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.LaunchedEffect
 import com.uniandes.vinilos.ui.components.VinilosTopBar
 import com.uniandes.vinilos.model.UserRole
