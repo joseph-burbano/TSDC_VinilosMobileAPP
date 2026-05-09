@@ -1,0 +1,2030 @@
+﻿Vinilos Mobile App - Profile report v2 (post-corrutinas)
+DeviceLabel: redmi-note-13-pro
+Timestamp:   20260509-163127
+Model:       2312DRA50G
+Android:     14
+ABI:         arm64-v8a
+Package:     com.uniandes.vinilos
+Script:      profile-device-v2.ps1
+Comparable contra: profile-results/redmi-note-13-pro-*.txt
+
+==================================================
+  1. MEMORIA (dumpsys meminfo)
+==================================================
+
+Applications Memory Usage (in Kilobytes):
+Uptime: 56728433 Realtime: 89904505
+
+** MEMINFO in pid 32402 [com.uniandes.vinilos] **
+                   Pss  Private  Private  SwapPss      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    23173    23124        4       67    24068    38540    36317     2222
+  Dalvik Heap    18489    18420        8       92    19316    33578     8395    25183
+ Dalvik Other    16011     6564        0        0    25684                           
+        Stack     3288     3288        0        0     3300                           
+       Ashmem       15        0        0        0      756                           
+      Gfx dev        0        0        0        0        4                           
+    Other dev       18        4       12        0      496                           
+     .so mmap    11285      572     5856        1    56240                           
+    .jar mmap     7218        0     2940        0    47344                           
+    .apk mmap      386        0      104        0     2112                           
+    .ttf mmap      829        0      352        0     1924                           
+    .dex mmap    65255    65236        0        0    65976                           
+    .oat mmap       96        0        0        0     1820                           
+    .art mmap    10391     8324     1300       90    21816                           
+   Other mmap     3827     3596       96        0     5044                           
+   EGL mtrack    63788    63788        0        0    63788                           
+    GL mtrack     3388     3388        0        0     3388                           
+      Unknown     1077      824      232        1     1540                           
+        TOTAL   228785   197128    10904      251   344616    72118    44712    27405
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    28044                          41132
+         Native Heap:    23124                          24068
+                Code:    75256                         194508
+               Stack:     3288                           3300
+            Graphics:    67176                          67180
+       Private Other:    11144
+              System:    20753
+             Unknown:                                   14428
+ 
+           TOTAL PSS:   228785            TOTAL RSS:   344616       TOTAL SWAP PSS:      251
+ 
+ Objects
+               Views:       13         ViewRootImpl:        1
+         AppContexts:        5           Activities:        1
+              Assets:       50        AssetManagers:        0
+       Local Binders:       24        Proxy Binders:       49
+       Parcel memory:        8         Parcel count:       32
+    Death Recipients:        2             WebViews:        0
+ 
+ SQL
+         MEMORY_USED:      359
+  PAGECACHE_OVERFLOW:      108          MALLOC_SIZE:       46
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b) cache hits cache misses cache size  Dbname
+PER CONNECTION STATS
+         4       28             43     8    33     4  /data/user/0/com.uniandes.vinilos/databases/vinilos_database
+         4        8                    0     0     0    (attached) temp
+         4       28             35     0    15     2  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (2)
+         4       28             70     3    23     5  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (1)
+         4       28             39     2    14     2  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (3)
+POOL STATS
+     cache hits  cache misses    cache size  Dbname
+             12            89           101  /data/user/0/com.uniandes.vinilos/databases/vinilos_database
+
+==================================================
+  2. GPU / RENDER (dumpsys gfxinfo - jank, frame stats)
+==================================================
+
+Applications Graphics Acceleration Info:
+Uptime: 56728763 Realtime: 89904836
+
+** Graphics info for pid 32402 [com.uniandes.vinilos] **
+
+Stats since: 56702580201857ns
+Total frames rendered: 1882
+Janky frames: 62 (3.29%)
+Janky frames (legacy): 217 (11.53%)
+50th percentile: 11ms
+90th percentile: 13ms
+95th percentile: 20ms
+99th percentile: 81ms
+Number Missed Vsync: 17
+Number High input latency: 3086
+Number Slow UI thread: 53
+Number Slow bitmap uploads: 0
+Number Slow issue draw commands: 29
+Number Frame deadline missed: 62
+Number Frame deadline missed (legacy): 68
+HISTOGRAM: 5ms=69 6ms=99 7ms=253 8ms=132 9ms=142 10ms=183 11ms=308 12ms=445 13ms=82 14ms=31 15ms=7 16ms=13 17ms=12 18ms=4 19ms=6 20ms=3 21ms=7 22ms=8 23ms=1 24ms=1 25ms=4 26ms=6 27ms=1 28ms=7 29ms=1 30ms=1 31ms=2 32ms=6 34ms=3 36ms=4 38ms=4 40ms=2 42ms=2 44ms=1 46ms=1 48ms=1 53ms=4 57ms=1 61ms=0 65ms=1 69ms=2 73ms=2 77ms=1 81ms=1 85ms=1 89ms=0 93ms=2 97ms=0 101ms=0 105ms=1 109ms=0 113ms=2 117ms=0 121ms=1 125ms=0 129ms=1 133ms=0 150ms=4 200ms=0 250ms=2 300ms=2 350ms=2 400ms=0 450ms=0 500ms=0 550ms=0 600ms=0 650ms=0 700ms=0 750ms=0 800ms=0 850ms=0 900ms=0 950ms=0 1000ms=0 1050ms=0 1100ms=0 1150ms=0 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=0 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=0 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+50th gpu percentile: 6ms
+90th gpu percentile: 10ms
+95th gpu percentile: 10ms
+99th gpu percentile: 12ms
+GPU HISTOGRAM: 1ms=0 2ms=38 3ms=78 4ms=297 5ms=220 6ms=362 7ms=192 8ms=198 9ms=91 10ms=319 11ms=58 12ms=18 13ms=1 14ms=2 15ms=2 16ms=1 17ms=0 18ms=3 19ms=2 20ms=0 21ms=0 22ms=0 23ms=0 24ms=0 25ms=0 4950ms=0
+
+Pipeline=Skia (OpenGL)
+Memory policy:
+  Max surface area: 3308640
+  Max resource usage: 317.63MB (x48)
+  Background retention: 50% (altUiHidden = true)
+  GPU Context timeout: 10
+Contexts: 1 (stopped = 0)
+CPU Caches:
+  Glyph Cache: 714.67 KB (1 entry)
+  Glyph Count: 62 
+Total CPU memory usage:
+  731824 bytes, 714.67 KB (0.00 bytes is purgeable)
+GPU Caches:
+  Other:
+    Other: 52.38 KB (1 entry)
+    Buffer Object: 2.50 KB (4 entries)
+    StencilAttachment: 31.00 KB (5 entries)
+  Image:
+    Texture: 177.25 KB (39 entries)
+  Scratch:
+    RenderTarget: 119.45 MB (19 entries)
+    Buffer Object: 78.00 KB (2 entries)
+    Texture: 2.88 MB (15 entries)
+Total GPU memory usage:
+  128618672 bytes, 122.66 MB (119.79 MB is purgeable)
+
+Profile data in ms:
+
+	com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@641a9d4 (visibility=0)
+View hierarchy:
+
+  com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@641a9d4
+  13 views, 31.95 kB of render nodes
+
+
+Total ViewRootImpl   : 1
+Total attached Views : 13
+Total RenderNode     : 31.95 kB (used) / 83.25 kB (capacity)
+
+
+==================================================
+  3. CPU INSTANTANEO (top -n 1 -p del PID de la app)
+==================================================
+
+[s[999C[999B[6n[u[H[J[?25l[H[J[s[999C[999B[6n[uTasks: 1 total,   0 running,   1 sleeping,   0 stopped,   0 zombie
+
+  Mem:  7476820K total,  7416432K used,    60388K free,     1540K buffers
+
+ Swap:  6291452K total,  2924688K used,  3366764K free,  2506024K cached
+
+800%cpu  14%user   4%nice 100%sys 654%idle   7%iow  11%irq  11%sirq   0%host
+
+[7m  PID USER         PR  NI VIRT  RES  SHR S[%CPU] %MEM     TIME+ ARGS            [0m
+
+32402 u0_a372      10 -10 8.7G 266M 130M S  0.0   3.6   0:19.86 com.uniandes.vi+
+[?25h[0m[999H[K[?25h[?25h[0m[999H[K
+
+==================================================
+  4. BATERIA / ENERGIA (dumpsys batterystats - filtrado al package)
+==================================================
+
+Statistics since last charge:
+  System starts: 0, currently on battery: true
+  Estimated battery capacity: 5100 mAh
+  Last learned battery capacity: 4650 mAh
+  Min learned battery capacity: 4650 mAh
+  Max learned battery capacity: 4650 mAh
+  Time on battery: 28s 454ms (95.1%) realtime, 28s 454ms (100.0%) uptime
+  Time on battery screen off: 0ms (0.0%) realtime, 0ms (0.0%) uptime
+  Time on battery screen doze: 0ms (0.0%)
+  Total run time: 29s 920ms realtime, 29s 920ms uptime
+  Discharge: 0 mAh
+  Screen off discharge: 0 mAh
+  Screen doze discharge: 0 mAh
+  Screen on discharge: 0 mAh
+  Device light doze discharge: 0 mAh
+  Device deep doze discharge: 0 mAh
+  Start clock time: 2026-05-09-16-31-42
+  Screen on: 28s 454ms (100.0%) 0x, Interactive: 28s 454ms (100.0%)
+  Screen brightnesses:
+    dark 28s 454ms (100.0%)
+  Connectivity changes: 3
+
+  CONNECTIVITY POWER SUMMARY START
+  Logging duration for connectivity statistics: 28s 454ms 
+  Cellular Statistics:
+     Cellular kernel active time: 0ms (0.0%)
+     Cellular Sleep time:  4s 464ms (15.7%)
+     Cellular Idle time:   0ms (0.0%)
+     Cellular Rx time:     0ms (0.0%)
+     Cellular Tx time:     
+       less than 0dBm:  0ms (0.0%)
+       0dBm to 8dBm:  0ms (0.0%)
+       8dBm to 15dBm:  0ms (0.0%)
+       15dBm to 20dBm:  0ms (0.0%)
+       above 20dBm:  0ms (0.0%)
+     Cellular Battery drain: 1.27mAh
+     Active Cellular Radio Access Technology Breakdown:
+       (no activity)
+     Cellular data received: 0B
+     Cellular data sent: 0B
+     Cellular packets received: 0
+     Cellular packets sent: 0
+     Cellular Radio Access Technology:
+       oos 28s 454ms (100.0%) 
+     Cellular Rx signal strength (RSRP):
+       moderate (-118dBm to -108dBm):  28s 454ms (100.0%) 
+  Wifi Statistics:
+     Wifi kernel active time: 28s 454ms (100.0%)
+     WiFi Scan time:  0ms (0.0%)
+     WiFi Sleep time:  28s 456ms (100.0%)
+     WiFi Idle time:   0ms (0.0%)
+     WiFi Rx time:     0ms (0.0%)
+     WiFi Tx time:     0ms (0.0%)
+     WiFi Battery drain: 0.00982mAh
+     Wifi data received: 483.31KB
+     Wifi data sent: 60.51KB
+     Wifi packets received: 515
+     Wifi packets sent: 439
+     Wifi states:
+       sta 28s 454ms (100.0%) 
+     Wifi supplicant states:
+       completed 28s 454ms (100.0%) 
+     Wifi Rx signal strength (RSSI):
+         moderate (-77.5dBm to -66.25dBm): 3s 16ms (10.6%) 
+         good (-66.25dBm to -55dBm): 25s 438ms (89.4%) 
+  GPS Statistics:
+     GPS signal quality (Top 4 Average CN0):
+      poor (less than 20 dBHz): 0ms (0.0%) 
+      good (greater than 20 dBHz): 0ms (0.0%) 
+  CONNECTIVITY POWER SUMMARY END
+
+  Bluetooth total received: 0B, sent: 0B
+  Bluetooth scan time: 28s 454ms 
+     Bluetooth Idle time:   0ms (0.0%)
+     Bluetooth Rx time:     0ms (0.0%)
+     Bluetooth Tx time:     0ms (0.0%)
+     Bluetooth Battery drain: 0.0315mAh
+
+  Device battery use since last full charge
+    Amount discharged (lower bound): 0
+    Amount discharged (upper bound): 0
+    Amount discharged while screen on: 0
+    Amount discharged while screen off: 0
+    Amount discharged while screen doze: 0
+
+  Estimated power use (mAh):
+    Capacity: 4650, Computed drain: 0, actual drain: 0
+    Global
+      screen: 1.21 apps: 1.21 duration: 28s 460ms 
+      cpu: 3.08 apps: 3.08
+      bluetooth: 0.0315 apps: 0
+      system_services: 0.195 apps: 0.195
+      sensors: 0.00290 apps: 0.00290
+      wifi: 0.00982 apps: 0
+      idle: 0.0719 apps: 0 duration: 28s 460ms 
+    UID u0a372: 1.56 fg: 1.52 cached: 0.0111 ( cpu=1.53 (19s 873ms) cpu:fg=1.52 cpu:cached=0.0111 system_services=0.0213 ) 
+    UID 1000: 0.634 ( cpu=0.827 (19s 751ms) sensors=0.00145 (2m 50s 760ms) reattributed=-0.19459351 ) 
+    UID 0: 0.326 ( cpu=0.326 (11s 159ms) ) 
+    UID u0a149: 0.148 bg: 0.00355 fgs: 0.0610 ( cpu=0.0760 (912ms) cpu:bg=0.00355 cpu:fgs=0.0610 system_services=0.0708 sensors=0.00142 (28s 460ms) ) 
+    UID u0a309: 0.111 ( cpu=0.0899 (4s 228ms) system_services=0.0216 ) 
+    UID u0a161: 0.0652 ( cpu=0.0472 (1s 761ms) system_services=0.0180 ) 
+    UID 2000: 0.0498 ( cpu=0.0498 (986ms) ) 
+    UID u0a230: 0.0316 bg: 0.00608 fgs: 0.00274 cached: 0.00284 ( cpu=0.0118 (439ms) cpu:bg=0.00608 cpu:fgs=0.00274 cpu:cached=0.00284 system_services=0.0198 ) 
+    UID u0a148: 0.0179 cached: 0.00294 ( cpu=0.0140 (192ms) cpu:cached=0.00294 system_services=0.00391 ) 
+    UID u0a177: 0.0168 cached: 0.00566 ( cpu=0.00606 (196ms) cpu:cached=0.00566 system_services=0.0108 ) 
+    UID u0a152: 0.0156 ( cpu=0.0101 (128ms) system_services=0.00557 ) 
+    UID u0a172: 0.0122 ( cpu=0.00507 (90ms) system_services=0.00709 ) 
+    UID 1001: 0.0108 ( cpu=0.0107 (200ms) sensors=0.0000158 (56s 920ms) ) 
+    UID u0a280: 0.0105 bg: 0.0000155 cached: 0.000858 ( cpu=0.00542 (101ms) cpu:bg=0.0000155 cpu:cached=0.000858 system_services=0.00505 ) 
+    UID u0a273: 0.00939 bg: 0.00238 cached: 0.00286 ( cpu=0.00524 (166ms) cpu:bg=0.00238 cpu:cached=0.00286 system_services=0.00415 ) 
+    UID 1069: 0.00805 ( cpu=0.00805 (165ms) ) 
+    UID 1036: 0.00639 ( cpu=0.00639 (335ms) ) 
+    UID 1066: 0.00563 ( cpu=0.00563 (142ms) ) 
+    UID u0a239: 0.00491 ( cpu=0.00472 (176ms) system_services=0.000189 ) 
+    UID 1010: 0.00388 ( cpu=0.00388 (209ms) ) 
+    UID u0a275: 0.00367 ( cpu=0.00367 (46ms) ) 
+    UID 1002: 0.00337 ( cpu=0.00337 (78ms) ) 
+    UID u0a168: 0.00332 fgs: 0.0000663 ( cpu=0.00185 (25ms) cpu:fgs=0.0000663 system_services=0.00147 ) 
+    UID 1041: 0.00257 ( cpu=0.00257 (35ms) ) 
+    UID u0a193: 0.00244 ( cpu=0.00193 (81ms) system_services=0.000514 ) 
+    UID u0a128: 0.00231 ( cpu=0.00106 (10ms) system_services=0.00125 ) 
+    UID u0a183: 0.00213 ( cpu=0.00138 (17ms) system_services=0.000748 ) 
+    UID 1013: 0.00146 ( cpu=0.00146 (34ms) ) 
+    UID u0a253: 0.00131 ( cpu=0.000800 (15ms) system_services=0.000507 ) 
+    UID 1073: 0.00128 ( cpu=0.00128 (24ms) ) 
+    UID u0a226: 0.00119 ( cpu=0.00119 (4ms) ) 
+    UID u0a265: 0.00111 ( cpu=0.000836 (6ms) system_services=0.000272 ) 
+    UID 9999: 0.00102 ( cpu=0.00102 (30ms) ) 
+    UID u0a224: 0.000996 ( cpu=0.000259 (4ms) system_services=0.000737 ) 
+    UID u0a100: 0.000994 ( cpu=0.000994 (10ms) ) 
+    UID u0a171: 0.000859 ( cpu=0.000635 (25ms) system_services=0.000225 ) 
+    UID u0a156: 0.000763 ( cpu=0.000763 ) 
+    UID u0a98: 0.000700 fgs: 0.000146 ( cpu=0.000427 (9ms) cpu:fgs=0.000146 system_services=0.000272 ) 
+    UID u0a173: 0.000677 fgs: 0.0000893 ( cpu=0.000564 (8ms) cpu:fgs=0.0000893 system_services=0.000113 ) 
+    UID u0a315: 0.000469 ( cpu=0.000469 (22ms) ) 
+    UID u0a157: 0.000463 ( cpu=0.000327 (9ms) system_services=0.000136 ) 
+    UID 1040: 0.000457 ( cpu=0.000457 (13ms) ) 
+    UID u0a97: 0.000439 cached: 0.000439 ( cpu=0.000439 cpu:cached=0.000439 ) 
+    UID 6110: 0.000435 ( cpu=0.000435 (3ms) ) 
+    UID u0a210: 0.000393 ( cpu=0.000303 (5ms) system_services=0.0000899 ) 
+    UID u0a95: 0.000308 bg: 0.000226 ( cpu=0.000226 (10ms) cpu:bg=0.000226 system_services=0.0000823 ) 
+    UID u0a250: 0.000282 ( cpu=0.000282 (3ms) ) 
+    UID 1046: 0.000274 ( cpu=0.000274 (13ms) ) 
+    UID u0a110: 0.000229 ( cpu=0.000229 (11ms) ) 
+    UID 1047: 0.000171 ( cpu=0.000171 (7ms) ) 
+    UID u0a270: 0.000133 ( cpu=0.0000756 (1ms) system_services=0.0000570 ) 
+    UID 1027: 0.000117 ( cpu=0.000117 (4ms) ) 
+    UID 1019: 0.0000756 ( cpu=0.0000756 (1ms) ) 
+    UID 1021: 0.0000586 ( cpu=0.0000586 (4ms) ) 
+    UID 1017: 0.0000260 ( cpu=0.0000260 ) 
+    UID 1072: 0.0000209 ( cpu=0.0000209 ) 
+    UID u0a206: 0.0000118 ( system_services=0.0000118 ) 
+    UID u0a331: 0.00000791 ( cpu=0 (1ms) sensors=0.00000791 (28s 460ms) ) 
+
+  CPU freqs: 691200 806400 940800 1113600 1324800 1497600 1651200 1804800 1958400 691200 960000 1190400 1344000 1497600 1651200 1900800 2054400 2112000 2208000 2304000 2400000
+
+  1000:
+    Wi-Fi network: 8.38KB received, 4.39KB sent (packets 11 received, 12 sent)
+    Bluetooth Scan (total blamed realtime): 9s 496ms  (0 times) (currently running)
+    Bluetooth Scan (total actual realtime): 28s 454ms  (0 times) (currently running)
+    Bluetooth Scan (background realtime): 28s 454ms  (0 times) (currently running in background)
+    Bluetooth Scan Results: 0 (0 in background)
+    User activity: 3 button, 26 touch
+    Wake lock *alarm* realtime
+    Wake lock *vibrator* realtime
+    Wake lock NetworkStats realtime
+    Wake lock *telephony-radio* realtime
+    Sensor 16777267: 28s 454ms realtime (0 times), 28s 454ms background (0 times)
+    Sensor 16777398: 28s 454ms realtime (0 times), 28s 454ms background (0 times)
+    Sensor 16777487: 28s 454ms realtime (0 times), 28s 454ms background (0 times)
+    Sensor 16778487: 28s 454ms realtime (0 times), 28s 454ms background (0 times)
+    Sensor 16778917: 28s 454ms realtime (0 times), 28s 454ms background (0 times)
+    Sensor 16779327: 28s 454ms realtime (0 times), 28s 454ms background (0 times)
+    Vibrator: 308ms realtime (5 times)
+    Total cpu time: u=10s 830ms s=8s 921ms 
+    Total cpu time per freq: 1390 182 112 795 231 5311 179 174 4690 284 91 97 57 34 28 2752 805 32 36 1271 1712
+    Proc com.miui.face:
+      CPU: 0ms usr + 10ms krn ; 0ms fg
+    Proc com.xiaomi.mi_connect_service:idm:
+      CPU: 20ms usr + 0ms krn ; 0ms fg
+    Proc perfservice:
+      CPU: 10ms usr + 10ms krn ; 0ms fg
+    Proc com.android.systemui:
+      CPU: 1s 280ms usr + 580ms krn ; 0ms fg
+    Proc android.hardware.security.keymint-service-qti:
+      CPU: 0ms usr + 120ms krn ; 0ms fg
+    Proc vendor.qti.hardware.display.composer-service:
+      CPU: 840ms usr + 980ms krn ; 0ms fg
+    Proc vendor.xiaomi.sensor.citsensorservice@2.0-service:
+      CPU: 530ms usr + 700ms krn ; 0ms fg
+    Proc servicemanager:
+      CPU: 120ms usr + 230ms krn ; 0ms fg
+    Proc com.android.settings:
+      CPU: 3s 510ms usr + 710ms krn ; 14s 80ms fg
+    Proc com.xiaomi.mtb:
+      CPU: 10ms usr + 0ms krn ; 0ms fg
+    Proc vendor.qti.hardware.servicetracker@1.2-service:
+      CPU: 20ms usr + 10ms krn ; 0ms fg
+    Proc qspmsvc:
+      CPU: 0ms usr + 10ms krn ; 0ms fg
+    Proc com.xiaomi.mirror:
+      CPU: 0ms usr + 30ms krn ; 0ms fg
+    Proc com.xiaomi.joyose:
+      CPU: 10ms usr + 10ms krn ; 0ms fg
+    Proc com.miui.securitycenter.remote:
+      CPU: 260ms usr + 400ms krn ; 0ms fg
+    Proc mcd:
+      CPU: 0ms usr + 10ms krn ; 0ms fg
+    Proc cnd:
+      CPU: 10ms usr + 30ms krn ; 0ms fg
+    Proc surfaceflinger:
+      CPU: 1s 790ms usr + 1s 370ms krn ; 0ms fg
+    Proc android.system.suspend-service:
+      CPU: 0ms usr + 90ms krn ; 0ms fg
+    Proc vendor.qti.qesdk.sysservice:
+      CPU: 40ms usr + 40ms krn ; 0ms fg
+    Proc vendor.xiaomi.hardware.micharge@1.0-service:
+      CPU: 10ms usr + 0ms krn ; 0ms fg
+    Proc cnss-daemon:
+      CPU: 0ms usr + 10ms krn ; 0ms fg
+    Proc system:
+      CPU: 7s 0ms usr + 6s 10ms krn ; 0ms fg
+    Proc android.hardware.health@2.1-service:
+      CPU: 0ms usr + 20ms krn ; 0ms fg
+    Proc android.hardware.sensors@2.1-service.multihal:
+      CPU: 230ms usr + 210ms krn ; 0ms fg
+    Proc com.miui.daemon:
+      CPU: 20ms usr + 20ms krn ; 0ms fg
+    Proc hwservicemanager:
+      CPU: 110ms usr + 10ms krn ; 0ms fg
+    Proc com.miui.securitycenter:
+      CPU: 510ms usr + 250ms krn ; 0ms fg
+    Proc vendor.qti.hardware.display.allocator-service:
+      CPU: 0ms usr + 20ms krn ; 0ms fg
+    Proc com.xiaomi.mi_connect_service:
+      CPU: 10ms usr + 20ms krn ; 0ms fg
+    Proc vendor.xiaomi.hardware.displayfeature@1.0-service:
+      CPU: 0ms usr + 10ms krn ; 0ms fg
+    Proc com.miui.powerkeeper:
+      CPU: 130ms usr + 180ms krn ; 0ms fg
+  u0a372:
+    Wi-Fi network: 439.40KB received, 24.53KB sent (packets 397 received, 309 sent)
+    Wake lock *launch* realtime
+    Wake lock Icing realtime
+    Foreground activities: 27s 407ms realtime (1 times) (running)
+    Top for: 27s 403ms 
+    Cached for: 121ms 
+    Total running: 27s 524ms 
+    Total cpu time: u=16s 940ms s=2s 932ms 
+    Total cpu time per freq: 84 12 6 90 57 573 97 98 692 342 385 411 199 176 104 8299 266 96 154 5000 2761
+    Cpu times per freq at state Top: 84 12 6 90 57 573 97 98 683 342 385 411 199 176 104 8299 266 96 154 5000 2670
+    Cpu times per freq at state Cached: 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 91
+    Proc com.uniandes.vinilos:
+      CPU: 0ms usr + 0ms krn ; 0ms fg
+      1 starts
+
+Per process state tracking available: true
+Total cpu time reads: 39827
+Batching Duration (min): 945
+All UID cpu time reads since the later of device start or stats reset: 12
+UIDs removed since the later of device start or stats reset: 0
+Currently mapped isolated uids:
+  1037->1000 (ref count = 1)
+  99052->10168 (ref count = 1)
+  99068->10095 (ref count = 1)
+
+BatteryStats constants:
+    track_cpu_active_cluster_time=true
+    kernel_uid_readers_throttle_time=1000
+    external_stats_collection_rate_limit_ms=600000
+    battery_level_collection_delay_ms=300000
+    procstate_change_collection_delay_ms=60000
+    max_history_files=32
+    max_history_buffer_kb=128
+    battery_charged_delay_ms=900000
+    record_usage_history=false
+    per_uid_modem_power_model=modem_activity_info_rx_tx
+    phone_on_external_stats_collection=true
+    reset_while_plugged_in_minimum_duration_hours=47
+
+CPU power brackets; cluster/freq in MHz(avg current in mA):
+    0: 0/691(43.0), 0/806(45.4), 0/940(46.0), 0/1113(49.3), 0/1324(52.4), 0/1497(56.0), 0/1651(62.9), 0/1804(69.6), 0/1958(75.3), 1/691(74.3)
+    1: 1/960(93.6), 1/1190(113.9), 1/1344(132.8), 1/1497(155.2), 1/1651(178.1)
+    2: 1/1900(238.6), 1/2054(272.2), 1/2112(294.4), 1/2208(344.2), 1/2304(382.3), 1/2400(430.1)
+
+On-battery energy consumer stats (microcoulombs) 
+    Not supported on this device.
+
+CPU wakeup stats:
+  Config:
+    wakeup_stats_retention_ms=+3d0h0m0s0ms
+    wakeup_matching_window_ms=+1s0ms
+    waking_activity_retention_ms=+5m0s0ms
+  
+  Irq device map:
+    Loaded from xml resource: 0x117000a
+    Map:
+      pm8xxx_rtc_alarm: [Alarm]
+  
+  Recent waking activity:
+    Subsystem Alarm:
+      -39s289ms: 1000 [PER ], 
+      -1m8s718ms: u0a149 [BFGS], 
+      -1m17s181ms: u0a149 [BTOP], 
+      -1m58s456ms: 1000 [PER ], 
+      -2m3s288ms: 1000 [PER ], 
+      -2m33s301ms: 1000 [PER ], 
+      -3m3s313ms: 1000 [PER ], 
+      -3m33s328ms: 1000 [PER ], 
+      -4m3s336ms: 1000 [PER ], 
+      -4m13s487ms: u0a149 [BFGS], 
+      -4m22s111ms: u0a149 [BFGS], 
+      -4m33s349ms: 1000 [PER ], 
+      -5m3s362ms: 1000 [PER ], 
+      -5m33s364ms: 1000 [PER ], 
+    Subsystem Wifi:
+      -58m23s913ms: u0a149 [BFGS], u0a309 [SVC ], 
+      -58m23s914ms: u0a110 [SVC ], 
+      -58m41s406ms: u0a309 [SVC ], 
+      -58m41s407ms: u0a309 [SVC ], 
+      -58m41s408ms: u0a309 [SVC ], 
+      -58m41s409ms: u0a149 [BFGS], 
+      -59m10s240ms: u0a110 [SVC ], u0a309 [SVC ], 
+      -59m10s241ms: u0a309 [SVC ], 
+      -59m10s244ms: u0a210 [IMPF], 
+      -59m10s246ms: u0a309 [SVC ], 
+      -59m33s324ms: u0a149 [BFGS], 
+      -59m33s325ms: u0a110 [SVC ], 
+      -59m33s326ms: u0a309 [SVC ], 
+      -59m33s328ms: u0a309 [SVC ], 
+      -59m33s329ms: u0a309 [SVC ], 
+      -59m33s333ms: u0a210 [IMPF], 
+      -59m48s297ms: u0a309 [SVC ], 
+      -59m48s298ms: u0a309 [SVC ], 
+      -59m48s299ms: u0a149 [BFGS], u0a309 [SVC ], 
+      -59m48s300ms: u0a110 [SVC ], 
+      -1h0m11s312ms: u0a309 [SVC ], 
+      -1h0m11s313ms: u0a210 [IMPF], u0a309 [SVC ], 
+      -1h0m11s314ms: u0a309 [SVC ], 
+      -1h0m11s315ms: u0a309 [SVC ], 
+      -1h0m33s114ms: u0a309 [SVC ], 
+      -1h0m33s115ms: u0a110 [SVC ], u0a149 [BFGS], 
+      -1h0m33s116ms: u0a309 [SVC ], 
+      -1h0m33s117ms: u0a309 [SVC ], 
+      -1h0m33s119ms: u0a309 [SVC ], 
+      -1h0m47s263ms: u0a309 [SVC ], 
+      -1h0m47s264ms: u0a210 [IMPF], u0a309 [SVC ], 
+      -1h0m47s265ms: u0a309 [SVC ], 
+    Subsystem Sensor:
+      -1m24s693ms: 1001 [PER ], 
+      -1m25s771ms: u0a149 [BTOP], 
+      -1m31s292ms: 1001 [PER ], 
+      -1m48s722ms: 1001 [PER ], 
+  
+  Current proc-state map (328):
+    1000:PER , 1001:PER , 1002:PER , 1027:PER , 1037:NONE, 1068:PER , 1073:PER , 2000:NONE, 6101:NONE, 6102:NONE, 6110:PER , u0a1:NONE, u0a3:NONE, u0a6:NONE, u0a9:NONE, u0a31:NONE, u0a34:NONE, u0a35:NONE, u0a37:NONE, u0a40:NONE, u0a41:NONE, u0a42:NONE, u0a43:NONE, u0a44:NONE, u0a45:NONE, u0a46:NONE, u0a50:NONE, u0a52:NONE, u0a67:NONE, u0a69:NONE, u0a77:NONE, u0a86:NONE, u0a88:PER , u0a89:CEM , u0a92:NONE, u0a95:TRNB, u0a96:NONE, u0a97:NONE, u0a98:LAST, u0a100:NONE, u0a102:NONE, u0a106:NONE, u0a109:NONE, u0a110:SVC , u0a123:NONE, u0a125:NONE, u0a126:NONE, u0a127:PER , u0a128:PER , u0a129:NONE, u0a130:PER , u0a131:PER , u0a132:NONE, u0a134:NONE, u0a135:NONE, u0a136:NONE, u0a139:NONE, u0a140:NONE, u0a141:NONE, u0a142:NONE, u0a143:NONE, u0a144:NONE, u0a146:NONE, u0a147:NONE, u0a148:NONE, u0a149:BFGS, u0a150:NONE, u0a151:NONE, u0a152:BFGS, u0a153:NONE, u0a154:CEM , u0a155:NONE, u0a156:NONE, u0a157:BFGS, u0a159:NONE, u0a160:NONE, u0a161:FGS , u0a163:NONE, u0a164:BFGS, u0a166:NONE, u0a167:NONE, u0a168:BFGS, u0a169:NONE, u0a170:NONE, u0a171:BFGS, u0a172:BFGS, u0a173:FGS , u0a175:NONE, u0a176:NONE, u0a177:NONE, u0a178:NONE, u0a180:NONE, u0a181:NONE, u0a182:NONE, u0a183:BFGS, u0a184:NONE, u0a185:NONE, u0a186:NONE, u0a187:NONE, u0a188:FGS , u0a189:NONE, u0a190:NONE, u0a191:NONE, u0a193:CEM , u0a194:TRNB, u0a195:NONE, u0a196:FGS , u0a197:NONE, u0a200:NONE, u0a201:NONE, u0a202:NONE, u0a204:NONE, u0a205:NONE, u0a206:BFGS, u0a207:PER , u0a208:NONE, u0a209:NONE, u0a210:IMPF, u0a211:NONE, u0a213:NONE, u0a216:NONE, u0a218:NONE, u0a219:NONE, u0a220:NONE, u0a221:NONE, u0a222:NONE, u0a223:NONE, u0a224:PER , u0a225:NONE, u0a226:NONE, u0a227:NONE, u0a228:CEM , u0a229:NONE, u0a230:CEM , u0a231:NONE, u0a233:NONE, u0a235:NONE, u0a239:TRNB, u0a240:NONE, u0a244:NONE, u0a245:NONE, u0a247:NONE, u0a250:PER , u0a251:PER , u0a253:PER , u0a255:NONE, u0a257:NONE, u0a258:NONE, u0a259:NONE, u0a260:PER , u0a262:IMPF, u0a264:NONE, u0a265:PER , u0a266:NONE, u0a270:BFGS, u0a271:NONE, u0a272:NONE, u0a273:CEM , u0a275:PER , u0a277:BFGS, u0a280:CEM , u0a283:NONE, u0a284:NONE, u0a285:NONE, u0a286:NONE, u0a288:NONE, u0a289:NONE, u0a290:NONE, u0a291:NONE, u0a292:NONE, u0a295:NONE, u0a296:NONE, u0a297:NONE, u0a298:NONE, u0a300:NONE, u0a301:NONE, u0a302:NONE, u0a303:NONE, u0a304:NONE, u0a305:NONE, u0a308:NONE, u0a309:CAC , u0a312:NONE, u0a313:NONE, u0a314:NONE, u0a315:CAC , u0a316:NONE, u0a317:NONE, u0a318:NONE, u0a319:NONE, u0a320:NONE, u0a321:NONE, u0a322:NONE, u0a324:NONE, u0a325:NONE, u0a326:NONE, u0a327:NONE, u0a328:NONE, u0a329:NONE, u0a330:NONE, u0a331:FGS , u0a334:NONE, u0a335:NONE, u0a336:NONE, u0a338:NONE, u0a339:NONE, u0a340:NONE, u0a342:NONE, u0a343:NONE, u0a344:NONE, u0a345:NONE, u0a346:NONE, u0a347:NONE, u0a348:NONE, u0a349:NONE, u0a350:NONE, u0a352:NONE, u0a353:NONE, u0a356:NONE, u0a357:NONE, u0a358:NONE, u0a359:NONE, u0a365:NONE, u0a367:NONE, u0a368:NONE, u0a369:NONE, u0a371:NONE, u0a372:TOP , u0a373:NONE, u0a375:NONE, u0a377:NONE, u0a381:NONE, u0ai0:NONE, u0ai1:NONE, u0ai2:NONE, u0ai3:NONE, u0ai4:NONE, u0ai5:NONE, u0ai6:NONE, u0ai7:NONE, u0ai8:NONE, u0ai9:NONE, u0ai10:NONE, u0ai11:NONE, u0ai12:NONE, u0ai13:NONE, u0ai14:NONE, u0ai15:NONE, u0ai16:NONE, u0ai17:NONE, u0ai18:NONE, u0ai19:NONE, u0ai20:NONE, u0ai100:NONE, u0ai101:NONE, u0ai9000:NONE, u0i1:NONE, u0i2:NONE, u0i3:NONE, u0i4:NONE, u0i5:NONE, u0i6:NONE, u0i7:NONE, u0i8:NONE, u0i9:NONE, u0i10:NONE, u0i11:NONE, u0i12:NONE, u0i13:NONE, u0i14:NONE, u0i15:NONE, u0i16:NONE, u0i17:NONE, u0i18:NONE, u0i19:NONE, u0i20:NONE, u0i21:NONE, u0i22:NONE, u0i23:NONE, u0i24:NONE, u0i25:NONE, u0i26:NONE, u0i27:NONE, u0i28:NONE, u0i29:NONE, u0i30:NONE, u0i31:NONE, u0i32:NONE, u0i33:NONE, u0i34:NONE, u0i35:NONE, u0i36:NONE, u0i37:NONE, u0i38:NONE, u0i39:NONE, u0i40:NONE, u0i41:NONE, u0i42:NONE, u0i43:NONE, u0i44:NONE, u0i45:NONE, u0i46:NONE, u0i47:NONE, u0i48:NONE, u0i49:NONE, u0i50:NONE, u0i51:NONE, u0i52:BFGS, u0i53:NONE, u0i54:NONE, u0i55:NONE, u0i56:NONE, u0i57:NONE, u0i58:NONE, u0i59:NONE, u0i60:NONE, u0i61:NONE, u0i62:NONE, u0i63:NONE, u0i64:NONE, u0i65:NONE, u0i66:NONE, u0i67:NONE, u0i68:TRNB, u0i69:NONE, u0i70:NONE, u0i71:NONE, u0i72:NONE
+  
+  Wakeup events:
+    -58m24s130ms:
+      Wakeup{mType=1, mElapsedMillis=86401324, mUptimeMillis=53225252, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a210 IMPF]
+    -5h14m32s999ms:
+      Wakeup{mType=1, mElapsedMillis=71032455, mUptimeMillis=39035056, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -5h27m5s966ms:
+      Wakeup{mType=1, mElapsedMillis=70279488, mUptimeMillis=38980077, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -5h32m11s964ms:
+      Wakeup{mType=1, mElapsedMillis=69973490, mUptimeMillis=38961002, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -5h34m42s995ms:
+      Wakeup{mType=1, mElapsedMillis=69822459, mUptimeMillis=38949701, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -6h19m34s969ms:
+      Wakeup{mType=1, mElapsedMillis=67130485, mUptimeMillis=36831644, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a194 TRNB]
+    -6h32m11s962ms:
+      Wakeup{mType=1, mElapsedMillis=66373492, mUptimeMillis=36706853, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -6h38m24s950ms:
+      Wakeup{mType=1, mElapsedMillis=66000504, mUptimeMillis=36693427, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a210 IMPF, u0a315 SVC ]
+    -6h39m43s940ms:
+      Wakeup{mType=1, mElapsedMillis=65921514, mUptimeMillis=36690546, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -6h40m28s957ms:
+      Wakeup{mType=1, mElapsedMillis=65876497, mUptimeMillis=36685445, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -6h52m50s954ms:
+      Wakeup{mType=1, mElapsedMillis=65134500, mUptimeMillis=36587594, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -6h58m16s924ms:
+      Wakeup{mType=1, mElapsedMillis=64808530, mUptimeMillis=36576108, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -7h4m16s943ms:
+      Wakeup{mType=1, mElapsedMillis=64448511, mUptimeMillis=36528767, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a149 BFGS, u0a194 TRNB, u0a305 CEM , u0a318 CEM ]
+    -7h5m41s922ms:
+      Wakeup{mType=1, mElapsedMillis=64363532, mUptimeMillis=36526294, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -7h25m13s927ms:
+      Wakeup{mType=1, mElapsedMillis=63191527, mUptimeMillis=36190151, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -7h46m32s909ms:
+      Wakeup{mType=1, mElapsedMillis=61912545, mUptimeMillis=35837600, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -7h46m51s919ms:
+      Wakeup{mType=1, mElapsedMillis=61893535, mUptimeMillis=35833590, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -7h51m50s904ms:
+      Wakeup{mType=1, mElapsedMillis=61594550, mUptimeMillis=35821715, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -7h52m32s893ms:
+      Wakeup{mType=1, mElapsedMillis=61552561, mUptimeMillis=35816984, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -7h52m51s884ms:
+      Wakeup{mType=1, mElapsedMillis=61533570, mUptimeMillis=35812926, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -7h58m50s900ms:
+      Wakeup{mType=1, mElapsedMillis=61174554, mUptimeMillis=35789939, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -8h15m11s906ms:
+      Wakeup{mType=1, mElapsedMillis=60193548, mUptimeMillis=35265075, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -8h25m11s897ms:
+      Wakeup{mType=1, mElapsedMillis=59593557, mUptimeMillis=35249299, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -8h32m10s893ms:
+      Wakeup{mType=1, mElapsedMillis=59174561, mUptimeMillis=35238686, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -8h37m35s887ms:
+      Wakeup{mType=1, mElapsedMillis=58849567, mUptimeMillis=35226231, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -8h46m38s871ms:
+      Wakeup{mType=1, mElapsedMillis=58306583, mUptimeMillis=35198347, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -8h46m51s873ms:
+      Wakeup{mType=1, mElapsedMillis=58293581, mUptimeMillis=35194346, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -8h52m51s897ms:
+      Wakeup{mType=1, mElapsedMillis=57933557, mUptimeMillis=35175500, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -8h58m41s859ms:
+      Wakeup{mType=1, mElapsedMillis=57583595, mUptimeMillis=35130631, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -9h4m50s854ms:
+      Wakeup{mType=1, mElapsedMillis=57214600, mUptimeMillis=35065890, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a149 BFGS, u0a194 TRNB, u0a305 CEM , u0a318 CEM ]
+    -9h10m59s851ms:
+      Wakeup{mType=1, mElapsedMillis=56845603, mUptimeMillis=35029120, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -9h15m43s859ms:
+      Wakeup{mType=1, mElapsedMillis=56561595, mUptimeMillis=35009771, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -9h23m8s851ms:
+      Wakeup{mType=1, mElapsedMillis=56116603, mUptimeMillis=34960211, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -9h25m6s864ms:
+      Wakeup{mType=1, mElapsedMillis=55998590, mUptimeMillis=34952863, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -9h32m11s872ms:
+      Wakeup{mType=1, mElapsedMillis=55573582, mUptimeMillis=34930858, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -9h38m55s845ms:
+      Wakeup{mType=1, mElapsedMillis=55169609, mUptimeMillis=34918217, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -9h46m39s845ms:
+      Wakeup{mType=1, mElapsedMillis=54705609, mUptimeMillis=34901233, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -9h46m55s853ms:
+      Wakeup{mType=1, mElapsedMillis=54689601, mUptimeMillis=34897047, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -9h52m25s825ms:
+      Wakeup{mType=1, mElapsedMillis=54359629, mUptimeMillis=34848048, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -9h52m55s844ms:
+      Wakeup{mType=1, mElapsedMillis=54329610, mUptimeMillis=34844028, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -9h59m41s827ms:
+      Wakeup{mType=1, mElapsedMillis=53923627, mUptimeMillis=34821587, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h5m8s840ms:
+      Wakeup{mType=1, mElapsedMillis=53596614, mUptimeMillis=34781767, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a194 TRNB]
+    -10h7m41s828ms:
+      Wakeup{mType=1, mElapsedMillis=53443626, mUptimeMillis=34778210, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h10m19s845ms:
+      Wakeup{mType=1, mElapsedMillis=53285609, mUptimeMillis=34769929, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h10m47s828ms:
+      Wakeup{mType=1, mElapsedMillis=53257626, mUptimeMillis=34765265, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h16m19s832ms:
+      Wakeup{mType=1, mElapsedMillis=52925622, mUptimeMillis=34753361, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h22m19s843ms:
+      Wakeup{mType=1, mElapsedMillis=52565611, mUptimeMillis=34732126, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h28m26s816ms:
+      Wakeup{mType=1, mElapsedMillis=52198638, mUptimeMillis=34700041, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h32m10s828ms:
+      Wakeup{mType=1, mElapsedMillis=51974626, mUptimeMillis=34688827, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -10h34m33s844ms:
+      Wakeup{mType=1, mElapsedMillis=51831610, mUptimeMillis=34678334, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h36m9s809ms:
+      Wakeup{mType=1, mElapsedMillis=51735645, mUptimeMillis=34656093, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a194 TRNB]
+    -10h40m45s808ms:
+      Wakeup{mType=1, mElapsedMillis=51459646, mUptimeMillis=34634557, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h44m3s820ms:
+      Wakeup{mType=1, mElapsedMillis=51261634, mUptimeMillis=34621622, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -10h46m45s803ms:
+      Wakeup{mType=1, mElapsedMillis=51099651, mUptimeMillis=34539069, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h52m33s814ms:
+      Wakeup{mType=1, mElapsedMillis=50751640, mUptimeMillis=34523328, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h52m45s787ms:
+      Wakeup{mType=1, mElapsedMillis=50739667, mUptimeMillis=34519304, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -10h57m32s793ms:
+      Wakeup{mType=1, mElapsedMillis=50452661, mUptimeMillis=34500523, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -10h58m0s809ms:
+      Wakeup{mType=1, mElapsedMillis=50424645, mUptimeMillis=34498621, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -10h58m35s799ms:
+      Wakeup{mType=1, mElapsedMillis=50389655, mUptimeMillis=34491226, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -11h4m32s799ms:
+      Wakeup{mType=1, mElapsedMillis=50032655, mUptimeMillis=34458297, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -11h7m3s790ms:
+      Wakeup{mType=1, mElapsedMillis=49881664, mUptimeMillis=34442756, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -13h35m25s722ms:
+      Wakeup{mType=1, mElapsedMillis=40979732, mUptimeMillis=25585881, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -13h41m12s724ms:
+      Wakeup{mType=1, mElapsedMillis=40632730, mUptimeMillis=25568480, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -13h41m25s713ms:
+      Wakeup{mType=1, mElapsedMillis=40619741, mUptimeMillis=25564276, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -13h42m18s711ms:
+      Wakeup{mType=1, mElapsedMillis=40566743, mUptimeMillis=25562393, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a194 TRNB]
+    -13h47m16s721ms:
+      Wakeup{mType=1, mElapsedMillis=40268733, mUptimeMillis=25546860, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -13h47m25s706ms:
+      Wakeup{mType=1, mElapsedMillis=40259748, mUptimeMillis=25543054, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -13h49m31s712ms:
+      Wakeup{mType=1, mElapsedMillis=40133742, mUptimeMillis=25508874, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -13h53m5s699ms:
+      Wakeup{mType=1, mElapsedMillis=39919755, mUptimeMillis=25493026, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -13h58m14s693ms:
+      Wakeup{mType=1, mElapsedMillis=39610761, mUptimeMillis=25476608, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -14h1m10s694ms:
+      Wakeup{mType=1, mElapsedMillis=39434760, mUptimeMillis=25457851, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -14h2m18s694ms:
+      Wakeup{mType=1, mElapsedMillis=39366760, mUptimeMillis=25451233, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h4m12s665ms:
+      Wakeup{mType=1, mElapsedMillis=39252789, mUptimeMillis=25445427, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -14h8m19s705ms:
+      Wakeup{mType=1, mElapsedMillis=39005749, mUptimeMillis=25434468, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -14h8m24s685ms:
+      Wakeup{mType=1, mElapsedMillis=39000769, mUptimeMillis=25434089, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a210 IMPF]
+    -14h10m11s690ms:
+      Wakeup{mType=1, mElapsedMillis=38893764, mUptimeMillis=25425309, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -14h10m21s707ms:
+      Wakeup{mType=1, mElapsedMillis=38883747, mUptimeMillis=25421313, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h3m36s653ms:
+      Wakeup{mType=1, mElapsedMillis=35688801, mUptimeMillis=22722920, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h3m56s659ms:
+      Wakeup{mType=1, mElapsedMillis=35668795, mUptimeMillis=22718915, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h9m36s658ms:
+      Wakeup{mType=1, mElapsedMillis=35328796, mUptimeMillis=22704937, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h9m56s672ms:
+      Wakeup{mType=1, mElapsedMillis=35308782, mUptimeMillis=22700918, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h15m56s667ms:
+      Wakeup{mType=1, mElapsedMillis=34948787, mUptimeMillis=22669805, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h19m57s670ms:
+      Wakeup{mType=1, mElapsedMillis=34707784, mUptimeMillis=22654003, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h20m3s664ms:
+      Wakeup{mType=1, mElapsedMillis=34701790, mUptimeMillis=22653673, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h24m11s666ms:
+      Wakeup{mType=1, mElapsedMillis=34453788, mUptimeMillis=22587997, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -15h32m11s653ms:
+      Wakeup{mType=1, mElapsedMillis=33973801, mUptimeMillis=22277185, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -15h32m51s641ms:
+      Wakeup{mType=1, mElapsedMillis=33933813, mUptimeMillis=22275735, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -15h35m19s634ms:
+      Wakeup{mType=1, mElapsedMillis=33785820, mUptimeMillis=22268927, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h36m25s667ms:
+      Wakeup{mType=1, mElapsedMillis=33719787, mUptimeMillis=22261073, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -15h38m18s664ms:
+      Wakeup{mType=1, mElapsedMillis=33606790, mUptimeMillis=22250646, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a305 CEM ]
+    -15h41m19s645ms:
+      Wakeup{mType=1, mElapsedMillis=33425809, mUptimeMillis=22240731, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h41m34s652ms:
+      Wakeup{mType=1, mElapsedMillis=33410802, mUptimeMillis=22236746, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h43m49s651ms:
+      Wakeup{mType=1, mElapsedMillis=33275803, mUptimeMillis=22225596, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -15h47m25s650ms:
+      Wakeup{mType=1, mElapsedMillis=33059804, mUptimeMillis=22213458, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -15h53m39s652ms:
+      Wakeup{mType=1, mElapsedMillis=32685802, mUptimeMillis=22137498, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -15h56m35s649ms:
+      Wakeup{mType=1, mElapsedMillis=32509805, mUptimeMillis=22111038, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a194 TRNB]
+    -15h58m49s642ms:
+      Wakeup{mType=1, mElapsedMillis=32375812, mUptimeMillis=22093497, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -15h59m32s641ms:
+      Wakeup{mType=1, mElapsedMillis=32332813, mUptimeMillis=22066009, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h5m19s639ms:
+      Wakeup{mType=1, mElapsedMillis=31985815, mUptimeMillis=21985903, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h5m32s630ms:
+      Wakeup{mType=1, mElapsedMillis=31972824, mUptimeMillis=21981921, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h11m19s639ms:
+      Wakeup{mType=1, mElapsedMillis=31625815, mUptimeMillis=21933451, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h11m32s626ms:
+      Wakeup{mType=1, mElapsedMillis=31612828, mUptimeMillis=21929428, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h14m41s632ms:
+      Wakeup{mType=1, mElapsedMillis=31423822, mUptimeMillis=21881802, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -16h16m30s619ms:
+      Wakeup{mType=1, mElapsedMillis=31314835, mUptimeMillis=21841559, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a110 SVC , u0a194 TRNB]
+    -16h17m21s634ms:
+      Wakeup{mType=1, mElapsedMillis=31263820, mUptimeMillis=21836394, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h17m32s633ms:
+      Wakeup{mType=1, mElapsedMillis=31252821, mUptimeMillis=21831867, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h41m18s604ms:
+      Wakeup{mType=1, mElapsedMillis=29826850, mUptimeMillis=20529893, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h41m28s616ms:
+      Wakeup{mType=1, mElapsedMillis=29816838, mUptimeMillis=20525896, mDevices=[IrqDevice{mLine=227, mDevice='WLAN_CE_2'}, IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={-1=true, 1=true}}
+      Attribution: Unknown [], Alarm [u0a149 BFGS]
+    -16h43m24s614ms:
+      Wakeup{mType=1, mElapsedMillis=29700840, mUptimeMillis=20521832, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a305 CEM ]
+    -16h44m6s631ms:
+      Wakeup{mType=1, mElapsedMillis=29658823, mUptimeMillis=20517735, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -16h47m18s605ms:
+      Wakeup{mType=1, mElapsedMillis=29466849, mUptimeMillis=20501002, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -16h58m29s603ms:
+      Wakeup{mType=1, mElapsedMillis=28795851, mUptimeMillis=20375637, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -16h59m13s614ms:
+      Wakeup{mType=1, mElapsedMillis=28751840, mUptimeMillis=20367651, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h0m0s601ms:
+      Wakeup{mType=1, mElapsedMillis=28704853, mUptimeMillis=20353969, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a194 TRNB, u0a305 CEM ]
+    -17h5m4s595ms:
+      Wakeup{mType=1, mElapsedMillis=28400859, mUptimeMillis=20266147, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h9m13s605ms:
+      Wakeup{mType=1, mElapsedMillis=28151849, mUptimeMillis=20237761, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h11m25s577ms:
+      Wakeup{mType=1, mElapsedMillis=28019877, mUptimeMillis=20192962, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h11m40s587ms:
+      Wakeup{mType=1, mElapsedMillis=28004867, mUptimeMillis=20192247, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h14m28s592ms:
+      Wakeup{mType=1, mElapsedMillis=27836862, mUptimeMillis=20168890, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h17m9s591ms:
+      Wakeup{mType=1, mElapsedMillis=27675863, mUptimeMillis=20162187, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h32m11s605ms:
+      Wakeup{mType=1, mElapsedMillis=26773849, mUptimeMillis=19713170, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h34m56s589ms:
+      Wakeup{mType=1, mElapsedMillis=26608865, mUptimeMillis=19688229, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h39m12s563ms:
+      Wakeup{mType=1, mElapsedMillis=26352891, mUptimeMillis=19627069, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h41m21s588ms:
+      Wakeup{mType=1, mElapsedMillis=26223866, mUptimeMillis=19586356, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h45m33s602ms:
+      Wakeup{mType=1, mElapsedMillis=25971852, mUptimeMillis=19538730, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -17h53m8s581ms:
+      Wakeup{mType=1, mElapsedMillis=25516873, mUptimeMillis=19179366, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h53m20s573ms:
+      Wakeup{mType=1, mElapsedMillis=25504881, mUptimeMillis=19175295, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -17h54m38s582ms:
+      Wakeup{mType=1, mElapsedMillis=25426872, mUptimeMillis=19161676, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER , u0a305 CEM ]
+    -18h0m58s572ms:
+      Wakeup{mType=1, mElapsedMillis=25046882, mUptimeMillis=19030501, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h5m8s570ms:
+      Wakeup{mType=1, mElapsedMillis=24796884, mUptimeMillis=19021730, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h5m19s578ms:
+      Wakeup{mType=1, mElapsedMillis=24785876, mUptimeMillis=19017181, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h5m55s574ms:
+      Wakeup{mType=1, mElapsedMillis=24749880, mUptimeMillis=19015794, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -18h11m18s561ms:
+      Wakeup{mType=1, mElapsedMillis=24426893, mUptimeMillis=18937928, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h11m40s575ms:
+      Wakeup{mType=1, mElapsedMillis=24404879, mUptimeMillis=18935886, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -18h22m11s561ms:
+      Wakeup{mType=1, mElapsedMillis=23773893, mUptimeMillis=18853170, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h22m33s531ms:
+      Wakeup{mType=1, mElapsedMillis=23751923, mUptimeMillis=18852424, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h23m2s555ms:
+      Wakeup{mType=1, mElapsedMillis=23722899, mUptimeMillis=18848014, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h47m14s523ms:
+      Wakeup{mType=1, mElapsedMillis=22270931, mUptimeMillis=18441566, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h53m0s547ms:
+      Wakeup{mType=1, mElapsedMillis=21924907, mUptimeMillis=18424922, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h53m14s552ms:
+      Wakeup{mType=1, mElapsedMillis=21910902, mUptimeMillis=18420906, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h55m21s547ms:
+      Wakeup{mType=1, mElapsedMillis=21783907, mUptimeMillis=18384709, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -18h56m31s534ms:
+      Wakeup{mType=1, mElapsedMillis=21713920, mUptimeMillis=18382250, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -18h59m0s548ms:
+      Wakeup{mType=1, mElapsedMillis=21564906, mUptimeMillis=18373734, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -18h59m14s547ms:
+      Wakeup{mType=1, mElapsedMillis=21550907, mUptimeMillis=18369562, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -19h5m14s533ms:
+      Wakeup{mType=1, mElapsedMillis=21190921, mUptimeMillis=18346076, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -19h9m1s531ms:
+      Wakeup{mType=1, mElapsedMillis=20963923, mUptimeMillis=18298527, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -19h11m13s528ms:
+      Wakeup{mType=1, mElapsedMillis=20831926, mUptimeMillis=18285578, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -19h21m35s526ms:
+      Wakeup{mType=1, mElapsedMillis=20209928, mUptimeMillis=18141035, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -19h40m19s521ms:
+      Wakeup{mType=1, mElapsedMillis=19085933, mUptimeMillis=17448322, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -19h40m58s508ms:
+      Wakeup{mType=1, mElapsedMillis=19046946, mUptimeMillis=17442400, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+    -19h42m11s518ms:
+      Wakeup{mType=1, mElapsedMillis=18973936, mUptimeMillis=17425835, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -19h44m43s522ms:
+      Wakeup{mType=1, mElapsedMillis=18821932, mUptimeMillis=17398807, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -19h51m46s494ms:
+      Wakeup{mType=1, mElapsedMillis=18398960, mUptimeMillis=17115950, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -19h56m20s507ms:
+      Wakeup{mType=1, mElapsedMillis=18124947, mUptimeMillis=16886752, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -19h57m20s502ms:
+      Wakeup{mType=1, mElapsedMillis=18064952, mUptimeMillis=16879076, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -19h59m20s487ms:
+      Wakeup{mType=1, mElapsedMillis=17944967, mUptimeMillis=16819423, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h6m25s437ms:
+      Wakeup{mType=1, mElapsedMillis=10320017, mUptimeMillis=9571922, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -22h8m24s441ms:
+      Wakeup{mType=1, mElapsedMillis=10201013, mUptimeMillis=9507541, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a110 SVC , u0a210 IMPF]
+    -1d0h33m11s346ms:
+      Wakeup{mType=1, mElapsedMillis=1514108, mUptimeMillis=1022987, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [1000 PER ]
+    -1d0h36m24s337ms:
+      Wakeup{mType=1, mElapsedMillis=1321117, mUptimeMillis=962818, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm []
+    -1d0h38m24s356ms:
+      Wakeup{mType=1, mElapsedMillis=1201098, mUptimeMillis=938318, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a210 IMPF]
+    -1d0h44m33s336ms:
+      Wakeup{mType=1, mElapsedMillis=832118, mUptimeMillis=788495, mDevices=[IrqDevice{mLine=245, mDevice='pm8xxx_rtc_alarm'}], mResponsibleSubsystems={1=true}}
+      Attribution: Alarm [u0a149 BFGS]
+  Attribution stats:
+    Subsystem Unknown: 0/1
+    Subsystem Alarm: 136/162
+    Total: 162
+
+
+==================================================
+  5. PROPIEDADES DEL DISPOSITIVO
+==================================================
+
+model:    2312DRA50G
+brand:    Redmi
+abi:      arm64-v8a
+android:  14
+sdk:      34
+wm size:  Physical size: 1220x2712
+wm dens:  Physical density: 480
+
+==================================================
+  6. THREADS DEL PROCESO (ps -T -p <pid>)
+==================================================
+
+USER           PID   TID  PPID        VSZ    RSS WCHAN            ADDR S CMD            
+u0_a372      32402 32402  1238    9204804 271480 0                   0 S niandes.vinilos
+u0_a372      32402 32407  1238    9204804 271480 0                   0 S Signal Catcher
+u0_a372      32402 32408  1238    9204804 271480 0                   0 S perfetto_hprof_
+u0_a372      32402 32409  1238    9204804 271480 0                   0 S ADB-JDWP Connec
+u0_a372      32402 32412  1238    9204804 271480 0                   0 S Jit thread pool
+u0_a372      32402 32413  1238    9204804 271480 0                   0 S HeapTaskDaemon
+u0_a372      32402 32414  1238    9204804 271480 0                   0 S ReferenceQueueD
+u0_a372      32402 32415  1238    9204804 271480 0                   0 S FinalizerDaemon
+u0_a372      32402 32416  1238    9204804 271480 0                   0 S FinalizerWatchd
+u0_a372      32402 32417  1238    9204804 271480 0                   0 S binder:32402_1
+u0_a372      32402 32418  1238    9204804 271480 0                   0 S binder:32402_2
+u0_a372      32402 32421  1238    9204804 271480 0                   0 S binder:32402_3
+u0_a372      32402 32424  1238    9204804 271480 0                   0 S binder:32402_4
+u0_a372      32402 32425  1238    9204804 271480 0                   0 S 32402-ScoutStat
+u0_a372      32402 32431  1238    9204804 271480 0                   0 S Profile Saver
+u0_a372      32402 32432  1238    9204804 271480 0                   0 S Timer-0
+u0_a372      32402 32433  1238    9204804 271480 0                   0 S Timer-1
+u0_a372      32402 32436  1238    9204804 271480 0                   0 S RenderThread
+u0_a372      32402 32440  1238    9204804 271480 0                   0 S FramePredictIni
+u0_a372      32402 32442  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32443  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32444  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32445  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32446  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32447  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32448  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32450  1238    9204804 271480 0                   0 S DefaultDispatch
+u0_a372      32402 32451  1238    9204804 271480 0                   0 S arch_disk_io_0
+u0_a372      32402 32452  1238    9204804 271480 0                   0 S arch_disk_io_1
+u0_a372      32402 32453  1238    9204804 271480 0                   0 S arch_disk_io_2
+u0_a372      32402 32456  1238    9204804 271480 0                   0 S SurfaceSyncGrou
+u0_a372      32402 32457  1238    9204804 271480 0                   0 S hwuiTask0
+u0_a372      32402 32458  1238    9204804 271480 0                   0 S hwuiTask1
+u0_a372      32402 32464  1238    9204804 271480 0                   0 S binder:32402_2
+u0_a372      32402 32530  1238    9204804 271480 0                   0 S ConnectivityThr
+u0_a372      32402 32532  1238    9204804 271480 0                   0 S OkHttp Dispatch
+u0_a372      32402 32533  1238    9204804 271480 0                   0 S OkHttp Dispatch
+u0_a372      32402 32538  1238    9204804 271480 0                   0 S OkHttp Dispatch
+u0_a372      32402 32539  1238    9204804 271480 0                   0 S OkHttp Dispatch
+u0_a372      32402 32542  1238    9204804 271480 0                   0 S OkHttp Dispatch
+u0_a372      32402 32543  1238    9204804 271480 0                   0 S OkHttp Dispatch
+u0_a372      32402 32544  1238    9204804 271480 0                   0 S d.wikimedia.org
+u0_a372      32402 32545  1238    9204804 271480 0                   0 S scovermusic.com
+u0_a372      32402 32546  1238    9204804 271480 0                   0 S  pm1.narvii.com
+u0_a372      32402 32547  1238    9204804 271480 0                   0 S tp i.pinimg.com
+u0_a372      32402 32548  1238    9204804 271480 0                   0 S Okio Watchdog
+u0_a372      32402 32549  1238    9204804 271480 0                   0 S OkHttp TaskRunn
+u0_a372      32402 32550  1238    9204804 271480 0                   0 S OkHttp TaskRunn
+u0_a372      32402 32551  1238    9204804 271480 0                   0 S GrallocUploadTh
+u0_a372      32402 32552  1238    9204804 271480 0                   0 S cdn.shopify.com
+u0_a372      32402 32617  1238    9204804 271480 0                   0 S OkHttp TaskRunn
+u0_a372      32402 32618  1238    9204804 271480 0                   0 S GrallocUploadTh
+u0_a372      32402 32619  1238    9204804 271480 0                   0 S GrallocUploadTh
+u0_a372      32402 32620  1238    9204804 271480 0                   0 S GrallocUploadTh
+u0_a372      32402 32621  1238    9204804 271480 0                   0 S GrallocUploadTh
+u0_a372      32402 32686  1238    9204804 271480 0                   0 S binder:32402_5
+u0_a372      32402 32712  1238    9204804 271480 0                   0 S arch_disk_io_3
+u0_a372      32402 32713  1238    9204804 271480 0                   0 S OkHttp Dispatch
+
+Total de threads: 58
+
+==================================================
+  7. CPU GLOBAL (dumpsys cpuinfo)
+==================================================
+
+Load: 6.51 / 3.28 / 2.96
+CPU usage from 69578ms to 28117ms ago (2026-05-09 16:31:03.481 to 2026-05-09 16:31:44.942):
+  31% 2427/system_server: 16% user + 14% kernel / faults: 72811 minor 1665 major
+    3.6% 2712/android.bg: 1.4% user + 2.1% kernel
+    1.4% 2504/HeapTaskDaemon: 1% user + 0.4% kernel
+    1.4% 8166/binder:2427_1D: 0.8% user + 0.6% kernel
+    1.3% 3130/SensorService: 0.9% user + 0.4% kernel
+    1.3% 2509/binder:2427_1: 0.8% user + 0.4% kernel
+    1.1% 3583/SmartPowerServi: 0% user + 1% kernel
+    1.1% 4006/binder:2427_6: 0.6% user + 0.4% kernel
+    1% 2536/BpfServicePoll: 0.4% user + 0.6% kernel
+    1% 2551/BpfServiceTr: 0.2% user + 0.7% kernel
+    0.9% 2836/binder:2427_3: 0.6% user + 0.3% kernel
+    0.9% 2716/ActivityManager: 0.5% user + 0.4% kernel
+    0.9% 5482/binder:2427_11: 0.6% user + 0.3% kernel
+    0.7% 4623/binder:2427_A: 0.5% user + 0.2% kernel
+    0.6% 2427/system_server: 0.4% user + 0.2% kernel
+    0.5% 2891/PackageManager: 0.3% user + 0.2% kernel
+    0.5% 2701/android.ui: 0.2% user + 0.3% kernel
+    0.5% 2515/android.fg: 0.4% user + 0% kernel
+    0.5% 3356/hidl_ssvc_poll: 0.1% user + 0.3% kernel
+    0.5% 6935/binder:2427_14: 0.2% user + 0.2% kernel
+    0.5% 7414/binder:2427_1B: 0.2% user + 0.2% kernel
+    0.5% 6878/pool-70-thread-: 0.4% user + 0% kernel
+    0.4% 8374/binder:2427_20: 0.3% user + 0.1% kernel
+    0.4% 4491/binder:2427_9: 0.2% user + 0.1% kernel
+    0.4% 7062/binder:2427_18: 0.2% user + 0.1% kernel
+    0.4% 8131/binder:2427_1C: 0.2% user + 0.1% kernel
+    0.3% 2714/socket_writer_q: 0% user + 0.3% kernel
+    0.3% 3455/ConnectivitySer: 0.2% user + 0.1% kernel
+    0.2% 2512/binder:2427_2: 0.1% user + 0.1% kernel
+    0.2% 6990/binder:2427_15: 0.1% user + 0.1% kernel
+    0.2% 3438/NetworkStats: 0.1% user + 0% kernel
+    0.2% 2703/android.display: 0.1% user + 0% kernel
+    0.2% 2705/android.anim.lf: 0.1% user + 0% kernel
+    0.2% 2724/batterystats-ha: 0.1% user + 0.1% kernel
+    0.2% 3442/WifiHandlerThre: 0.1% user + 0% kernel
+    0.2% 6995/binder:2427_17: 0.1% user + 0% kernel
+    0.2% 3449/NetworkDetectIn: 0% user + 0.1% kernel
+    0.2% 5481/binder:2427_10: 0% user + 0.1% kernel
+    0.1% 2704/android.anim: 0.1% user + 0% kernel
+    0.1% 2722/OomAdjuster: 0% user + 0.1% kernel
+    0.1% 4625/binder:2427_B: 0.1% user + 0% kernel
+    0.1% 6925/binder:2427_13: 0% user + 0.1% kernel
+    0.1% 3036/PackageInstalle: 0% user + 0% kernel
+    0.1% 3037/binder:2427_4: 0% user + 0% kernel
+    0.1% 4813/binder:2427_F: 0% user + 0% kernel
+    0.1% 6869/pool-64-thread-: 0.1% user + 0% kernel
+    0.1% 2853/PackageManagerB: 0.1% user + 0% kernel
+    0.1% 3177/eduling.default: 0% user + 0% kernel
+    0.1% 3228/SettingsProvide: 0% user + 0% kernel
+    0.1% 6811/backup-0: 0% user + 0% kernel
+    0.1% 2718/ActivityManager: 0% user + 0% kernel
+    0.1% 2725/batterystats-wo: 0% user + 0% kernel
+    0.1% 3440/tworkPolicy.uid: 0% user + 0% kernel
+    0.1% 3525/Greezer: 0% user + 0.1% kernel
+    0% 2739/PowerManagerSer: 0% user + 0% kernel
+    0% 3294/oregroundThread: 0% user + 0% kernel
+    0% 3439/NetworkPolicy: 0% user + 0% kernel
+    0% 3462/ranker: 0% user + 0% kernel
+    0% 3678/TaskSnapshotPer: 0% user + 0% kernel
+    0% 8199/binder:2427_1F: 0% user + 0% kernel
+    0% 10279/pool-67-thread-: 0% user + 0% kernel
+    0% 2505/ReferenceQueueD: 0% user + 0% kernel
+    0% 4812/binder:2427_E: 0% user + 0% kernel
+    0% 2503/Jit thread pool: 0% user + 0% kernel
+    0% 2702/android.io: 0% user + 0% kernel
+    0% 2717/ActivityManager: 0% user + 0% kernel
+    0% 2720/Thread-2: 0% user + 0% kernel
+    0% 2726/bgres-controlle: 0% user + 0% kernel
+    0% 3311/AlarmManager: 0% user + 0% kernel
+    0% 3349/InputDispatcher: 0% user + 0% kernel
+    0% 3376/AppIntegrityMan: 0% user + 0% kernel
+    0% 3441/MiuiNetworkPoli: 0% user + 0% kernel
+    0% 3688/android.perm: 0% user + 0% kernel
+    0% 4210/ProcessMemoryCl: 0% user + 0% kernel
+    0% 4381/binder:2427_8: 0% user + 0% kernel
+    0% 6871/pool-67-thread-: 0% user + 0% kernel
+    0% 24461/pool-72-thread-: 0% user + 0% kernel
+    0% 2506/FinalizerDaemon: 0% user + 0% kernel
+    0% 2713/miui.fg: 0% user + 0% kernel
+    0% 2719/ActivityManager: 0% user + 0% kernel
+    0% 3196/AccountManagerS: 0% user + 0% kernel
+    0% 3295/Thread-8: 0% user + 0% kernel
+    0% 3345/RenderThread: 0% user + 0% kernel
+    0% 3370/NetworkWatchlis: 0% user + 0% kernel
+    0% 3375/EventHandlerThr: 0% user + 0% kernel
+    0% 3504/ConnectivityThr: 0% user + 0% kernel
+    0% 3557/SchedBoostServi: 0% user + 0% kernel
+    0% 3585/SmartPowerDispl: 0% user + 0% kernel
+    0% 3621/BlobStore: 0% user + 0% kernel
+    0% 3647/StatsCompanionS: 0% user + 0% kernel
+    0% 4029/binder:2427_7: 0% user + 0% kernel
+    0% 4158/SLAServiceHandl: 0% user + 0% kernel
+    0% 4217/EventsNodeThrea: 0% user + 0% kernel
+    0% 6991/binder:2427_16: 0% user + 0% kernel
+   +0% 31442/pool-678-thread: 0% user + 0% kernel
+   +0% 31536/Timer-745: 0% user + 0% kernel
+   +0% 31567/pool-679-thread: 0% user + 0% kernel
+   +0% 31604/pool-125-thread: 0% user + 0% kernel
+   +0% 31605/pool-122-thread: 0% user + 0% kernel
+   +0% 31611/pool-123-thread: 0% user + 0% kernel
+   +0% 31613/pool-121-thread: 0% user + 0% kernel
+   +0% 31614/pool-115-thread: 0% user + 0% kernel
+  7% 21730/com.android.vending: 4.7% user + 2.2% kernel / faults: 220316 minor 11305 major
+    3.8% 21763/bgExecutor #1: 3% user + 0.8% kernel
+    1.4% 21734/HeapTaskDaemon: 0.7% user + 0.7% kernel
+    0.2% 21733/Jit thread pool: 0.1% user + 0% kernel
+    0.1% 21730/android.vending: 0% user + 0.1% kernel
+    0.1% 21762/bgExecutor #0: 0.1% user + 0% kernel
+    0.1% 21765/bgExecutor #2: 0% user + 0% kernel
+    0.1% 21766/bgExecutor #3: 0% user + 0% kernel
+    0% 21743/Profile Saver: 0% user + 0% kernel
+    0% 21760/ValueStore-3: 0% user + 0% kernel
+    0% 21791/CronetNet: 0% user + 0% kernel
+    0% 21772/GoogleApiHandle: 0% user + 0% kernel
+    0% 21789/ThreadPoolForeg: 0% user + 0% kernel
+    0% 21735/ReferenceQueueD: 0% user + 0% kernel
+    0% 21746/LightweightExec: 0% user + 0% kernel
+    0% 21747/LightweightExec: 0% user + 0% kernel
+    0% 21748/LightweightExec: 0% user + 0% kernel
+    0% 21749/LightweightExec: 0% user + 0% kernel
+    0% 21753/ValueStore-1: 0% user + 0% kernel
+    0% 21754/ValueStore-2: 0% user + 0% kernel
+    0% 21759/FileObserver: 0% user + 0% kernel
+    0% 21785/CronetInit: 0% user + 0% kernel
+    0% 21797/Thread-7: 0% user + 0% kernel
+    0% 23897/bjla: 0% user + 0% kernel
+    0% 23915/bjla: 0% user + 0% kernel
+    0% 23919/bjla: 0% user + 0% kernel
+    0% 24256/DefaultDispatch: 0% user + 0% kernel
+   +0% 31419/main_dumpsys.db: 0% user + 0% kernel
+   +0% 31420/BlockingExecuto: 0% user + 0% kernel
+   +0% 31423/VerifyAppsDataS: 0% user + 0% kernel
+   +0% 31424/-verify_apps.db: 0% user + 0% kernel
+   +0% 31429/ApkContentsScan: 0% user + 0% kernel
+   +0% 31446/FinskyEventLog: 0% user + 0% kernel
+   +0% 31447/BlockingExecuto: 0% user + 0% kernel
+   +0% 32191/SplitInstallBac: 0% user + 0% kernel
+   +0% 32205/InstallQueueDat: 0% user + 0% kernel
+   +0% 32271/Db-split_instal: 0% user + 0% kernel
+   +0% 32280/Db-scheduler_ma: 0% user + 0% kernel
+   +0% 32294/Db-notification: 0% user + 0% kernel
+   +0% 32295/InstallBackgrou: 0% user + 0% kernel
+   +0% 32315/Db-install_serv: 0% user + 0% kernel
+   +0% 32320/OkHttp Connecti: 0% user + 0% kernel
+  10% 153/kswapd0: 0% user + 10% kernel
+  10% 21904/com.android.settings: 8.4% user + 1.7% kernel / faults: 3340 minor 12 major
+    4.7% 30614/RenderThread: 4.1% user + 0.6% kernel
+    4% 21904/ndroid.settings: 3.5% user + 0.5% kernel
+    0.3% 21941/AsyncTask #1: 0.1% user + 0.2% kernel
+    0.2% 21912/binder:21904_1: 0.1% user + 0% kernel
+    0.1% 31079/binder:21904_6: 0.1% user + 0% kernel
+    0% 30760/binder:21904_1: 0% user + 0% kernel
+    0% 21907/Jit thread pool: 0% user + 0% kernel
+    0% 21913/binder:21904_2: 0% user + 0% kernel
+    0% 21931/Profile Saver: 0% user + 0% kernel
+   +0% 31546/binder:21904_7: 0% user + 0% kernel
+   +0% 32151/AsyncTask #5: 0% user + 0% kernel
+   +0% 32177/pool-20-thread-: 0% user + 0% kernel
+  7.6% 1607/surfaceflinger: 4.3% user + 3.3% kernel / faults: 2517 minor 12 major
+    3.8% 1607/surfaceflinger: 2.7% user + 1% kernel
+    0.6% 1813/app: 0.3% user + 0.2% kernel
+    0.6% 2843/RelBufCB: 0.2% user + 0.3% kernel
+    0.5% 1810/TimerDispatch: 0.2% user + 0.3% kernel
+    0.4% 2845/binder:1607_4: 0.2% user + 0.2% kernel
+    0.3% 2842/binder:1607_3: 0.1% user + 0.2% kernel
+    0.3% 1686/binder:1607_2: 0.1% user + 0.1% kernel
+    0.2% 2841/BgExecutor: 0.1% user + 0% kernel
+    0.1% 1696/HwBinder:1607_1: 0% user + 0.1% kernel
+    0.1% 1919/IdleTimer: 0% user + 0% kernel
+    0% 1916/appSf: 0% user + 0% kernel
+    0% 1920/UpdateImminentT: 0% user + 0% kernel
+    0% 6706/binder:1607_5: 0% user + 0% kernel
+    0% 1697/RenderEngine: 0% user + 0% kernel
+    0% 1917/RegionSampling: 0% user + 0% kernel
+    0% 1918/RegSampIdle: 0% user + 0% kernel
+    0% 6206/1607-binder-0: 0% user + 0% kernel
+    0% 6207/1607-binder-1: 0% user + 0% kernel
+    0% 6209/1607-binder-3: 0% user + 0% kernel
+  4.4% 4291/com.android.systemui: 3% user + 1.3% kernel / faults: 5291 minor 1015 major
+    1.7% 4776/RenderThread: 1.3% user + 0.4% kernel
+    1.4% 4291/ndroid.systemui: 1% user + 0.4% kernel
+    0.3% 4362/binder:4291_2: 0.1% user + 0.1% kernel
+    0.2% 4743/SysUiBg: 0.1% user + 0% kernel
+    0.1% 4559/wmshell.main: 0% user + 0% kernel
+    0.1% 5478/binder:4291_9: 0% user + 0% kernel
+    0.1% 5612/binder:4291_A: 0% user + 0% kernel
+    0% 4339/Jit thread pool: 0% user + 0% kernel
+    0% 5214/binder:4291_7: 0% user + 0% kernel
+    0% 4598/wmshell.anim: 0% user + 0% kernel
+    0% 4914/pool-2-thread-1: 0% user + 0% kernel
+    0% 4920/plugin: 0% user + 0% kernel
+    0% 5143/CCBackground: 0% user + 0% kernel
+    0% 5238/AsyncLayoutInfl: 0% user + 0% kernel
+    0% 5463/AnimRunnerThrea: 0% user + 0% kernel
+    0% 5514/binder:4291_6: 0% user + 0% kernel
+    0% 5594/AnimThread-5: 0% user + 0% kernel
+    0% 5615/binder:4291_C: 0% user + 0% kernel
+  4.4% 5706/com.google.android.gms: 2.3% user + 2.1% kernel / faults: 16125 minor 4528 major
+    0.6% 28880/lowpool[217]: 0.3% user + 0.3% kernel
+    0.3% 15649/binder:5706_E: 0.1% user + 0.1% kernel
+    0.2% 28881/OkHttpClientTra: 0.1% user + 0.1% kernel
+    0.2% 5706/gle.android.gms: 0% user + 0.1% kernel
+    0.2% 5765/Profile Saver: 0.1% user + 0% kernel
+    0.2% 9926/CronetNet: 0.1% user + 0% kernel
+    0.1% 7849/binder:5706_7: 0.1% user + 0% kernel
+    0.1% 5720/Jit thread pool: 0% user + 0% kernel
+    0.1% 5833/GoogleApiHandle: 0% user + 0% kernel
+    0.1% 23328/lowpool[210]: 0% user + 0% kernel
+    0% 15631/binder:5706_C: 0% user + 0% kernel
+    0% 15643/highpool[113]: 0% user + 0% kernel
+    0% 6914/binder:5706_5: 0% user + 0% kernel
+    0% 9916/ThreadPoolForeg: 0% user + 0% kernel
+    0% 11207/highpool[112]: 0% user + 0% kernel
+    0% 28848/lowpool[214]: 0% user + 0% kernel
+    0% 5723/FinalizerDaemon: 0% user + 0% kernel
+    0% 5726/binder:5706_1: 0% user + 0% kernel
+    0% 5865/GlobalDispatchi: 0% user + 0% kernel
+    0% 5879/GlobalScheduler: 0% user + 0% kernel
+    0% 5880/ice] processing: 0% user + 0% kernel
+    0% 14262/GoogleApiHandle: 0% user + 0% kernel
+    0% 14323/GoogleApiHandle: 0% user + 0% kernel
+   +0% 31522/Measurement Wor: 0% user + 0% kernel
+   +0% 31542/grpc-default-ex: 0% user + 0% kernel
+   +0% 31574/-Executor] idle: 0% user + 0% kernel
+   +0% 31578/-Executor] idle: 0% user + 0% kernel
+   +0% 31599/-Executor] idle: 0% user + 0% kernel
+   +0% 31600/-Executor] idle: 0% user + 0% kernel
+   +0% 31601/-Executor] idle: 0% user + 0% kernel
+   +0% 31602/-Executor] idle: 0% user + 0% kernel
+   +0% 31610/lowpool[220]: 0% user + 0% kernel
+   +0% 32201/-Executor] idle: 0% user + 0% kernel
+   +0% 32221/lowpool[221]: 0% user + 0% kernel
+   +0% 32222/lowpool[222]: 0% user + 0% kernel
+   +0% 32224/lowpool[223]: 0% user + 0% kernel
+   +0% 32225/lowpool[224]: 0% user + 0% kernel
+   +0% 32228/lowpool[225]: 0% user + 0% kernel
+   +0% 32229/lowpool[226]: 0% user + 0% kernel
+   +0% 32230/lowpool[227]: 0% user + 0% kernel
+   +0% 32242/-Executor] idle: 0% user + 0% kernel
+   +0% 32254/lowpool[228]: 0% user + 0% kernel
+   +0% 32262/PlayGamesAsyncT: 0% user + 0% kernel
+   +0% 32269/lowpool[229]: 0% user + 0% kernel
+   +0% 32327/highpool[116]: 0% user + 0% kernel
+   +0% 32328/highpool[117]: 0% user + 0% kernel
+   +0% 32368/AdIdClientAutoD: 0% user + 0% kernel
+  4.3% 1420/vendor.qti.hardware.display.composer-service: 2% user + 2.3% kernel / faults: 183 minor 18 major
+    1.5% 1556/composer-servic: 0.5% user + 1% kernel
+    1.1% 1793/HwBinder:1420_2: 0.6% user + 0.4% kernel
+    1.1% 1794/HwBinder:1420_3: 0.7% user + 0.3% kernel
+    0.2% 1750/SDM_EventThread: 0% user + 0.2% kernel
+    0% 3435/HwBinder:1420_3: 0% user + 0% kernel
+    0% 3437/HwBinder:1420_3: 0% user + 0% kernel
+    0% 2838/trigger_cwb: 0% user + 0% kernel
+    0% 3358/ABA_THREAD: 0% user + 0% kernel
+    0% 2837/HwBinder:1420_1: 0% user + 0% kernel
+    0% 6710/1420-HwBind-2: 0% user + 0% kernel
+  3.5% 8849/com.zhiliaoapp.musically: 1.6% user + 1.9% kernel / faults: 606 minor 58 major
+    0.6% 30763/tp-default-240: 0.1% user + 0.5% kernel
+    0.3% 8849/aoapp.musically: 0.1% user + 0.1% kernel
+    0.3% 22251/MemoryInfra: 0% user + 0.3% kernel
+    0.2% 9403/ADecod2-V3: 0% user + 0.2% kernel
+    0.2% 23869/RxComputationTh: 0.1% user + 0% kernel
+    0.2% 24194/RxComputationTh: 0% user + 0.1% kernel
+    0.1% 8971/milo-handler-th: 0% user + 0% kernel
+    0.1% 9048/mdl.storage: 0% user + 0% kernel
+    0.1% 9131/vod_st_man: 0% user + 0% kernel
+    0% 9071/DisActivityM-1: 0% user + 0% kernel
+    0% 9076/ChromiumNet0: 0% user + 0% kernel
+    0% 9149/ADecod2-V4: 0% user + 0% kernel
+    0% 8935/npth_profiler: 0% user + 0% kernel
+    0% 8960/RxSchedulerPurg: 0% user + 0% kernel
+    0% 9070/Thread-33: 0% user + 0% kernel
+    0% 8921/npth-worker: 0% user + 0% kernel
+    0% 8940/ExecutorsHook$C: 0% user + 0% kernel
+    0% 9055/mio.quic.fact: 0% user + 0% kernel
+    0% 9137/DefaultExecutor: 0% user + 0% kernel
+    0% 9145/live_pre_strate: 0% user + 0% kernel
+    0% 9162/AnrOptThread: 0% user + 0% kernel
+    0% 9276/ythia.scheduler: 0% user + 0% kernel
+    0% 9563/WorkerScheduler: 0% user + 0% kernel
+    0% 10922/GeckoCompressUt: 0% user + 0% kernel
+    0% 13961/binder:8849_7: 0% user + 0% kernel
+    0% 15919/DefaultDispatch: 0% user + 0% kernel
+    0% 22277/Chrome_InProcGp: 0% user + 0% kernel
+    0% 25369/DefaultDispatch: 0% user + 0% kernel
+    0% 30351/tp-io-2816: 0% user + 0% kernel
+   +0% 31398/tp-default-2835: 0% user + 0% kernel
+   +0% 32376/pty-wqp-248-t: 0% user + 0% kernel
+  2.9% 2220/vendor.xiaomi.sensor.citsensorservice@2.0-service: 1.2% user + 1.6% kernel
+    1.2% 3434/als-algo: 0.8% user + 0.4% kernel
+    0.3% 3547/HwBinder:2220_4: 0% user + 0.2% kernel
+    0.3% 3403/citsensorservic: 0% user + 0.2% kernel
+    0.2% 2289/HwBinder:2220_1: 0% user + 0.2% kernel
+    0.2% 2294/HwBinder:2220_2: 0% user + 0.2% kernel
+    0.2% 3355/HwBinder:2220_3: 0% user + 0.1% kernel
+    0.1% 2220/vendor.xiaomi.s: 0% user + 0.1% kernel
+    0.1% 3428/mFrameBuffer: 0% user + 0% kernel
+    0% 3427/cwb_dump: 0% user + 0% kernel
+  2.6% 4589/com.google.android.gms.persistent: 1.8% user + 0.8% kernel / faults: 4132 minor 382 major
+    0.4% 28338/lowpool[1090]: 0.2% user + 0.1% kernel
+    0.4% 31123/SensorBatchThre: 0.3% user + 0% kernel
+    0.2% 4589/.gms.persistent: 0.1% user + 0.1% kernel
+    0.1% 28791/binder:4589_10: 0.1% user + 0% kernel
+    0.1% 7819/GoogleLocationS: 0.1% user + 0% kernel
+    0.1% 30522/lowpool[1100]: 0% user + 0% kernel
+    0% 9883/binder:4589_C: 0% user + 0% kernel
+    0% 12116/binder:4589_E: 0% user + 0% kernel
+    0% 6016/binder:4589_4: 0% user + 0% kernel
+    0% 6904/binder:4589_5: 0% user + 0% kernel
+    0% 8806/binder:4589_A: 0% user + 0% kernel
+    0% 31119/highpool[624]: 0% user + 0% kernel
+    0% 4609/ReferenceQueueD: 0% user + 0% kernel
+    0% 4832/GoogleApiHandle: 0% user + 0% kernel
+    0% 4973/ice] processing: 0% user + 0% kernel
+    0% 9549/CronetNet: 0% user + 0% kernel
+    0% 30338/lowpool[1098]: 0% user + 0% kernel
+    0% 31120/highpool[625]: 0% user + 0% kernel
+    0% 31122/highpool[627]: 0% user + 0% kernel
+   +0% 31573/-Executor] idle: 0% user + 0% kernel
+   +0% 31575/-Executor] idle: 0% user + 0% kernel
+   +0% 31576/-Executor] idle: 0% user + 0% kernel
+   +0% 31577/-Executor] idle: 0% user + 0% kernel
+   +0% 31615/lowpool[1101]: 0% user + 0% kernel
+   +0% 31616/lowpool[1102]: 0% user + 0% kernel
+   +0% 32306/-Executor] idle: 0% user + 0% kernel
+   +0% 32307/lowpool[1103]: 0% user + 0% kernel
+  2.5% 31219/adbd: 0.3% user + 2.1% kernel / faults: 3512 minor 1 major
+    0.6% 31219/adbd: 0.1% user + 0.5% kernel
+   +0% 31282/UsbFfs-worker: 0% user + 0% kernel
+   +0% 31325/shell svc 31324: 0% user + 0% kernel
+  2% 864/crtc_commit:104: 0% user + 2% kernel
+  1.8% 6740/com.miui.securitycenter: 1.2% user + 0.6% kernel / faults: 2246 minor 69 major
+    0.8% 31156/RenderThread: 0.6% user + 0.2% kernel
+    0.6% 6740/.securitycenter: 0.4% user + 0.1% kernel
+    0% 31223/binder:6740_5: 0% user + 0% kernel
+    0% 6818/binder:6740_3: 0% user + 0% kernel
+    0% 31165/Measurement Wor: 0% user + 0% kernel
+    0% 7168/GoogleApiHandle: 0% user + 0% kernel
+   +0% 31511/pool-22-thread-: 0% user + 0% kernel
+   +0% 31518/firebase-instal: 0% user + 0% kernel
+   +0% 31519/firebase-instal: 0% user + 0% kernel
+   +0% 31524/InteractionJank: 0% user + 0% kernel
+   +0% 31529/pool-37-thread-: 0% user + 0% kernel
+   +0% 31531/binder:6740_6: 0% user + 0% kernel
+   +0% 32085/pool-22-thread-: 0% user + 0% kernel
+  1.6% 740/logd: 0.7% user + 0.9% kernel / faults: 1383 minor 55 major
+    1.5% 791/logd.writer: 0.6% user + 0.8% kernel
+    0% 11699/logd.reader.per: 0% user + 0% kernel
+  1.5% 8337/com.miui.securitycenter.remote: 0.6% user + 0.9% kernel / faults: 4984 minor 1147 major
+    0.6% 12229/pool-22-thread-: 0.1% user + 0.5% kernel
+    0.3% 8337/tycenter.remote: 0.1% user + 0.1% kernel
+    0.1% 30309/RenderThread: 0% user + 0% kernel
+    0% 12029/PowerNoticeUI: 0% user + 0% kernel
+    0% 3388/binder:8337_F: 0% user + 0% kernel
+    0% 9579/pool-3-thread-2: 0% user + 0% kernel
+    0% 12180/freeform_window: 0% user + 0% kernel
+    0% 14270/binder:8337_A: 0% user + 0% kernel
+    0% 8414/binder:8337_3: 0% user + 0% kernel
+    0% 12156/BatteryHistoryM: 0% user + 0% kernel
+    0% 12255/NightChargeRece: 0% user + 0% kernel
+    0% 12575/binder:8337_6: 0% user + 0% kernel
+    0% 12887/pool-44-thread-: 0% user + 0% kernel
+    0% 16229/AsyncTask #62: 0% user + 0% kernel
+    0% 30339/binder:8337_9: 0% user + 0% kernel
+   +0% 32088/thread-incremen: 0% user + 0% kernel
+   +0% 32123/OkHttp Connecti: 0% user + 0% kernel
+  1.4% 30746/kworker/u16:0-events_unbound: 0% user + 1.4% kernel / faults: 52 minor
+  1.4% 13730/kworker/u16:16-qc_ufs_qos_swq: 0% user + 1.4% kernel / faults: 97 minor
+  1.2% 743/lmkd: 0.2% user + 1% kernel
+    0.8% 743/lmkd: 0.2% user + 0.6% kernel
+    0.2% 847/lmkd_reaper1: 0% user + 0.2% kernel
+    0.1% 846/lmkd_reaper0: 0% user + 0.1% kernel
+  1.2% 31024/com.google.android.permissioncontroller: 0.6% user + 0.5% kernel / faults: 1558 minor 4 major
+    0% 31024/ssioncontroller: 0% user + 0% kernel
+   +0% 31590/DefaultDispatch: 0% user + 0% kernel
+   +0% 31594/DefaultDispatch: 0% user + 0% kernel
+   +0% 32080/AsyncTask #1: 0% user + 0% kernel
+   +0% 32086/RoleControllerS: 0% user + 0% kernel
+  1.1% 2055/mediaserver: 0.4% user + 0.6% kernel / faults: 630 minor 239 major
+    0% 2938/HwBinder:2055_1: 0% user + 0% kernel
+    0% 20101/HwBinder:2055_5: 0% user + 0% kernel
+    0% 20276/HwBinder:2055_6: 0% user + 0% kernel
+    0% 4084/binder:2055_9: 0% user + 0% kernel
+    0% 2286/binder:2055_1: 0% user + 0% kernel
+    0% 4078/binder:2055_6: 0% user + 0% kernel
+    0% 12983/HwBinder:2055_4: 0% user + 0% kernel
+   +0% 32366/MediaClock: 0% user + 0% kernel
+   +0% 32367/NuPlayerDriver : 0% user + 0% kernel
+   +0% 32369/generic: 0% user + 0% kernel
+  1.1% 26318/kworker/u16:2-wmi_rx_diag_event_work_: 0% user + 1.1% kernel / faults: 87 minor
+  1% 1352/android.hardware.sensors@2.1-service.multihal: 0.5% user + 0.5% kernel / faults: 108 minor 2 major
+    0.4% 3431/2111_see: 0.4% user + 0% kernel
+    0.1% 31125/11_see: 0.1% user + 0% kernel
+    0% 1352/sensors@2.1-ser: 0% user + 0% kernel
+  1% 6788/com.google.android.providers.media.module: 0.5% user + 0.5% kernel / faults: 2130 minor 1440 major
+    0.2% 26082/binder:6788_C: 0.2% user + 0% kernel
+    0% 6943/WM.task-1: 0% user + 0% kernel
+    0% 7156/WM.task-2: 0% user + 0% kernel
+    0% 6788/rs.media.module: 0% user + 0% kernel
+    0% 6879/MediaBackground: 0% user + 0% kernel
+    0% 7172/Thread-5: 0% user + 0% kernel
+    0% 7175/Thread-7: 0% user + 0% kernel
+    0% 12313/Thread-8: 0% user + 0% kernel
+    0% 17847/Thread-9: 0% user + 0% kernel
+    0% 17851/Thread-10: 0% user + 0% kernel
+    0% 28529/Thread-12: 0% user + 0% kernel
+   +0% 31645/pool-2-thread-8: 0% user + 0% kernel
+  1% 4319/com.miui.home: 0.5% user + 0.4% kernel / faults: 6277 minor 1176 major
+    0.4% 4319/com.miui.home: 0.2% user + 0.1% kernel
+    0.2% 4371/HeapTaskDaemon: 0% user + 0.1% kernel
+    0% 4582/launcher-loader: 0% user + 0% kernel
+    0% 4805/TaskStackChange: 0% user + 0% kernel
+    0% 4372/ReferenceQueueD: 0% user + 0% kernel
+    0% 4374/FinalizerDaemon: 0% user + 0% kernel
+    0% 4392/binder:4319_3: 0% user + 0% kernel
+    0% 4513/ckground-pool-1: 0% user + 0% kernel
+    0% 4602/LauncherTask #1: 0% user + 0% kernel
+    0% 4622/LauncherTask #3: 0% user + 0% kernel
+    0% 4809/binder:4319_4: 0% user + 0% kernel
+  0.9% 14/rcuog/0: 0% user + 0.9% kernel
+  0.8% 744/servicemanager: 0.2% user + 0.5% kernel / faults: 47 minor 24 major
+  0.8% 1235/statsd: 0.4% user + 0.4% kernel / faults: 58 minor 5 major
+    0.4% 1246/statsd.writer: 0.1% user + 0.2% kernel
+    0.3% 1253/statsd.reader: 0.3% user + 0% kernel
+  0.8% 30324/kworker/3:7H-fsverity_read_queue: 0% user + 0.8% kernel
+  0.7% 13/rcu_preempt: 0% user + 0.7% kernel
+  0.7% 1446/vendor.qti.hardware.perf-hal-service: 0.1% user + 0.5% kernel / faults: 552 minor 1 major
+    0.3% 1491/PERFD-SERVER: 0% user + 0.2% kernel
+    0.2% 1446/perf-hal-servic: 0% user + 0.1% kernel
+    0% 2741/1446-perf-h-0: 0% user + 0% kernel
+    0% 1508/perf-hal-servic: 0% user + 0% kernel
+  0.7% 10790/com.miui.powerkeeper: 0.3% user + 0.4% kernel / faults: 812 minor 155 major
+    0.1% 13289/PowerStateMachi: 0% user + 0.1% kernel
+    0.1% 11168/android.bg: 0% user + 0% kernel
+    0% 11686/NativePowerKeep: 0% user + 0% kernel
+    0% 11198/PowerKeeperServ: 0% user + 0% kernel
+    0% 11431/ProcessObserver: 0% user + 0% kernel
+    0% 11711/ThermalCollecto: 0% user + 0% kernel
+    0% 14166/binder:10790_A: 0% user + 0% kernel
+    0% 31919/binder:10790_10: 0% user + 0% kernel
+    0% 11753/FileObserver: 0% user + 0% kernel
+    0% 11784/ThermalLogServi: 0% user + 0% kernel
+    0% 15622/binder:10790_C: 0% user + 0% kernel
+  0.6% 763/kgsl_dispatcher: 0% user + 0.6% kernel
+  0.6% 933/mqsasd: 0.1% user + 0.4% kernel / faults: 8 minor 16 major
+    0.6% 946/BpfDispatcherS: 0.1% user + 0.4% kernel
+  0.6% 1373/android.hardware.wifi@1.0-service: 0.4% user + 0.2% kernel / faults: 329 minor 21 major
+    0.6% 3709/wifi@1.0-servic: 0.4% user + 0.1% kernel
+    0% 1373/wifi@1.0-servic: 0% user + 0% kernel
+  0.6% 2237/loop41: 0% user + 0.6% kernel
+  0.6% 4268/com.android.phone: 0.4% user + 0.2% kernel / faults: 867 minor 70 major
+    0.2% 4268/m.android.phone: 0.1% user + 0.1% kernel
+    0% 4316/binder:4268_1: 0% user + 0% kernel
+    0% 4671/HwBinder:4268_1: 0% user + 0% kernel
+    0% 5061/android.bg: 0% user + 0% kernel
+    0% 5144/NetworkMetricsC: 0% user + 0% kernel
+    0% 5408/binder:4268_B: 0% user + 0% kernel
+    0% 5613/binder:4268_10: 0% user + 0% kernel
+    0% 4983/Thread-5: 0% user + 0% kernel
+    0% 4999/Thread-6: 0% user + 0% kernel
+    0% 5000/Thread-7: 0% user + 0% kernel
+    0% 5157/TelephonySensor: 0% user + 0% kernel
+    0% 5346/binder:4268_A: 0% user + 0% kernel
+    0% 5414/NetworkService: 0% user + 0% kernel
+  0.6% 31230/irq/310-dwc3: 0% user + 0.6% kernel
+  0.6% 29725/com.lbe.security.miui: 0.3% user + 0.3% kernel / faults: 2740 minor 724 major
+    0% 29736/binder:29725_3: 0% user + 0% kernel
+    0% 31588/AsyncTask #4: 0% user + 0% kernel
+    0% 3735/binder:29725_6: 0% user + 0% kernel
+    0% 18110/pool-3-thread-2: 0% user + 0% kernel
+    0% 29740/work_permission: 0% user + 0% kernel
+    0% 29742/PermissionRecor: 0% user + 0% kernel
+    0% 13394/binder:29725_8: 0% user + 0% kernel
+    0% 29741/AppOpsAdapter: 0% user + 0% kernel
+    0% 29860/pool-3-thread-5: 0% user + 0% kernel
+   +0% 32025/OkHttp Connecti: 0% user + 0% kernel
+   +0% 32211/AsyncTask #5: 0% user + 0% kernel
+   +0% 32349/AsyncTask #6: 0% user + 0% kernel
+  0.6% 29371/kworker/u16:3-ufs_clkscaling_0: 0% user + 0.6% kernel / faults: 30 minor
+  0.5% 2117/media.swcodec: 0.2% user + 0.3% kernel / faults: 2304 minor 317 major
+    0% 4758/HwBinder:2117_8: 0% user + 0% kernel
+    0% 5798/HwBinder:2117_F: 0% user + 0% kernel
+    0% 4003/HwBinder:2117_4: 0% user + 0% kernel
+    0% 4754/HwBinder:2117_6: 0% user + 0% kernel
+  0.4% 6612/com.mi.globalminusscreen: 0.1% user + 0.3% kernel / faults: 2834 minor 1711 major
+    0% 6612/obalminusscreen: 0% user + 0% kernel
+    0% 6629/Profile Saver: 0% user + 0% kernel
+    0% 6617/Jit thread pool: 0% user + 0% kernel
+    0% 6680/appfinder-loade: 0% user + 0% kernel
+    0% 18356/binder:6612_9: 0% user + 0% kernel
+   +0% 32227/MinusScreen Tas: 0% user + 0% kernel
+   +0% 32244/MinusScreen Tas: 0% user + 0% kernel
+   +0% 32250/MinusScreen Tas: 0% user + 0% kernel
+  0.4% 30560/kworker/u17:5-kgsl-events: 0% user + 0.4% kernel
+  0.4% 502/irq/26-19091000: 0% user + 0.4% kernel
+  0.3% 47/rcuog/4: 0% user + 0.3% kernel
+  0.3% 28296/kworker/2:4: 0% user + 0.3% kernel
+  0.2% 747/hwservicemanager: 0.2% user + 0% kernel
+  0.2% 865/crtc_event:104: 0% user + 0.2% kernel
+  0.1% 876/android.hardware.security.keymint-service-qti: 0% user + 0.1% kernel / faults: 2 minor 6 major
+  0.2% 1613/com.google.android.apps.messaging: 0.2% user + 0% kernel / faults: 186 minor 36 major
+    0% 1613/.apps.messaging: 0% user + 0% kernel
+    0% 29450/Blocking Thread: 0% user + 0% kernel
+    0% 30343/Blocking Thread: 0% user + 0% kernel
+    0% 1635/binder:1613_3: 0% user + 0% kernel
+   +0% 32076/Blocking Thread: 0% user + 0% kernel
+  0.2% 6784/com.miui.analytics: 0.1% user + 0.1% kernel / faults: 1075 minor 284 major
+    0% 7685/ot_ps_uploader: 0% user + 0% kernel
+    0% 7639/ot_track_worker: 0% user + 0% kernel
+    0% 6784/.miui.analytics: 0% user + 0% kernel
+   +0% 31618/ot_executor_260: 0% user + 0% kernel
+   +0% 31619/ot-log-file: 0% user + 0% kernel
+   +0% 31621/ot_monitor_db: 0% user + 0% kernel
+   +0% 31624/ot_up_t_AdMonit: 0% user + 0% kernel
+   +0% 32185/ot_executor_261: 0% user + 0% kernel
+  0.2% 30448/kworker/3:6-events: 0% user + 0.2% kernel
+  0.2% 1238/zygote64: 0% user + 0.2% kernel / faults: 560 minor
+    0.2% 1238/main: 0% user + 0.2% kernel
+   +0% 30007/Jit thread pool: 0% user + 0% kernel
+   +0% 30008/HeapTaskDaemon: 0% user + 0% kernel
+   +0% 30009/ReferenceQueueD: 0% user + 0% kernel
+   +0% 30010/FinalizerDaemon: 0% user + 0% kernel
+   +0% 30011/FinalizerWatchd: 0% user + 0% kernel
+  0.2% 1594/audioserver: 0.1% user + 0% kernel / faults: 5 minor 11 major
+    0.1% 2790/AudioOut_D: 0.1% user + 0% kernel
+    0% 15752/binder:1594_F: 0% user + 0% kernel
+    0% 4351/binder:1594_A: 0% user + 0% kernel
+  0.2% 6805/com.google.android.as: 0.1% user + 0.1% kernel / faults: 307 minor 433 major
+    0.1% 8490/aiai-vc-0: 0% user + 0% kernel
+    0% 6977/aiai-min-shared: 0% user + 0% kernel
+  0.2% 6921/com.android.nfc: 0.1% user + 0% kernel / faults: 524 minor 67 major
+    0.2% 6921/com.android.nfc: 0.1% user + 0% kernel
+    0% 24829/binder:6921_6: 0% user + 0% kernel
+  0.2% 30447/kworker/1:6-events: 0% user + 0.2% kernel
+  0.2% 951/android.system.suspend-service: 0% user + 0.2% kernel / faults: 12 minor 2 major
+    0.1% 3543/binder:951_5: 0% user + 0.1% kernel
+  0.2% 1236/netd: 0% user + 0.1% kernel / faults: 452 minor 7 major
+    0% 1328/binder:1236_3: 0% user + 0% kernel
+    0% 1326/binder:1236_2: 0% user + 0% kernel
+    0% 1324/netd: 0% user + 0% kernel
+  0.2% 1805/mi_thermald: 0% user + 0.1% kernel
+    0.1% 1910/mi_thermald: 0% user + 0.1% kernel
+    0% 1843/mi_thermald: 0% user + 0% kernel
+  0.2% 2024/qcrilNrd: 0.1% user + 0% kernel / faults: 59 minor 7 major
+    0.1% 2568/DispatcherModul: 0% user + 0% kernel
+    0% 2569/DataModule-Loop: 0% user + 0% kernel
+  0.2% 2784/cds_ol_rx_threa: 0% user + 0.2% kernel
+  0.2% 4174/com.android.bluetooth: 0.1% user + 0% kernel / faults: 301 minor 32 major
+    0% 4988/BluetoothAvrcpH: 0% user + 0% kernel
+    0% 7025/binder:4174_7: 0% user + 0% kernel
+    0% 4945/btu message loo: 0% user + 0% kernel
+  0.1% 26007/kworker/0:0-sock_diag_events: 0% user + 0.1% kernel
+  0.1% 953/keystore2: 0% user + 0.1% kernel / faults: 403 minor 455 major
+    0% 16677/binder:953_A: 0% user + 0% kernel
+    0% 971/binder:953_3: 0% user + 0% kernel
+    0% 9527/binder:953_7: 0% user + 0% kernel
+   +0% 31425/binder:953_3: 0% user + 0% kernel
+   +0% 31568/binder:953_A: 0% user + 0% kernel
+   +0% 31569/binder:953_A: 0% user + 0% kernel
+  0.1% 4105/com.android.networkstack.process: 0.1% user + 0% kernel / faults: 282 minor 1 major
+    0% 4542/IpClient.wlan0: 0% user + 0% kernel
+    0% 18132/NetworkMonitor/: 0% user + 0% kernel
+    0% 4136/droid.tethering: 0% user + 0% kernel
+    0% 4220/binder:4105_4: 0% user + 0% kernel
+    0% 5622/binder:4105_6: 0% user + 0% kernel
+    0% 31466/NetworkMonitor/: 0% user + 0% kernel
+  0.1% 4215/vendor.qti.qesdk.sysservice: 0% user + 0% kernel / faults: 201 minor 20 major
+    0% 4267/binder:4215_3: 0% user + 0% kernel
+    0% 5729/binder:4215_4: 0% user + 0% kernel
+    0% 7114/binder:4215_D: 0% user + 0% kernel
+  0.1% 15/rcuop/0: 0% user + 0.1% kernel
+  0.1% 33/rcuop/2: 0% user + 0.1% kernel
+  0.1% 40/rcuop/3: 0% user + 0.1% kernel
+  0.1% 988/f2fs_ckpt-254:5: 0% user + 0.1% kernel
+  0.1% 4219/org.codeaurora.ims: 0% user + 0.1% kernel / faults: 814 minor 431 major
+    0% 4251/HeapTaskDaemon: 0% user + 0% kernel
+    0% 4219/.codeaurora.ims: 0% user + 0% kernel
+    0% 4252/ReferenceQueueD: 0% user + 0% kernel
+  0.1% 7934/com.google.android.adservices.api: 0% user + 0.1% kernel / faults: 893 minor 1066 major
+    0% 7934/.adservices.api: 0% user + 0% kernel
+    0% 8433/background-3: 0% user + 0% kernel
+    0% 8441/background-6: 0% user + 0% kernel
+    0% 8229/binder:7934_3: 0% user + 0% kernel
+    0% 8389/background-0: 0% user + 0% kernel
+  0.1% 26416/com.whatsapp: 0% user + 0.1% kernel / faults: 55 minor 46 major
+    0% 26416/com.whatsapp: 0% user + 0% kernel
+    0% 26462/media: 0% user + 0% kernel
+    0% 26557/WhatsApp Worker: 0% user + 0% kernel
+    0% 28861/WhatsApp Worker: 0% user + 0% kernel
+  0.1% 28408/kworker/u17:3-kgsl-events: 0% user + 0.1% kernel
+  0.1% 29247/kworker/3:3H-fsverity_read_queue: 0% user + 0.1% kernel
+  0.1% 30519/kworker/7:4H-kverityd: 0% user + 0.1% kernel
+  0.1% 26/rcuop/1: 0% user + 0.1% kernel
+  0.1% 69/rcuop/7: 0% user + 0.1% kernel
+  0.1% 5661/msm_irqbalance: 0% user + 0% kernel
+  0.1% 23536/com.google.android.googlequicksearchbox:googleapp: 0% user + 0.1% kernel / faults: 91 minor 12 major
+    0% 23623/GoogleApiHandle: 0% user + 0% kernel
+    0% 23556/binder:23536_2: 0% user + 0% kernel
+    0% 23634/BG Thread #1: 0% user + 0% kernel
+    0% 23639/BG Thread #2: 0% user + 0% kernel
+    0% 30548/GrallocUploadTh: 0% user + 0% kernel
+   +0% 31769/binder:23536_9: 0% user + 0% kernel
+  0.1% 31026/kworker/1:0H-kblockd: 0% user + 0.1% kernel
+  0.1% 62/rcuop/6: 0% user + 0.1% kernel
+  0% 629/irq/261-fifo-em: 0% user + 0% kernel
+  0% 6835/com.google.android.googlequicksearchbox:interactor: 0% user + 0% kernel / faults: 770 minor 595 major
+    0% 8782/BG Thread #2: 0% user + 0% kernel
+    0% 6835/hbox:interactor: 0% user + 0% kernel
+  0% 7021/com.qualcomm.qti.workloadclassifier: 0% user + 0% kernel / faults: 1113 minor 446 major
+    0% 13449/WLCServiceHandl: 0% user + 0% kernel
+  0.1% 26541/kworker/2:3H-kblockd: 0% user + 0.1% kernel
+  0.1% 30413/kworker/4:8H-kblockd: 0% user + 0.1% kernel
+  0% 30623/kworker/5:5H-kverityd: 0% user + 0% kernel
+  0.1% 30920/kworker/6:0-events: 0% user + 0.1% kernel
+  0% 1/init: 0% user + 0% kernel / faults: 64 minor 12 major
+    0% 1/init: 0% user + 0% kernel
+    0% 265/init: 0% user + 0% kernel
+  0% 1378/vendor.qti.hardware.memtrack-service: 0% user + 0% kernel
+  0% 2072/cnd: 0% user + 0% kernel
+    0.1% 2072/cnd: 0% user + 0% kernel
+  0% 6888/com.miui.daemon: 0% user + 0% kernel / faults: 202 minor 114 major
+    0% 16353/binder:6888_5: 0% user + 0% kernel
+    0% 25279/binder:6888_7: 0% user + 0% kernel
+   +0% 32081/pool-2-thread-1: 0% user + 0% kernel
+   +0% 32272/pool-2-thread-1: 0% user + 0% kernel
+   +0% 32319/pool-2-thread-1: 0% user + 0% kernel
+   +0% 32351/pool-2-thread-1: 0% user + 0% kernel
+   +0% 32358/pool-2-thread-1: 0% user + 0% kernel
+   +0% 32359/pool-2-thread-1: 0% user + 0% kernel
+   +0% 32374/pool-2-thread-1: 0% user + 0% kernel
+   +0% 32375/pool-2-thread-1: 0% user + 0% kernel
+  0% 7895/com.xiaomi.xmsf: 0% user + 0% kernel / faults: 536 minor 228 major
+    0% 7920/binder:7895_1: 0% user + 0% kernel
+    0% 8469/Connection Cont: 0% user + 0% kernel
+  0% 15226/kworker/7:1-mm_percpu_wq: 0% user + 0% kernel
+  0% 24529/com.miui.guardprovider: 0% user + 0% kernel / faults: 2039 minor 653 major
+    0% 24675/binder:24529_4: 0% user + 0% kernel
+    0% 24627/DefaultDispatch: 0% user + 0% kernel
+  0% 30531/kworker/5:4H-kverityd: 0% user + 0% kernel
+  0% 30627/kworker/4:2-pm: 0% user + 0% kernel
+  0% 30635/android.process.acore: 0% user + 0% kernel / faults: 88 minor 116 major
+    0% 18477/binder:30635_6: 0% user + 0% kernel
+    0% 31051/Worker-11: 0% user + 0% kernel
+    0% 30635/d.process.acore: 0% user + 0% kernel
+    0% 30730/binder:30635_4: 0% user + 0% kernel
+  0% 37/ksoftirqd/3: 0% user + 0% kernel
+  0% 48/rcuop/4: 0% user + 0% kernel
+  0% 55/rcuop/5: 0% user + 0% kernel
+  0% 1088/loop31: 0% user + 0% kernel
+  0% 1451/vendor.qti.hardware.servicetracker@1.2-service: 0% user + 0% kernel / faults: 2 minor 2 major
+    0% 1473/HwBinder:1451_1: 0% user + 0% kernel
+  0% 1466/media.hwcodec: 0% user + 0% kernel / faults: 18 minor 23 major
+    0% 29913/poll_hevcD_1033: 0% user + 0% kernel
+  0% 2048/media.extractor: 0% user + 0% kernel / faults: 45 minor 36 major
+    0% 4010/binder:2048_4: 0% user + 0% kernel
+    0% 3992/binder:2048_2: 0% user + 0% kernel
+  0% 4395/com.google.android.ext.services: 0% user + 0% kernel / faults: 337 minor 95 major
+    0% 4433/binder:4395_3: 0% user + 0% kernel
+    0% 4395/id.ext.services: 0% user + 0% kernel
+  0% 7673/com.xiaomi.mi_connect_service: 0% user + 0% kernel / faults: 91 minor 54 major
+    0% 7673/connect_service: 0% user + 0% kernel
+  0% 8585/com.google.android.inputmethod.latin: 0% user + 0% kernel / faults: 119 minor 35 major
+    0% 8585/putmethod.latin: 0% user + 0% kernel
+    0% 9037/handlerThread: 0% user + 0% kernel
+  0% 10238/com.xiaomi.mirror: 0% user + 0% kernel / faults: 173 minor 312 major
+    0% 10238/m.xiaomi.mirror: 0% user + 0% kernel
+  0% 17969/kworker/5:0-mm_percpu_wq: 0% user + 0% kernel
+  0% 26395/kworker/0:2H-kblockd: 0% user + 0% kernel
+  0% 30528/kworker/6:1H-kverityd: 0% user + 0% kernel
+  0% 12/ksoftirqd/0: 0% user + 0% kernel
+  0% 164/dmabuf-deferred: 0% user + 0% kernel
+  0% 811/wlan_logging_th: 0% user + 0% kernel
+  0% 844/psimon: 0% user + 0% kernel
+  0% 1058/loop9: 0% user + 0% kernel
+  0% 1092/loop34: 0% user + 0% kernel
+  0% 1327/android.hardware.health@2.1-service: 0% user + 0% kernel
+  0% 1419/vendor.qti.hardware.display.allocator-service: 0% user + 0% kernel
+    0% 1419/allocator-servi: 0% user + 0% kernel
+    0% 6314/HwBinder:1419_3: 0% user + 0% kernel
+  0% 2040/cameraserver: 0% user + 0% kernel / faults: 33 minor 45 major
+    0% 10774/binder:2040_5: 0% user + 0% kernel
+    0% 28343/binder:2040_7: 0% user + 0% kernel
+  0% 2057/wificond: 0% user + 0% kernel
+    0% 2057/wificond: 0% user + 0% kernel
+  0% 2068/perfservice: 0% user + 0% kernel / faults: 9 minor 19 major
+    0% 6838/binder:2068_3: 0% user + 0% kernel
+  0% 2783/scheduler_threa: 0% user + 0% kernel
+  0% 4200/.qtidataservices: 0% user + 0% kernel / faults: 17 minor 3 major
+    0% 5253/HwBinder:4200_1: 0% user + 0% kernel
+  0% 4244/com.xiaomi.finddevice: 0% user + 0% kernel / faults: 76 minor 43 major
+    0% 4244/aomi.finddevice: 0% user + 0% kernel
+    0% 4284/binder:4244_2: 0% user + 0% kernel
+  0% 6851/com.google.android.apps.messaging:rcs: 0% user + 0% kernel / faults: 48 minor 1 major
+    0% 6851/s.messaging:rcs: 0% user + 0% kernel
+    0% 7367/ConnectivityThr: 0% user + 0% kernel
+  0% 9959/com.facebook.services: 0% user + 0% kernel / faults: 1 minor
+  0% 10588/com.xiaomi.mi_connect_service:idm: 0% user + 0% kernel / faults: 127 minor 146 major
+    0% 10898/FileLogger: 0% user + 0% kernel
+  0% 12381/com.xiaomi.joyose: 0% user + 0% kernel / faults: 19 minor 8 major
+    0% 12393/binder:12381_2: 0% user + 0% kernel
+  0% 13512/android.process.media: 0% user + 0% kernel / faults: 107 minor 82 major
+    0% 13520/binder:13512_1: 0% user + 0% kernel
+    0% 13512/d.process.media: 0% user + 0% kernel
+   +0% 30385/pool-2-thread-4: 0% user + 0% kernel
+   +0% 31262/pool-2-thread-5: 0% user + 0% kernel
+   +0% 31283/pool-2-thread-6: 0% user + 0% kernel
+  0% 25904/com.miui.msa.global: 0% user + 0% kernel / faults: 99 minor 145 major
+    0% 25904/miui.msa.global: 0% user + 0% kernel
+   +0% 32194/ad-plugin-urgen: 0% user + 0% kernel
+  0% 30651/com.android.htmlviewer: 0% user + 0% kernel / faults: 411 minor
+    0% 30651/roid.htmlviewer: 0% user + 0% kernel
+    0% 30662/HeapTaskDaemon: 0% user + 0% kernel
+  0% 30995/kworker/7:7H-kblockd: 0% user + 0% kernel
+  0% 18/migration/0: 0% user + 0% kernel
+  0% 21/migration/1: 0% user + 0% kernel
+  0% 23/ksoftirqd/1: 0% user + 0% kernel
+  0% 28/migration/2: 0% user + 0% kernel
+  0% 35/migration/3: 0% user + 0% kernel
+  0% 44/ksoftirqd/4: 0% user + 0% kernel
+  0% 52/ksoftirqd/5: 0% user + 0% kernel
+  0% 66/ksoftirqd/7: 0% user + 0% kernel
+  0% 83/kcompactd0: 0% user + 0% kernel
+  0% 193/qrtr_ns: 0% user + 0% kernel
+  0% 200/core_ctl: 0% user + 0% kernel
+  0% 267/ueventd: 0% user + 0% kernel / faults: 1 minor
+  0% 535/qseecom-unreg-l: 0% user + 0% kernel
+  0% 572/spi1: 0% user + 0% kernel
+  0% 788/irq/302-focalte: 0% user + 0% kernel
+  0% 1055/loop6: 0% user + 0% kernel
+  0% 1059/loop10: 0% user + 0% kernel
+  0% 1067/loop18: 0% user + 0% kernel
+  0% 1070/loop21: 0% user + 0% kernel
+  0% 1201/vendor.xiaomi.hardware.mimd@1.0-service: 0% user + 0% kernel
+    0% 1212/mimd@1.0-servic: 0% user + 0% kernel
+  0% 1393/poweropt-service: 0% user + 0% kernel / faults: 1 minor 4 major
+  0% 1434/vendor.qti.hardware.iop@2.0-service: 0% user + 0% kernel / faults: 41 minor 80 major
+    0% 1434/vendor.qti.hard: 0% user + 0% kernel
+  0% 1468/media.audio.qc.codec: 0% user + 0% kernel / faults: 12 minor 54 major
+    0% 3010/HwBinder:1468_3: 0% user + 0% kernel
+  0% 1489/vendor.xiaomi.hardware.displayfeature@1.0-service: 0% user + 0% kernel
+    0% 1561/EventsNodeThrea: 0% user + 0% kernel
+    0% 1566/displayfeature@: 0% user + 0% kernel
+  0% 1498/vendor.xiaomi.hardware.micharge@1.0-service: 0% user + 0% kernel
+    0% 1524/HwBinder:1498_1: 0% user + 0% kernel
+  0% 1612/tftp_server: 0% user + 0% kernel
+  0% 1688/irq/317-glink-n: 0% user + 0% kernel
+  0% 1989/traced: 0% user + 0% kernel / faults: 12 minor 21 major
+  0% 2022/qcrilNrd: 0% user + 0% kernel / faults: 14 minor 19 major
+  0% 2044/installd: 0% user + 0% kernel / faults: 127 minor 110 major
+    0% 15537/binder:2044_5: 0% user + 0% kernel
+  0% 2049/media.metrics: 0% user + 0% kernel / faults: 16 minor 39 major
+    0% 3022/binder:2049_2: 0% user + 0% kernel
+  0% 2089/ipacm: 0% user + 0% kernel
+    0% 2127/netlink socket: 0% user + 0% kernel
+  0% 2122/cnss-daemon: 0% user + 0% kernel
+    0% 2122/cnss-daemon: 0% user + 0% kernel
+  0% 2762/lowi-server: 0% user + 0% kernel
+    0% 18129/loc-mq-thread: 0% user + 0% kernel
+  0% 3726/wpa_supplicant: 0% user + 0% kernel
+    0% 3726/wpa_supplicant: 0% user + 0% kernel
+  0% 3977/com.miui.miwallpaper: 0% user + 0% kernel / faults: 27 minor 29 major
+    0% 6361/binder:3977_10: 0% user + 0% kernel
+  0% 4154/ip6tables-restore: 0% user + 0% kernel
+  0% 4188/.dataservices: 0% user + 0% kernel / faults: 127 minor 84 major
+    0% 4191/Jit thread pool: 0% user + 0% kernel
+    0% 7187/ConnectivityThr: 0% user + 0% kernel
+  0% 4223/com.android.se: 0% user + 0% kernel / faults: 42 minor 16 major
+    0% 4266/binder:4223_1: 0% user + 0% kernel
+  0% 4259/com.xiaomi.mtb: 0% user + 0% kernel / faults: 4 minor
+  0% 5666/mcd: 0% user + 0% kernel / faults: 35 minor 28 major
+  0% 5672/qspmsvc: 0% user + 0% kernel / faults: 43 minor 145 major
+    0% 5691/binder:5672_1: 0% user + 0% kernel
+  0% 7072/com.qualcomm.location: 0% user + 0% kernel / faults: 2 minor
+  0% 7093/com.miui.face: 0% user + 0% kernel / faults: 42 minor 89 major
+    0% 7116/binder:7093_2: 0% user + 0% kernel
+  0% 13876/android.process.mediaUI: 0% user + 0% kernel / faults: 27 minor 8 major
+    0% 13876/process.mediaUI: 0% user + 0% kernel
+    0% 13894/binder:13876_2: 0% user + 0% kernel
+  0% 25021/com.google.android.googlequicksearchbox:search: 0% user + 0% kernel / faults: 91 minor 19 major
+    0% 16088/CronetInit: 0% user + 0% kernel
+  0% 30235/com.qti.phone: 0% user + 0% kernel / faults: 5 minor
+    0% 30235/com.qti.phone: 0% user + 0% kernel
+  0% 30549/kworker/6:7H-kverityd: 0% user + 0% kernel
+  0% 31231/kworker/5:2-events: 0% user + 0% kernel
+ +0% 31324/process-tracker: 0% user + 0% kernel
+ +0% 31563/artd: 0% user + 0% kernel
+ +0% 31620/com.xiaomi.discover: 0% user + 0% kernel
+ +0% 31660/com.xiaomi.mipicks: 0% user + 0% kernel
+ +0% 31683/kworker/0:0H-events_highpri: 0% user + 0% kernel
+ +0% 31707/kworker/6:10H-fsverity_read_queue: 0% user + 0% kernel
+ +0% 32089/com.miui.global.packageinstaller: 0% user + 0% kernel
+ +0% 32093/com.miui.cleaner: 0% user + 0% kernel
+ +0% 32101/com.android.htmlviewer:remote: 0% user + 0% kernel
+ +0% 32176/kworker/4:13H-kverityd: 0% user + 0% kernel
+ +0% 32276/com.google.process.gservices: 0% user + 0% kernel
+ +0% 32378/kworker/7:8H-fsverity_read_queue: 0% user + 0% kernel
+ +0% 32386/kworker/7:9H-kverityd: 0% user + 0% kernel
+24% TOTAL: 10% user + 11% kernel + 0.4% iowait + 1.4% irq + 0.4% softirq
+
+==================================================
+  8. CPU MUESTREADO EN EL TIEMPO (top -d 1 -n 30 -p <pid>)
+==================================================
+
+32402 u0_a372      10 -10 8.7G 265M 130M S  0.0   3.6   0:19.86 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 265M 130M S  0.0   3.6   0:19.86 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 265M 129M S 59.0   3.6   0:19.86 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 264M 130M S  119   3.6   0:20.45 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 266M 130M S  129   3.6   0:21.64 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 267M 130M S 84.0   3.6   0:22.93 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 268M 130M S 78.0   3.6   0:23.77 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 269M 130M S 81.0   3.6   0:24.55 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 270M 130M S 79.0   3.7   0:25.36 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 270M 130M S 63.0   3.7   0:26.15 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 271M 130M R 98.0   3.7   0:26.78 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 273M 130M S 78.0   3.7   0:27.76 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 275M 131M R 96.0   3.7   0:28.54 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 276M 130M S 70.0   3.7   0:29.50 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 278M 131M S 81.0   3.8   0:30.20 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 280M 131M S 39.0   3.8   0:31.01 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 280M 131M R 56.0   3.8   0:31.40 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 281M 131M S 78.0   3.8   0:31.96 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 282M 131M S 15.0   3.8   0:32.74 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.7G 283M 131M R 67.0   3.8   0:32.89 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 284M 131M S 31.0   3.8   0:33.56 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 285M 131M R 69.0   3.8   0:33.87 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 286M 131M R 48.0   3.9   0:34.56 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 286M 131M S  0.0   3.9   0:35.04 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 286M 131M S 48.0   3.9   0:35.04 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 287M 131M R 93.0   3.9   0:35.52 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 288M 131M S 22.0   3.9   0:36.45 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 288M 131M S 25.0   3.9   0:36.67 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 289M 131M R 59.0   3.9   0:36.92 com.uniandes.vinilos
+
+
+
+32402 u0_a372      10 -10 8.8G 290M 131M R  124   3.9   0:37.51 com.uniandes.vinilos
+
+Resumen CPU del PID 32402 sobre 30 muestras:
+  promedio: 62,97 %
+  minimo:   0,00 %
+  maximo:   129,00 %
