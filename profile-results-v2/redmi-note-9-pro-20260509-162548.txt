@@ -1,0 +1,736 @@
+﻿Vinilos Mobile App - Profile report v2 (post-corrutinas)
+DeviceLabel: redmi-note-9-pro
+Timestamp:   20260509-162548
+Model:       M2003J15SC
+Android:     10
+ABI:         arm64-v8a
+Package:     com.uniandes.vinilos
+Script:      profile-device-v2.ps1
+Comparable contra: profile-results/redmi-note-9-pro-*.txt
+
+==================================================
+  1. MEMORIA (dumpsys meminfo)
+==================================================
+
+Applications Memory Usage (in Kilobytes):
+Uptime: 319237 Realtime: 319237
+
+** MEMINFO in pid 14907 [com.uniandes.vinilos] **
+                   Pss  Private  Private  SwapPss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap    27074    26920        0      116    41084    35952     5131
+  Dalvik Heap     8546     8528        0       29    14922     7461     7461
+ Dalvik Other     6224     6224        0        0                           
+        Stack      244      244        0        0                           
+       Ashmem        2        0        0        0                           
+    Other dev       20        4       16        0                           
+     .so mmap    14968      296     5552       31                           
+    .jar mmap     3796        0     1920        0                           
+    .apk mmap      717        0       60        0                           
+    .ttf mmap     1174        0      728        0                           
+    .dex mmap    65232    65224        8        0                           
+    .oat mmap      466        0       24        0                           
+    .art mmap     5880     5664        0       13                           
+   Other mmap     3634     1316       36        0                           
+   EGL mtrack    10803    10803        0        0                           
+    GL mtrack    50496    50496        0        0                           
+      Unknown     2327     2300        0       16                           
+        TOTAL   201808   178019     8344      205    56006    43413    12592
+ 
+ App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:    14192
+         Native Heap:    26920
+                Code:    73812
+               Stack:      244
+            Graphics:    61299
+       Private Other:     9896
+              System:    15445
+ 
+               TOTAL:   201808       TOTAL SWAP PSS:      205
+ 
+ Objects
+               Views:       13         ViewRootImpl:        1
+         AppContexts:        6           Activities:        1
+              Assets:       18        AssetManagers:        0
+       Local Binders:       15        Proxy Binders:       32
+       Parcel memory:       10         Parcel count:       42
+    Death Recipients:        0      OpenSSL Sockets:        9
+            WebViews:        0
+ 
+ SQL
+         MEMORY_USED:      529
+  PAGECACHE_OVERFLOW:      104          MALLOC_SIZE:      117
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)          cache  Dbname
+         4       28             16        29/85/1  /data/user/0/com.uniandes.vinilos/databases/vinilos_database
+         4        8                         0/0/0    (attached) temp
+         4       28             25         0/14/1  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (2)
+         4       28             31         4/25/1  /data/user/0/com.uniandes.vinilos/databases/vinilos_database (1)
+
+==================================================
+  2. GPU / RENDER (dumpsys gfxinfo - jank, frame stats)
+==================================================
+
+Applications Graphics Acceleration Info:
+Uptime: 319756 Realtime: 319756
+
+** Graphics info for pid 14907 [com.uniandes.vinilos] **
+
+Stats since: 266932461476ns
+Total frames rendered: 1243
+Janky frames: 256 (20.60%)
+50th percentile: 8ms
+90th percentile: 20ms
+95th percentile: 29ms
+99th percentile: 133ms
+Number Missed Vsync: 9
+Number High input latency: 1023
+Number Slow UI thread: 33
+Number Slow bitmap uploads: 2
+Number Slow issue draw commands: 13
+Number Frame deadline missed: 42
+HISTOGRAM: 5ms=195 6ms=223 7ms=168 8ms=92 9ms=89 10ms=103 11ms=50 12ms=9 13ms=30 14ms=12 15ms=10 16ms=10 17ms=62 18ms=30 19ms=26 20ms=18 21ms=23 22ms=12 23ms=3 24ms=2 25ms=3 26ms=2 27ms=4 28ms=2 29ms=3 30ms=1 31ms=5 32ms=5 34ms=0 36ms=3 38ms=5 40ms=0 42ms=4 44ms=1 46ms=2 48ms=5 53ms=3 57ms=2 61ms=0 65ms=2 69ms=1 73ms=1 77ms=2 81ms=0 85ms=0 89ms=0 93ms=0 97ms=0 101ms=0 105ms=1 109ms=0 113ms=1 117ms=0 121ms=1 125ms=2 129ms=1 133ms=2 150ms=3 200ms=3 250ms=0 300ms=0 350ms=0 400ms=2 450ms=1 500ms=1 550ms=0 600ms=0 650ms=0 700ms=1 750ms=0 800ms=1 850ms=0 900ms=0 950ms=0 1000ms=0 1050ms=0 1100ms=0 1150ms=0 1200ms=0 1250ms=0 1300ms=0 1350ms=0 1400ms=0 1450ms=0 1500ms=0 1550ms=0 1600ms=0 1650ms=0 1700ms=0 1750ms=0 1800ms=0 1850ms=0 1900ms=0 1950ms=0 2000ms=0 2050ms=0 2100ms=0 2150ms=0 2200ms=0 2250ms=0 2300ms=0 2350ms=0 2400ms=0 2450ms=0 2500ms=0 2550ms=0 2600ms=0 2650ms=0 2700ms=0 2750ms=0 2800ms=0 2850ms=0 2900ms=0 2950ms=0 3000ms=0 3050ms=0 3100ms=0 3150ms=0 3200ms=0 3250ms=0 3300ms=0 3350ms=0 3400ms=0 3450ms=0 3500ms=0 3550ms=0 3600ms=0 3650ms=0 3700ms=0 3750ms=0 3800ms=0 3850ms=0 3900ms=0 3950ms=0 4000ms=0 4050ms=0 4100ms=0 4150ms=0 4200ms=0 4250ms=0 4300ms=0 4350ms=0 4400ms=0 4450ms=0 4500ms=0 4550ms=0 4600ms=0 4650ms=0 4700ms=0 4750ms=0 4800ms=0 4850ms=0 4900ms=0 4950ms=0
+Font Cache (CPU):
+  Size: 768.18 kB 
+  Glyph Count: 108 
+CPU Caches:
+GPU Caches:
+  Other:
+    Other: 34.48 KB (1 entry)
+    Buffer Object: 32.05 KB (3 entries)
+  Image:
+    Texture: 1.64 MB (11 entries)
+  Scratch:
+    Texture: 4.00 MB (1 entry)
+    RenderTarget: 34.75 MB (9 entries)
+    Buffer Object: 48.00 KB (1 entry)
+Other Caches:
+                         Current / Maximum
+  VectorDrawableAtlas    0.00 kB /   0.00 KB (entries = 0)
+  Layers Total           0.00 KB (numLayers = 0)
+Total GPU memory usage:
+  42469316 bytes, 40.50 MB (34.78 MB is purgeable)
+
+
+Pipeline=Skia (OpenGL)
+
+Layout Cache Info:
+  Usage: 345/5000 entries
+  Hit ratio: 6237/6582 (0.947584)
+Profile data in ms:
+
+	com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@b710ce9 (visibility=0)
+View hierarchy:
+
+  com.uniandes.vinilos/com.uniandes.vinilos.MainActivity/android.view.ViewRootImpl@b710ce9
+  13 views, 15.89 kB of display lists
+
+
+Total ViewRootImpl: 1
+Total Views:        13
+Total DisplayList:  15.89 kB
+
+
+==================================================
+  3. CPU INSTANTANEO (top -n 1 -p del PID de la app)
+==================================================
+
+[s[999C[999B[6n[u[H[J[?25l[H[J[s[999C[999B[6n[uTasks: 1 total,   0 running,   1 sleeping,   0 stopped,   0 zombie
+
+  Mem:      3.6G total,      3.5G used,      128M free,       69M buffers
+
+ Swap:      2.0G total,      760M used,      1.2G free,      1.4G cached
+
+800%cpu   4%user   0%nice  21%sys 775%idle   0%iow   0%irq   0%sirq   0%host
+
+[7m  PID USER         PR  NI VIRT  RES  SHR S[%CPU] %MEM     TIME+ ARGS            [0m
+
+14907 u0_a218      10 -10 6.7G 293M 178M S  0.0   7.8   0:27.28 com.uniandes.vi+
+[?25h[0m[1000;1H[K[?25h[?25h[0m[1000;1H[K
+
+==================================================
+  4. BATERIA / ENERGIA (dumpsys batterystats - filtrado al package)
+==================================================
+
+Statistics since last charge:
+  System starts: 0, currently on battery: true
+  Estimated battery capacity: 5020 mAh
+  Min learned battery capacity: 5020 mAh
+  Max learned battery capacity: 5020 mAh
+  Time on battery: 57s 756ms (97.8%) realtime, 57s 756ms (100.0%) uptime
+  Time on battery screen off: 0ms (0.0%) realtime, 0ms (0.0%) uptime
+  Time on battery screen doze: 0ms (0.0%)
+  Total run time: 59s 77ms realtime, 59s 77ms uptime
+  Discharge: 0 mAh
+  Screen off discharge: 0 mAh
+  Screen doze discharge: 0 mAh
+  Screen on discharge: 0 mAh
+  Device light doze discharge: 0 mAh
+  Device deep doze discharge: 0 mAh
+  Start clock time: 2026-05-09-16-26-32
+  Screen on: 57s 756ms (100.0%) 0x, Interactive: 57s 756ms (100.0%)
+  Screen brightnesses:
+    bright 57s 756ms (100.0%)
+
+  CONNECTIVITY POWER SUMMARY START
+  Logging duration for connectivity statistics: 57s 756ms 
+  Cellular Statistics:
+     Cellular kernel active time: 0ms (0.0%)
+     Cellular Sleep time:  54s 407ms (94.2%)
+     Cellular Idle time:   3s 333ms (5.8%)
+     Cellular Rx time:     223ms (0.4%)
+     Cellular Tx time:     
+       less than 0dBm:  0ms (0.0%)
+       0dBm to 8dBm:  0ms (0.0%)
+       8dBm to 15dBm:  0ms (0.0%)
+       15dBm to 20dBm:  0ms (0.0%)
+       above 20dBm:  0ms (0.0%)
+     Cellular data received: 0B
+     Cellular data sent: 0B
+     Cellular packets received: 0
+     Cellular packets sent: 0
+     Cellular Radio Access Technology: (no activity)
+     Cellular Rx signal strength (RSRP):
+       good (-108dBm to -98dBm):  56s 373ms (97.6%) 
+       great (greater than -98dBm):  1s 383ms (2.4%) 
+  Wifi Statistics:
+     Wifi kernel active time: 57s 756ms (100.0%)
+     WiFi Scan time:  0ms (0.0%)
+     WiFi Sleep time:  57s 759ms (100.0%)
+     WiFi Idle time:   0ms (0.0%)
+     WiFi Rx time:     0ms (0.0%)
+     WiFi Tx time:     0ms (0.0%)
+     Wifi data received: 0B
+     Wifi data sent: 0B
+     Wifi packets received: 0
+     Wifi packets sent: 0
+     Wifi states:
+       sta 57s 756ms (100.0%) 
+     Wifi supplicant states:
+       completed 57s 756ms (100.0%) 
+     Wifi Rx signal strength (RSSI):
+         moderate (-77.5dBm to -66.25dBm): 38s 225ms (66.2%) 
+         good (-66.25dBm to -55dBm): 19s 531ms (33.8%) 
+  GPS Statistics:
+     GPS signal quality (Top 4 Average CN0):
+      poor (less than 20 dBHz): 0ms (0.0%) 
+      good (greater than 20 dBHz): 0ms (0.0%) 
+  CONNECTIVITY POWER SUMMARY END
+
+  Bluetooth total received: 0B, sent: 0B
+  Bluetooth scan time: 57s 756ms 
+     Bluetooth Idle time:   0ms (0.0%)
+     Bluetooth Rx time:     0ms (0.0%)
+     Bluetooth Tx time:     0ms (0.0%)
+
+  Device battery use since last full charge
+    Amount discharged (lower bound): 0
+    Amount discharged (upper bound): 0
+    Amount discharged while screen on: 0
+    Amount discharged while screen off: 0
+    Amount discharged while screen doze: 0
+
+  Estimated power use (mAh):
+    Capacity: 5020, Computed drain: 7.67, actual drain: 0
+    Screen: 7.33 Excluded from smearing
+    Cell standby: 0.152 ( radio=0.152 ) Excluded from smearing
+    Idle: 0.146 Excluded from smearing
+    Uid u0a218: 0.0224 ( cpu=0.0224 ) Including smearing: 0.0229 ( proportional=0.000512 )
+    Uid 1000: 0.0108 ( cpu=0.0108 sensor=0.0000157 ) Excluded from smearing
+    Uid 0: 0.00620 ( cpu=0.00618 sensor=0.0000160 ) Excluded from smearing
+    Wifi: 0.00222 ( cpu=0.0000154 wifi=0.00221 ) Including smearing: 0.00227 ( proportional=0.0000507 )
+    Uid u0a103: 0.00128 ( cpu=0.00128 ) Including smearing: 0.00131 ( proportional=0.0000292 )
+    Uid 2000: 0.00100 ( cpu=0.00100 ) Excluded from smearing
+    Uid u0a168: 0.000319 ( cpu=0.000319 ) Including smearing: 0.000326 ( proportional=0.00000728 )
+    Uid u0a179: 0.000256 ( cpu=0.000256 ) Including smearing: 0.000262 ( proportional=0.00000585 )
+    Uid 1036: 0.000176 ( cpu=0.000176 ) Excluded from smearing
+    Uid u0a182: 0.000151 ( cpu=0.000151 ) Including smearing: 0.000154 ( proportional=0.00000343 )
+    Uid 1041: 0.000135 ( cpu=0.000135 ) Excluded from smearing
+    Uid 1001: 0.000105 ( cpu=0.000105 ) Excluded from smearing
+    Uid u0a177: 0.000105 ( cpu=0.000105 ) Including smearing: 0.000107 ( proportional=0.00000239 )
+    Uid 1021: 0.000102 ( cpu=0.000102 ) Excluded from smearing
+    Uid u0a191: 0.0000987 ( cpu=0.0000987 ) Including smearing: 0.000101 ( proportional=0.00000225 )
+    Uid u0a62: 0.0000869 ( cpu=0.0000869 ) Including smearing: 0.0000889 ( proportional=0.00000198 )
+    Uid u0a101: 0.0000806 ( cpu=0.0000806 ) Including smearing: 0.0000825 ( proportional=0.00000184 )
+    Uid u0a95: 0.0000792 ( cpu=0.0000792 ) Including smearing: 0.0000811 ( proportional=0.00000181 )
+    Uid 1066: 0.0000514 ( cpu=0.0000514 ) Excluded from smearing
+    Uid 1020: 0.0000394 ( cpu=0.0000394 ) Excluded from smearing
+    Uid 1069: 0.0000324 ( cpu=0.0000324 ) Excluded from smearing
+    Uid u0a60: 0.0000271 ( cpu=0.0000271 ) Excluded from smearing
+    Bluetooth: 0.0000269 ( cpu=0.0000269 ) Including smearing: 0.0000275 ( proportional=0.00000061 )
+    Uid u0a85: 0.0000265 ( cpu=0.0000265 ) Including smearing: 0.0000271 ( proportional=0.00000060 )
+    Uid 9999: 0.0000256 ( cpu=0.0000256 ) Excluded from smearing
+    Uid u0a88: 0.0000211 ( cpu=0.0000211 ) Including smearing: 0.0000216 ( proportional=0.00000048 )
+    Uid u0a113: 0.0000205 ( cpu=0.0000205 ) Including smearing: 0.0000209 ( proportional=0.00000047 )
+    Uid 1040: 0.0000186 ( cpu=0.0000186 ) Excluded from smearing
+    Uid u0a55: 0.0000130 ( cpu=0.0000130 ) Including smearing: 0.0000133 ( proportional=0.00000030 )
+    Uid u0a86: 0.0000126 ( cpu=0.0000126 ) Including smearing: 0.0000128 ( proportional=0.00000029 )
+    Uid u0a67: 0.00000844 ( cpu=0.00000844 ) Including smearing: 0.00000863 ( proportional=0.00000019 )
+    Uid u0a200: 0.00000635 ( cpu=0.00000635 ) Including smearing: 0.00000650 ( proportional=0.00000014 )
+    Uid 1046: 0.00000633 ( cpu=0.00000633 ) Excluded from smearing
+    Uid u0a209: 0.00000574 ( cpu=0.00000574 ) Including smearing: 0.00000587 ( proportional=0.00000013 )
+    Uid u0a170: 0.00000448 ( cpu=0.00000448 ) Including smearing: 0.00000458 ( proportional=0.00000010 )
+    Uid u0a129: 0.00000330 ( cpu=0.00000330 ) Including smearing: 0.00000337 ( proportional=0.00000008 )
+    Uid 1013: 0.00000033 ( cpu=0.00000033 ) Excluded from smearing
+    Uid 1047: 0.00000010 ( cpu=0.00000010 ) Excluded from smearing
+
+  Resource Power Manager Stats
+
+  CPU freqs: 1800000 1625000 1500000 1450000 1375000 1325000 1275000 1175000 1100000 1050000 999000 950000 900000 850000 774000 500000 2000000 1950000 1900000 1850000 1800000 1710000 1621000 1532000 1443000 1354000 1295000 1176000 1087000 998000 909000 850000
+
+  1000:
+    User activity: 1 button, 92 touch
+    Wake lock *alarm* realtime
+    Wake lock *vibrator* realtime
+    Wake lock *launch* realtime
+    Wake lock NetworkStats realtime
+    Wake lock *telephony-radio* realtime
+    Wake lock GnssLocationProvider realtime
+    Sensor 27: 56s 602ms realtime (1 times)
+    Vibrator: 107ms realtime (4 times)
+    Foreground activities: 1s 36ms realtime (1 times)
+    Foreground for: 57s 756ms 
+    Total running: 57s 756ms 
+    Total cpu time: u=9ms s=9ms 
+    Total cpu time per freq: 6620 370 380 410 200 260 560 580 340 360 100 310 560 360 990 1100 2730 30 30 20 10 0 30 70 70 0 80 10 80 130 70 110
+    Proc com.android.systemui:
+      CPU: 0ms usr + 0ms krn ; 650ms fg
+    Apk android:
+      Wakeup alarm *walarm*:WifiConnectivityManager Schedule Periodic Scan Timer: 0 times
+  u0a218:
+    Wake lock *launch* realtime
+    Foreground activities: 55s 425ms realtime (2 times) (running)
+    Top for: 56s 91ms 
+    Cached for: 506ms 
+    Total running: 56s 597ms 
+    Total cpu time: u=23ms s=3ms 
+    Total cpu time per freq: 4310 250 610 390 390 260 640 440 180 430 140 260 480 270 320 210 12930 90 130 80 100 120 260 1460 380 120 360 180 260 560 230 300
+    Proc com.uniandes.vinilos:
+      CPU: 0ms usr + 0ms krn ; 16s 620ms fg
+      1 starts
+
+Total cpu time reads: 0
+Batched cpu time reads: 0
+Batching Duration (min): 5
+All UID cpu time reads since the later of device start or stats reset: 16
+UIDs removed since the later of device start or stats reset: 2
+
+==================================================
+  5. PROPIEDADES DEL DISPOSITIVO
+==================================================
+
+model:    M2003J15SC
+brand:    Redmi
+abi:      arm64-v8a
+android:  10
+sdk:      29
+wm size:  Physical size: 1080x2340
+wm dens:  Physical density: 440
+
+==================================================
+  6. THREADS DEL PROCESO (ps -T -p <pid>)
+==================================================
+
+USER           PID   TID  PPID     VSZ    RSS WCHAN            ADDR S CMD            
+u0_a218      14907 14907   498 7090532 300276 0                   0 S niandes.vinilos
+u0_a218      14907 14913   498 7090532 300276 0                   0 S Jit thread pool
+u0_a218      14907 14918   498 7090532 300276 0                   0 S Signal Catcher
+u0_a218      14907 14919   498 7090532 300276 0                   0 S ADB-JDWP Connec
+u0_a218      14907 14920   498 7090532 300276 0                   0 S HeapTaskDaemon
+u0_a218      14907 14921   498 7090532 300276 0                   0 S ReferenceQueueD
+u0_a218      14907 14922   498 7090532 300276 0                   0 S FinalizerDaemon
+u0_a218      14907 14923   498 7090532 300276 0                   0 S FinalizerWatchd
+u0_a218      14907 14924   498 7090532 300276 0                   0 S Binder:14907_1
+u0_a218      14907 14925   498 7090532 300276 0                   0 S Binder:14907_2
+u0_a218      14907 14928   498 7090532 300276 0                   0 S Binder:14907_3
+u0_a218      14907 14937   498 7090532 300276 0                   0 S Profile Saver
+u0_a218      14907 14938   498 7090532 300276 0                   0 S RenderThread
+u0_a218      14907 14941   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14942   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14943   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14944   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14945   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14946   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14947   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14948   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14949   498 7090532 300276 0                   0 S DefaultDispatch
+u0_a218      14907 14950   498 7090532 300276 0                   0 S arch_disk_io_0
+u0_a218      14907 14951   498 7090532 300276 0                   0 S arch_disk_io_1
+u0_a218      14907 14952   498 7090532 300276 0                   0 S arch_disk_io_2
+u0_a218      14907 14958   498 7090532 300276 0                   0 S mali-mem-purge
+u0_a218      14907 14959   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14960   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14961   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14962   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14963   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14964   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14965   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14966   498 7090532 300276 0                   0 S mali-utility-wo
+u0_a218      14907 14967   498 7090532 300276 0                   0 S mali-cmar-backe
+u0_a218      14907 14968   498 7090532 300276 0                   0 S mali-hist-dump
+u0_a218      14907 14969   498 7090532 300276 0                   0 S ged-swd
+u0_a218      14907 14972   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 14973   498 7090532 300276 0                   0 S Okio Watchdog
+u0_a218      14907 14974   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 14975   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 14976   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 14995   498 7090532 300276 0                   0 S  pm1.narvii.com
+u0_a218      14907 14996   498 7090532 300276 0                   0 S arch_disk_io_3
+u0_a218      14907 14997   498 7090532 300276 0                   0 S ConnectivityThr
+u0_a218      14907 14998   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 14999   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 15006   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 15008   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 15010   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 15012   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 15014   498 7090532 300276 0                   0 S OkHttp TaskRunn
+u0_a218      14907 15015   498 7090532 300276 0                   0 S scovermusic.com
+u0_a218      14907 15016   498 7090532 300276 0                   0 S tp i.pinimg.com
+u0_a218      14907 15017   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 15019   498 7090532 300276 0                   0 S OkHttp Dispatch
+u0_a218      14907 15025   498 7090532 300276 0                   0 S OkHttp TaskRunn
+u0_a218      14907 15032   498 7090532 300276 0                   0 S cdn.shopify.com
+u0_a218      14907 15033   498 7090532 300276 0                   0 S GrallocUploadTh
+u0_a218      14907 15035   498 7090532 300276 0                   0 S d.wikimedia.org
+u0_a218      14907 15049   498 7090532 300276 0                   0 S queued-work-loo
+u0_a218      14907 15059   498 7090532 300276 0                   0 S OkHttp TaskRunn
+u0_a218      14907 15060   498 7090532 300276 0                   0 S OkHttp TaskRunn
+u0_a218      14907 15061   498 7090532 300276 0                   0 S OkHttp TaskRunn
+
+Total de threads: 64
+
+==================================================
+  7. CPU GLOBAL (dumpsys cpuinfo)
+==================================================
+
+Load: 30.11 / 22.72 / 10.04
+CPU usage from 254441ms to 59428ms ago (2026-05-09 16:23:17.042 to 2026-05-09 16:26:32.056):
+  54% 1284/system_server: 38% user + 15% kernel / faults: 177379 minor 484 major
+  37% 2266/com.google.android.gms.persistent: 29% user + 8% kernel / faults: 303085 minor 77 major
+  26% 4008/com.xiaomi.discover: 20% user + 5.5% kernel / faults: 36480 minor 60 major
+  22% 3005/com.google.android.gms: 18% user + 4.3% kernel / faults: 216906 minor 226 major
+  19% 566/displayfeature: 9.7% user + 9.4% kernel / faults: 197 minor
+  7.3% 143/kswapd0: 0% user + 7.3% kernel
+  5.7% 273/mmc-cmdqd/0: 0% user + 5.7% kernel
+  3.8% 1508/com.android.systemui: 2.7% user + 1% kernel / faults: 26422 minor 15 major
+  3.7% 1500/hif_thread: 0% user + 3.7% kernel
+  3.2% 1499/main_thread: 0% user + 3.2% kernel
+  3.1% 1501/rx_thread: 0% user + 3.1% kernel
+  3% 569/lmkd: 0.1% user + 2.8% kernel
+  2.9% 561/ashmemd: 0.8% user + 2.1% kernel / faults: 5 minor 4 major
+  2.2% 369/logd: 1.2% user + 1% kernel / faults: 528 minor
+  2.1% 662/installd: 0.2% user + 1.8% kernel / faults: 4905 minor 5 major
+  2% 678/statsd: 1.4% user + 0.5% kernel / faults: 369 minor 1 major
+  1.7% 3305/com.miui.analytics: 1.1% user + 0.5% kernel / faults: 25720 minor 74 major
+  1.6% 575/surfaceflinger: 0.8% user + 0.7% kernel / faults: 1393 minor 21 major
+  1.2% 118/rtmm_reclaim: 0% user + 1.2% kernel
+  1.4% 393/jbd2/mmcblk0p46: 0% user + 1.4% kernel
+  1.2% 214/teei_switch_thr: 0% user + 1.2% kernel
+  1.1% 498/zygote64: 0.1% user + 0.9% kernel / faults: 23462 minor
+  1% 2588/com.miui.daemon: 0.4% user + 0.5% kernel / faults: 2122 minor 12 major
+  0.9% 512/android.hardware.graphics.composer@2.1-service: 0.3% user + 0.6% kernel / faults: 5875 minor 22 major
+  0.9% 682/android.hardware.sensors@2.0-service-mediatek: 0.4% user + 0.5% kernel / faults: 66 minor 2 major
+  0.9% 3115/com.google.android.googlequicksearchbox:googleapp: 0.6% user + 0.3% kernel / faults: 17992 minor 68 major
+  0.8% 1791/com.miui.home: 0.4% user + 0.3% kernel / faults: 12456 minor 85 major
+  0.7% 2803/com.google.process.gservices: 0.5% user + 0.2% kernel / faults: 7515 minor 6 major
+  0.7% 3445/com.lbe.security.miui: 0.4% user + 0.2% kernel / faults: 3924 minor 7 major
+  0.7% 2754/com.miui.securitycenter.remote: 0.5% user + 0.2% kernel / faults: 12266 minor 14 major
+  0.6% 1735/com.android.phone: 0.4% user + 0.2% kernel / faults: 3623 minor 19 major
+  0.6% 562/audioserver: 0.2% user + 0.3% kernel / faults: 288 minor 2 major
+  0.6% 730/vendor.mediatek.hardware.pq@2.2-service: 0.1% user + 0.4% kernel / faults: 198 minor 2 major
+  0.5% 497/netd: 0.2% user + 0.3% kernel / faults: 2962 minor 3 major
+  0.5% 370/servicemanager: 0.1% user + 0.3% kernel / faults: 11 minor 21 major
+  0.4% 4220/com.miui.powerkeeper: 0.3% user + 0.1% kernel / faults: 5206 minor 11 major
+  0.4% 1332/kworker/u16:12: 0% user + 0.4% kernel
+  0.4% 1331/kworker/u16:11: 0% user + 0.4% kernel
+  0.4% 6794/kworker/u16:17: 0% user + 0.4% kernel
+  0.4% 341/kworker/u16:7: 0% user + 0.4% kernel
+  0.3% 1290/adbd: 0% user + 0.2% kernel / faults: 2918 minor 18 major
+  0.3% 1849/com.google.android.ext.services: 0.2% user + 0.1% kernel / faults: 4211 minor 5 major
+  0.3% 4146/com.android.settings: 0.2% user + 0.1% kernel / faults: 7379 minor 12 major
+  0.3% 99/kworker/u16:1: 0% user + 0.3% kernel
+  0.3% 664/keystore: 0.1% user + 0.1% kernel / faults: 6994 minor
+  0.3% 3287/com.google.android.inputmethod.latin: 0.1% user + 0.1% kernel / faults: 6521 minor 23 major
+  0.3% 8/rcu_preempt: 0% user + 0.3% kernel
+  0.2% 1819/com.android.settings:remote: 0.2% user + 0% kernel / faults: 3805 minor 11 major
+  0.2% 255/kworker/u16:2: 0% user + 0.2% kernel
+  0.2% 1336/kworker/u16:16: 0% user + 0.2% kernel
+  0.2% 256/kworker/u16:3: 0% user + 0.2% kernel
+  0.2% 420/teei_daemon: 0% user + 0.2% kernel / faults: 2 minor 132 major
+  0.2% 749/kworker/u16:10: 0% user + 0.2% kernel
+  0.2% 1335/kworker/u16:15: 0% user + 0.2% kernel
+  0.2% 332/kworker/u16:6: 0% user + 0.2% kernel
+  0.2% 310/kworker/1:1H: 0% user + 0.2% kernel
+  0.2% 311/kworker/2:1H: 0% user + 0.2% kernel
+  0.2% 333/kworker/3:1H: 0% user + 0.2% kernel
+  0.2% 318/kworker/0:1H: 0% user + 0.2% kernel
+  0.2% 330/kworker/u16:4: 0% user + 0.2% kernel
+  0.1% 1334/kworker/u16:14: 0% user + 0.1% kernel
+  0.1% 282/ipi_cpu_dvfs_rt: 0% user + 0.1% kernel
+  0.2% 183/pbm: 0% user + 0.2% kernel
+  0.1% 340/kworker/4:1H: 0% user + 0.1% kernel
+  0.1% 352/kworker/5:1H: 0% user + 0.1% kernel
+  0.1% 9/rcu_sched: 0% user + 0.1% kernel
+  0.1% 3740/com.android.bluetooth: 0% user + 0% kernel / faults: 1492 minor 11 major
+  0.1% 6638/com.miui.cleanmaster: 0.1% user + 0% kernel / faults: 1746 minor 7 major
+  0.1% 203/kworker/u17:1: 0% user + 0.1% kernel
+  0.1% 207/chre_kthread: 0% user + 0.1% kernel
+  0.1% 1120/mtkfusionrild: 0% user + 0% kernel / faults: 443 minor 22 major
+  0.1% 58/kcompactd0: 0% user + 0.1% kernel
+  0.1% 527/vendor.mediatek.hardware.mtkpower@1.0-service: 0% user + 0% kernel / faults: 100 minor 1 major
+  0.1% 52/kworker/u17:0: 0% user + 0.1% kernel
+  0.1% 299/charger_thread: 0% user + 0.1% kernel
+  0.1% 320/kworker/7:1H: 0% user + 0.1% kernel
+  0.1% 2464/com.google.android.googlequicksearchbox:interactor: 0% user + 0% kernel / faults: 2661 minor 5 major
+  0% 319/kworker/6:1H: 0% user + 0% kernel
+  0% 221/disp_idlemgr: 0% user + 0% kernel
+  0% 648/cameraserver: 0% user + 0% kernel / faults: 47 minor 2 major
+  0% 7/ksoftirqd/0: 0% user + 0% kernel
+  0% 15/ksoftirqd/1: 0% user + 0% kernel
+  0% 30/ksoftirqd/4: 0% user + 0% kernel
+  0% 437/android.hardware.keymaster@4.0-service.beanpod: 0% user + 0% kernel / faults: 10 minor 16 major
+  0% 635/mi_thermald: 0% user + 0% kernel / faults: 12 minor 1 major
+  0% 2233/com.mediatek.ims: 0% user + 0% kernel / faults: 691 minor 15 major
+  0% 6123/com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0: 0% user + 0% kernel / faults: 1831 minor 15 major
+  0% 35/ksoftirqd/5: 0% user + 0% kernel
+  0% 45/ksoftirqd/7: 0% user + 0% kernel
+  0% 48/kworker/0:1: 0% user + 0% kernel
+  0% 123/kworker/1:1: 0% user + 0% kernel
+  0% 271/kworker/6:2: 0% user + 0% kernel
+  0% 628/kworker/2:2: 0% user + 0% kernel
+  0% 2670/com.xiaomi.finddevice: 0% user + 0% kernel / faults: 1319 minor 15 major
+  0% 25/ksoftirqd/3: 0% user + 0% kernel
+  0% 40/ksoftirqd/6: 0% user + 0% kernel
+  0% 511/android.hardware.graphics.allocator@2.0-service: 0% user + 0% kernel / faults: 185 minor 4 major
+  0% 3648/kworker/3:2: 0% user + 0% kernel
+  0% 20/ksoftirqd/2: 0% user + 0% kernel
+  0% 29/migration/4: 0% user + 0% kernel
+  0% 371/hwservicemanager: 0% user + 0% kernel / faults: 21 minor 42 major
+  0% 1/init: 0% user + 0% kernel / faults: 315 minor 90 major
+  0% 355/ueventd: 0% user + 0% kernel / faults: 41 minor 129 major
+  0% 477/loop6: 0% user + 0% kernel
+  0% 577/fuelgauged: 0% user + 0% kernel / faults: 6 minor 13 major
+  0% 11/migration/0: 0% user + 0% kernel
+  0% 34/migration/5: 0% user + 0% kernel
+  0% 39/migration/6: 0% user + 0% kernel
+  0% 101/kworker/7:1: 0% user + 0% kernel
+  0% 151/kworker/4:1: 0% user + 0% kernel
+  0% 436/android.system.suspend@1.0-service: 0% user + 0% kernel / faults: 148 minor 5 major
+  0% 1063/gsm0710muxd: 0% user + 0% kernel / faults: 33 minor 8 major
+  0% 1561/iptables-restore: 0% user + 0% kernel / faults: 12 minor 14 major
+  0% 14/migration/1: 0% user + 0% kernel
+  0% 108/ion_mm_heap: 0% user + 0% kernel
+  0% 215/teei_bdrv_threa: 0% user + 0% kernel
+  0% 226/disp_delay_trig: 0% user + 0% kernel
+  0% 588/psimon: 0% user + 0% kernel
+  0% 1579/ip6tables-restore: 0% user + 0% kernel / faults: 12 minor 14 major
+  0% 4660/kworker/5:2: 0% user + 0% kernel
+  0% 19/migration/2: 0% user + 0% kernel
+  0% 44/migration/7: 0% user + 0% kernel
+  0% 106/dlpt_notify_thr: 0% user + 0% kernel
+  0% 235/krtatm: 0% user + 0% kernel
+  0% 702/thermalloadalgod: 0% user + 0% kernel
+  0% 228/present_fence_w: 0% user + 0% kernel
+  0% 513/android.hardware.health@2.0-service: 0% user + 0% kernel / faults: 5 minor 9 major
+  0% 516/android.hardware.memtrack@1.0-service: 0% user + 0% kernel / faults: 9 minor 9 major
+  0% 691/thermal: 0% user + 0% kernel / faults: 7 minor 27 major
+  0% 1505/wpa_supplicant: 0% user + 0% kernel / faults: 59 minor 51 major
+  0% 24/migration/3: 0% user + 0% kernel
+  0% 222/disp_check: 0% user + 0% kernel
+  0% 499/zygote: 0% user + 0% kernel / faults: 842 minor 49 major
+  0% 515/android.hardware.light@2.0-service-mediatek: 0% user + 0% kernel / faults: 15 minor 56 major
+  0% 636/mnld: 0% user + 0% kernel / faults: 76 minor 1 major
+  0% 680/wificond: 0% user + 0% kernel / faults: 44 minor 31 major
+  0% 2690/com.tencent.soter.soterserver: 0% user + 0% kernel / faults: 287 minor 6 major
+  0% 3165/com.xiaomi.location.fused: 0% user + 0% kernel / faults: 445 minor 7 major
+  0% 216/teei_log_thread: 0% user + 0% kernel
+  0% 503/android.hardware.bluetooth@1.0-service-mediatek: 0% user + 0% kernel / faults: 55 minor 5 major
+  0% 1472/android.hardware.wifi@1.0-service-lazy-mediatek: 0% user + 0% kernel / faults: 9 minor
+  0% 103/irq/169-mt6358-: 0% user + 0% kernel
+  0% 417/mqsasd: 0% user + 0% kernel / faults: 21 minor 2 major
+  0% 502/android.hardware.audio@5.0-service-mediatek: 0% user + 0% kernel / faults: 175 minor 4 major
+  0% 650/mtk_wmtd: 0% user + 0% kernel
+  0% 716/mtk_agpsd: 0% user + 0% kernel / faults: 157 minor 7 major
+  0% 2625/com.android.se: 0% user + 0% kernel / faults: 61 minor
+  0% 2651/com.xiaomi.xmsfkeeper: 0% user + 0% kernel / faults: 202 minor 1 major
+  0% 2968/com.huaqin.sarcontroller:controller: 0% user + 0% kernel / faults: 69 minor
+  0% 2/kthreadd: 0% user + 0% kernel
+  0% 142/kauditd: 0% user + 0% kernel
+  0% 195/btif_rxd: 0% user + 0% kernel
+  0% 225/display_check_a: 0% user + 0% kernel
+  0% 252/irq/26-NVT-ts: 0% user + 0% kernel
+  0% 264/battery_thread: 0% user + 0% kernel
+  0% 331/kworker/u16:5: 0% user + 0% kernel
+  0% 375/vold: 0% user + 0% kernel / faults: 226 minor 3 major
+  0% 475/loop5: 0% user + 0% kernel
+  0% 505/android.hardware.configstore@1.1-service: 0% user + 0% kernel / faults: 54 minor 3 major
+  0% 523/lbs_hidl_service: 0% user + 0% kernel / faults: 130 minor 8 major
+  0% 530/vendor.microtrust.hardware.soter@1.0-service: 0% user + 0% kernel / faults: 17 minor 57 major
+  0% 550/mtd@1.2: 0% user + 0% kernel / faults: 74 minor 2 major
+  0% 639/shelld: 0% user + 0% kernel / faults: 25 minor 1 major
+  0% 645/mtk_stp_psm: 0% user + 0% kernel
+  0% 651/drmserver: 0% user + 0% kernel / faults: 81 minor 2 major
+  0% 665/mediadrmserver: 0% user + 0% kernel / faults: 53 minor 2 major
+  0% 666/media.extractor: 0% user + 0% kernel / faults: 687 minor 8 major
+  0% 673/mediaserver: 0% user + 0% kernel / faults: 514 minor 6 major
+  0% 1005/bip: 0% user + 0% kernel / faults: 4 minor
+  0% 1047/emdlogger1: 0% user + 0% kernel / faults: 5 minor
+  0% 2319/charge_logger: 0% user + 0% kernel / faults: 9 minor 46 major
+  0% 2322/batterywarning: 0% user + 0% kernel / faults: 4 minor 17 major
+  0% 2716/com.miui.face: 0% user + 0% kernel / faults: 142 minor 2 major
+ +0% 7932/kworker/3:3: 0% user + 0% kernel
+ +0% 8279/process-tracker: 0% user + 0% kernel
+ +0% 9764/com.miui.core: 0% user + 0% kernel
+ +0% 9949/com.miui.mishare.connectivity: 0% user + 0% kernel
+ +0% 10005/kbase_event: 0% user + 0% kernel
+ +0% 10052/mdnsd: 0% user + 0% kernel
+ +0% 10260/com.xiaomi.mi_connect_service: 0% user + 0% kernel
+ +0% 12438/com.facebook.katana: 0% user + 0% kernel
+ +0% 12843/com.google.android.gms.unstable: 0% user + 0% kernel
+ +0% 12999/kbase_event: 0% user + 0% kernel
+ +0% 13057/kbase_event: 0% user + 0% kernel
+ +0% 13081/com.facebook.appmanager: 0% user + 0% kernel
+ +0% 13551/com.android.vending: 0% user + 0% kernel
+ +0% 13577/com.android.keychain: 0% user + 0% kernel
+ +0% 13626/com.google.android.permissioncontroller: 0% user + 0% kernel
+ +0% 13725/com.android.vending:background: 0% user + 0% kernel
+ +0% 13902/com.miui.msa.global: 0% user + 0% kernel
+ +0% 14080/com.google.android.apps.messaging: 0% user + 0% kernel
+ +0% 14275/com.miui.player: 0% user + 0% kernel
+ +0% 14427/com.xiaomi.xmsf: 0% user + 0% kernel
+ +0% 14466/com.miui.micloudsync: 0% user + 0% kernel
+ +0% 14564/android.process.acore: 0% user + 0% kernel
+ +0% 14745/android.process.media: 0% user + 0% kernel
+ +0% 14780/com.google.android.packageinstaller: 0% user + 0% kernel
+56% TOTAL: 38% user + 15% kernel + 1.1% iowait + 1.1% softirq
+
+==================================================
+  8. CPU MUESTREADO EN EL TIEMPO (top -d 1 -n 30 -p <pid>)
+==================================================
+
+14907 u0_a218      10 -10 6.7G 293M 178M S  0.0   7.8   0:27.28 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 293M 178M S  1.0   7.8   0:27.28 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 293M 178M S  0.0   7.8   0:27.29 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 293M 178M S  0.0   7.8   0:27.29 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 293M 178M S  0.0   7.8   0:27.29 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 293M 178M S 51.0   7.8   0:27.29 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 297M 180M S 43.0   7.9   0:27.80 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 297M 179M S  2.0   7.8   0:28.23 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 296M 178M S  5.0   7.8   0:28.25 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 296M 178M S  2.0   7.8   0:28.30 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 296M 179M S  137   7.8   0:28.32 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 300M 180M S 10.0   7.9   0:29.69 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.8G 299M 179M R 32.0   7.9   0:29.79 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 299M 179M R 29.0   7.9   0:30.11 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 301M 179M S 30.0   8.0   0:30.40 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 302M 179M S  102   8.0   0:30.70 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 303M 181M S  105   8.0   0:31.72 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.8G 300M 182M S 45.0   7.9   0:32.77 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 300M 182M S 14.0   8.0   0:33.22 com.uniandes.vinilos
+
+
+
+14907 u0_a218      20   0 6.6G 282M 163M S  8.0   7.5   0:33.36 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 262M 143M S 83.0   6.9   0:33.44 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 302M 182M S 25.0   8.0   0:34.27 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 294M 181M S 68.0   7.8   0:34.52 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 309M 186M R 37.0   8.2   0:35.20 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 309M 186M S  1.0   8.2   0:35.57 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 304M 181M S 72.0   8.0   0:35.58 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 305M 182M S  2.0   8.1   0:36.30 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 304M 181M R 58.0   8.1   0:36.32 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 306M 186M R 28.0   8.1   0:36.90 com.uniandes.vinilos
+
+
+
+14907 u0_a218      10 -10 6.7G 306M 186M S  1.0   8.1   0:37.18 com.uniandes.vinilos
+
+Resumen CPU del PID 14907 sobre 30 muestras:
+  promedio: 33,03 %
+  minimo:   0,00 %
+  maximo:   137,00 %
