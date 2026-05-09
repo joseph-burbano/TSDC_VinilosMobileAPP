@@ -35,15 +35,14 @@ class AlbumViewModel(
 
     // stateIn comparte una sola suscripción upstream entre todos los collectors y
     // mantiene el último valor cacheado en memoria, evitando que cada recomposition
-    // re-active el operador combine. Started.Eagerly hace que el flow derivado
-    // siempre tenga el valor correcto disponible vía .value, incluso antes de la
-    // primera suscripción de la UI.
+    // re-active el operador combine. WhileSubscribed(5 000 ms) libera el upstream
+    // 5 s después del último suscriptor, cubriendo rotaciones de pantalla.
     val visibleAlbums: StateFlow<List<Album>> =
         combine(_uiState, _visibleCount) { state, count ->
             if (state is AlbumsUiState.Success) state.albums.take(count) else emptyList()
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.Eagerly,
+            started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = emptyList()
         )
 
@@ -52,7 +51,7 @@ class AlbumViewModel(
             if (state is AlbumsUiState.Success) state.albums.size > count else false
         }.stateIn(
             scope = viewModelScope,
-            started = SharingStarted.Eagerly,
+            started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = false
         )
 

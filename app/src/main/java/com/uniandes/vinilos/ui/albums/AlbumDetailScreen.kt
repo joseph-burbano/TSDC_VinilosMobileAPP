@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.uniandes.vinilos.model.Track
 import com.uniandes.vinilos.ui.components.AlbumCover
 import com.uniandes.vinilos.ui.theme.VinilosTheme
@@ -42,7 +42,7 @@ fun AlbumDetailScreen(
     when (val state = uiState) {
         is AlbumsUiState.Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(modifier = Modifier.testTag(AlbumDetailTestTags.LOADING))
             }
             return
         }
@@ -261,8 +261,9 @@ private fun TrackRow(index: Int, track: Track) {
 }
 
 object AlbumDetailTestTags {
-    const val SCREEN = "album_detail_screen"
-    const val BACK   = "top_bar_back_button"
+    const val SCREEN  = "album_detail_screen"
+    const val LOADING = "album_detail_loading"
+    const val BACK    = "top_bar_back_button"
 }
 
 @Preview(showBackground = true, showSystemUi = true)
