@@ -38,17 +38,27 @@ CLAUDE.md
 # Docs locales (solo para entendimiento personal, no parte del repo)
 docs/
 
-# Informe Word generado por scripts/generate-report.py (regenerable a partir de profile-results/)
-Informe-Optimizaciones-Vinilos.docx
+# Documentación local en Markdown (los README.md y KRAKEN.md ya trackeados quedan trackeados)
+*.md
+!README.md
+!kraken/README.md
+!kraken/KRAKEN.md
 
-# Lock files de Microsoft Office cuando un .docx esta abierto
+# Documentos de Office regenerables (informes locales no parte del repo)
+*.docx
+
+# Scripts locales (no parte del repo)
+*.py
+
+# Lock files de Microsoft Office cuando un archivo está abierto
 ~$*.docx
 ~$*.xlsx
 ~$*.pptx
 
-# Kraken (Node + reportes generados)
+# Kraken (Node + reportes + estado local generado)
 kraken/node_modules/
 kraken/reports/
+kraken/.kraken/
 
 # Backend reference (vendored NestJS project, tracked in its own repo)
 back/
