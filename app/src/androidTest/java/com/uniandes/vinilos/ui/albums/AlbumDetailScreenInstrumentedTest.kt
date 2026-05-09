@@ -78,8 +78,9 @@ class AlbumDetailScreenInstrumentedTest {
             }
         }
 
-        // Mientras carga, el Scaffold con SCREEN tag aún no se renderiza
-        composeTestRule.onNodeWithTag(AlbumDetailTestTags.SCREEN).assertDoesNotExist()
+        // Mientras carga, el spinner debe estar visible (el Scaffold aún no se renderiza)
+        composeTestRule.mainClock.autoAdvance = false
+        composeTestRule.onNodeWithTag(AlbumDetailTestTags.LOADING).assertIsDisplayed()
     }
 
     // ─── HU02 - T2: Carga exitosa muestra información del álbum ──────────────

@@ -42,7 +42,7 @@ fun AlbumDetailScreen(
     when (val state = uiState) {
         is AlbumsUiState.Loading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(modifier = Modifier.testTag(AlbumDetailTestTags.LOADING))
             }
             return
         }
@@ -261,8 +261,9 @@ private fun TrackRow(index: Int, track: Track) {
 }
 
 object AlbumDetailTestTags {
-    const val SCREEN = "album_detail_screen"
-    const val BACK   = "top_bar_back_button"
+    const val SCREEN  = "album_detail_screen"
+    const val LOADING = "album_detail_loading"
+    const val BACK    = "top_bar_back_button"
 }
 
 @Preview(showBackground = true, showSystemUi = true)
