@@ -55,6 +55,8 @@ import com.uniandes.vinilos.model.UserRole
 import com.uniandes.vinilos.ui.albums.AlbumDetailScreen
 import com.uniandes.vinilos.ui.albums.AlbumListScreen
 import com.uniandes.vinilos.ui.albums.AlbumViewModel
+import com.uniandes.vinilos.ui.albums.CreateAlbumScreen
+import com.uniandes.vinilos.ui.albums.CreateAlbumViewModel
 import com.uniandes.vinilos.ui.artists.ArtistDetailScreen
 import com.uniandes.vinilos.ui.artists.ArtistListScreen
 import com.uniandes.vinilos.ui.artists.ArtistViewModel
@@ -75,6 +77,7 @@ sealed class Screen(val route: String) {
     object AlbumDetail : Screen("album_detail/{albumId}") {
         fun createRoute(albumId: Int) = "album_detail/$albumId"
     }
+    object AlbumCreate : Screen("album_create")
     object ArtistList : Screen("artist_list")
     object ArtistDetail : Screen("artist_detail/{artistId}") {
         fun createRoute(artistId: Int) = "artist_detail/$artistId"
@@ -115,10 +118,13 @@ fun AppNavigation(
     val albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(context))
     val artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.factory(context))
     val collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.factory(context))
+    val createAlbumViewModel: CreateAlbumViewModel = viewModel(factory = CreateAlbumViewModel.factory(context))
 
     val isDetailScreen = currentRoute?.startsWith("album_detail") == true ||
             currentRoute?.startsWith("artist_detail") == true ||
             currentRoute?.startsWith("collector_detail") == true
+
+    val isCreateScreen = currentRoute == Screen.AlbumCreate.route
 
     var isBarVisible by remember { mutableStateOf(true) }
 
@@ -127,7 +133,8 @@ fun AppNavigation(
     val offsetY = remember { Animatable(0f) }
 
     LaunchedEffect(currentRoute) {
-        if (!isDetailScreen) isBarVisible = true
+        if (!isDetailScreen && !isCreateScreen) isBarVisible = true
+        if (isCreateScreen) isBarVisible = false
     }
 
     LaunchedEffect(isBarVisible) {
@@ -248,7 +255,20 @@ fun AppNavigation(
                         viewModel = albumViewModel,
                         onAlbumClick = { navController.navigate(Screen.AlbumDetail.createRoute(it)) },
                         onMenuClick = onMenuClick,
-                        userRole = userRole 
+                        userRole = userRole,
+                        onCreateAlbum = {
+                            navController.navigate(Screen.AlbumCreate.route)
+                        }
+                    )
+                }
+                composable(Screen.AlbumCreate.route) {
+                    CreateAlbumScreen(
+                        viewModel = createAlbumViewModel,
+                        onSuccess = {
+                            albumViewModel.refresh()
+                            navController.popBackStack()
+                        },
+                        onDiscard = { navController.popBackStack() }
                     )
                 }
                 composable(
