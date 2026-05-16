@@ -1,6 +1,7 @@
 package com.uniandes.vinilos.network
 
 import com.uniandes.vinilos.model.Album
+import com.uniandes.vinilos.model.CreateAlbumRequest
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.model.PerformerPrize
@@ -20,6 +21,9 @@ interface VinilosApi {
     @GET("albums")
     suspend fun getAlbums(): List<Album>
 
+    @POST("albums")
+    suspend fun createAlbum(@Body body: CreateAlbumRequest): Album
+ 
     @GET("albums/{id}")
     suspend fun getAlbum(@Path("id") id: Int): Album
 
