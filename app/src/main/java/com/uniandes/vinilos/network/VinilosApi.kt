@@ -6,6 +6,8 @@ import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.Performer
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 interface VinilosApi {
     @GET("musicians")
