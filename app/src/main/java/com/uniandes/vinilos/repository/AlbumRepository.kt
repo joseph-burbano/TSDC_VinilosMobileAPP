@@ -4,6 +4,7 @@ import com.uniandes.vinilos.database.dao.AlbumDao
 import com.uniandes.vinilos.database.toAlbum
 import com.uniandes.vinilos.database.toEntity
 import com.uniandes.vinilos.model.Album
+import com.uniandes.vinilos.model.CreateAlbumRequest
 import com.uniandes.vinilos.network.NetworkServiceAdapter
 import com.uniandes.vinilos.network.VinilosApi
 
@@ -24,7 +25,17 @@ class AlbumRepository(
         dao.deleteAll()
         return fetchAndCache()
     }
-
+ 
+    suspend fun createAlbum(request: CreateAlbumRequest): Result<Album> {
+        return try {
+            val created = api.createAlbum(request)
+            dao.deleteAll()
+            Result.success(created)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+ 
     private suspend fun fetchAndCache(): List<Album> {
         val albums = api.getAlbums().map { it.copy(releaseDate = it.releaseDate.take(4)) }
         dao.insertAll(albums.map { it.toEntity() })

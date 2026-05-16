@@ -1,10 +1,13 @@
 package com.uniandes.vinilos.network
 
 import com.uniandes.vinilos.model.Album
+import com.uniandes.vinilos.model.CreateAlbumRequest
 import com.uniandes.vinilos.model.Collector
 import com.uniandes.vinilos.model.Performer
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 interface VinilosApi {
     @GET("musicians")
@@ -16,6 +19,9 @@ interface VinilosApi {
     @GET("albums")
     suspend fun getAlbums(): List<Album>
 
+    @POST("albums")
+    suspend fun createAlbum(@Body body: CreateAlbumRequest): Album
+ 
     @GET("albums/{id}")
     suspend fun getAlbum(@Path("id") id: Int): Album
 
