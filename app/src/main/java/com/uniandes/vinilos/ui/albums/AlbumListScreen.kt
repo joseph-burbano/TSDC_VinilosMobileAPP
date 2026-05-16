@@ -43,6 +43,8 @@ import com.uniandes.vinilos.ui.components.AlbumCover
 import com.uniandes.vinilos.ui.theme.VinilosTheme
 import com.uniandes.vinilos.ui.components.VinilosTopBar
 import com.uniandes.vinilos.model.UserRole
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 private val coverColors = listOf(
     Color(0xFF1A237E),
@@ -376,7 +378,8 @@ private fun AlbumListContent(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(24.dp)
-                    .testTag("fab_create_album"),
+                    .testTag("fab_create_album")
+                    .semantics { contentDescription = "fab_create_album" },
                 containerColor = MaterialTheme.colorScheme.onBackground,
                 contentColor = MaterialTheme.colorScheme.background
             ) {

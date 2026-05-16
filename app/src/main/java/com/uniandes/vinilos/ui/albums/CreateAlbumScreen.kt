@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.uniandes.vinilos.util.Constants.ALBUM_GENRES
 import com.uniandes.vinilos.util.Constants.ALBUM_RECORD_LABELS
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -104,7 +106,8 @@ fun CreateAlbumScreen(
             placeholder = { Text("https://...", fontStyle = FontStyle.Italic) },
             modifier = Modifier
                 .fillMaxWidth()
-                .testTag("input_cover"),
+                .testTag("input_cover")
+                .semantics { contentDescription = "input_cover" },
             singleLine = true,
             colors = vinilosTextFieldColors()
         )
@@ -183,7 +186,8 @@ fun CreateAlbumScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(140.dp)
-                    .testTag("input_description"),
+                    .testTag("input_description")
+                    .semantics { contentDescription = "input_description" },
                 isError = descriptionError != null,
                 colors = vinilosTextFieldColors(),
                 maxLines = 6
@@ -220,7 +224,8 @@ fun CreateAlbumScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
-                .testTag("btn_submit_album"),
+                .testTag("btn_submit_album")
+                .semantics { contentDescription = "btn_submit_album" },
             shape = RoundedCornerShape(4.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = onBackground,
@@ -309,7 +314,8 @@ private fun VinilosField(
             isError = error != null,
             modifier = Modifier
                 .fillMaxWidth()
-                .testTag(testTag),
+                .testTag(testTag)
+                .semantics { contentDescription = testTag },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
             colors = vinilosTextFieldColors()
@@ -360,7 +366,8 @@ private fun VinilosDropdown(
                 isError = error != null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(),
+                    .menuAnchor()
+                    .semantics { contentDescription = testTag },
                 colors = vinilosTextFieldColors()
             )
             ExposedDropdownMenu(
