@@ -64,6 +64,8 @@ import com.uniandes.vinilos.ui.collectors.CollectorDetailScreen
 import com.uniandes.vinilos.ui.collectors.CollectorListScreen
 import com.uniandes.vinilos.ui.collectors.CollectorViewModel
 import com.uniandes.vinilos.ui.home.HomeScreen
+import com.uniandes.vinilos.ui.prizes.PrizeAssociateScreen
+import com.uniandes.vinilos.ui.prizes.PrizeViewModel
 import com.uniandes.vinilos.ui.role.RoleSelectionScreen
 import com.uniandes.vinilos.ui.components.AppSettingsDrawer
 import kotlinx.coroutines.launch
@@ -85,6 +87,9 @@ sealed class Screen(val route: String) {
     object CollectorList : Screen("collector_list")
     object CollectorDetail : Screen("collector_detail/{collectorId}") {
         fun createRoute(collectorId: Int) = "collector_detail/$collectorId"
+    }
+    object PrizeAssociate : Screen("prize_associate/{artistId}") {
+        fun createRoute(artistId: Int) = "prize_associate/$artistId"
     }
 }
 
@@ -118,11 +123,13 @@ fun AppNavigation(
     val albumViewModel: AlbumViewModel = viewModel(factory = AlbumViewModel.factory(context))
     val artistViewModel: ArtistViewModel = viewModel(factory = ArtistViewModel.factory(context))
     val collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.factory(context))
+    val prizeViewModel: PrizeViewModel = viewModel(factory = PrizeViewModel.factory(context))
     val createAlbumViewModel: CreateAlbumViewModel = viewModel(factory = CreateAlbumViewModel.factory(context))
 
     val isDetailScreen = currentRoute?.startsWith("album_detail") == true ||
             currentRoute?.startsWith("artist_detail") == true ||
-            currentRoute?.startsWith("collector_detail") == true
+            currentRoute?.startsWith("collector_detail") == true ||
+            currentRoute?.startsWith("prize_associate") == true
 
     val isCreateScreen = currentRoute == Screen.AlbumCreate.route
 
@@ -302,7 +309,24 @@ fun AppNavigation(
                         viewModel = artistViewModel,
                         onBack = { navController.navigateUp() },
                         onMenuClick = onMenuClick,
-                        userRole = userRole 
+                        onAssociatePrize = { id ->
+                            navController.navigate(Screen.PrizeAssociate.createRoute(id))
+                        },
+                        userRole = userRole
+                    )
+                }
+                composable(
+                    route = Screen.PrizeAssociate.route,
+                    arguments = listOf(navArgument("artistId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val artistId = backStackEntry.arguments?.getInt("artistId") ?: return@composable
+                    PrizeAssociateScreen(
+                        artist = artistViewModel.findById(artistId),
+                        viewModel = prizeViewModel,
+                        onBack = { navController.navigateUp() },
+                        onMenuClick = onMenuClick,
+                        onAssociated = { navController.navigateUp() },
+                        userRole = userRole
                     )
                 }
                 composable(Screen.CollectorList.route) {
