@@ -7,6 +7,7 @@ import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.model.PerformerPrize
 import com.uniandes.vinilos.model.Prize
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -32,6 +33,35 @@ interface VinilosApi {
 
     @GET("collectors/{id}")
     suspend fun getCollector(@Path("id") id: Int): Collector
+
+    @GET("collectors/{collectorId}/performers")
+    suspend fun getCollectorFavoritePerformers(
+        @Path("collectorId") collectorId: Int
+    ): List<Performer>
+
+    @POST("collectors/{collectorId}/musicians/{musicianId}")
+    suspend fun addFavoriteMusician(
+        @Path("collectorId") collectorId: Int,
+        @Path("musicianId") musicianId: Int
+    ): Performer
+
+    @POST("collectors/{collectorId}/bands/{bandId}")
+    suspend fun addFavoriteBand(
+        @Path("collectorId") collectorId: Int,
+        @Path("bandId") bandId: Int
+    ): Performer
+
+    @DELETE("collectors/{collectorId}/musicians/{musicianId}")
+    suspend fun removeFavoriteMusician(
+        @Path("collectorId") collectorId: Int,
+        @Path("musicianId") musicianId: Int
+    ): Unit
+
+    @DELETE("collectors/{collectorId}/bands/{bandId}")
+    suspend fun removeFavoriteBand(
+        @Path("collectorId") collectorId: Int,
+        @Path("bandId") bandId: Int
+    ): Unit
 
     @GET("prizes")
     suspend fun getPrizes(): List<Prize>
