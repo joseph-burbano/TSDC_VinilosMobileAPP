@@ -19,11 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
@@ -63,6 +66,8 @@ import com.uniandes.vinilos.ui.artists.ArtistViewModel
 import com.uniandes.vinilos.ui.collectors.CollectorDetailScreen
 import com.uniandes.vinilos.ui.collectors.CollectorListScreen
 import com.uniandes.vinilos.ui.collectors.CollectorViewModel
+import com.uniandes.vinilos.ui.collectors.FavoritePerformersScreen
+import com.uniandes.vinilos.ui.collectors.FavoritePerformersViewModel
 import com.uniandes.vinilos.ui.home.HomeScreen
 import com.uniandes.vinilos.ui.prizes.PrizeAssociateScreen
 import com.uniandes.vinilos.ui.prizes.PrizeViewModel
@@ -87,6 +92,9 @@ sealed class Screen(val route: String) {
     object CollectorList : Screen("collector_list")
     object CollectorDetail : Screen("collector_detail/{collectorId}") {
         fun createRoute(collectorId: Int) = "collector_detail/$collectorId"
+    }
+    object FavoritePerformers : Screen("favorite_performers/{collectorId}") {
+        fun createRoute(collectorId: Int) = "favorite_performers/$collectorId"
     }
     object PrizeAssociate : Screen("prize_associate/{artistId}") {
         fun createRoute(artistId: Int) = "prize_associate/$artistId"
@@ -126,10 +134,12 @@ fun AppNavigation(
     val collectorViewModel: CollectorViewModel = viewModel(factory = CollectorViewModel.factory(context))
     val prizeViewModel: PrizeViewModel = viewModel(factory = PrizeViewModel.factory(context))
     val createAlbumViewModel: CreateAlbumViewModel = viewModel(factory = CreateAlbumViewModel.factory(context))
+    val favoritePerformersViewModel: FavoritePerformersViewModel = viewModel(factory = FavoritePerformersViewModel.factory(context))
 
     val isDetailScreen = currentRoute?.startsWith("album_detail") == true ||
             currentRoute?.startsWith("artist_detail") == true ||
             currentRoute?.startsWith("collector_detail") == true ||
+            currentRoute?.startsWith("favorite_performers") == true ||
             currentRoute?.startsWith("prize_associate") == true
 
     val isCreateScreen = currentRoute == Screen.AlbumCreate.route
@@ -351,12 +361,45 @@ fun AppNavigation(
                     arguments = listOf(navArgument("collectorId") { type = NavType.IntType })
                 ) { backStackEntry ->
                     val collectorId = backStackEntry.arguments?.getInt("collectorId") ?: return@composable
+
+                    // Cuando el usuario vuelve desde FavoritePerformersScreen, el
+                    // LaunchedEffect(collectorId) de la pantalla de detalle NO re-dispara
+                    // porque la clave no cambió. Este observer detecta que la entrada
+                    // vuelve a RESUMED (navegación hacia atrás incluida) y fuerza una
+                    // re-lectura desde Room, donde el repository ya dejó los favoritos
+                    // actualizados.
+                    DisposableEffect(backStackEntry) {
+                        val observer = LifecycleEventObserver { _, event ->
+                            if (event == Lifecycle.Event.ON_RESUME) {
+                                collectorViewModel.refreshCollectorFromCache(collectorId)
+                            }
+                        }
+                        backStackEntry.lifecycle.addObserver(observer)
+                        onDispose { backStackEntry.lifecycle.removeObserver(observer) }
+                    }
+
                     CollectorDetailScreen(
                         collectorId = collectorId,
                         viewModel = collectorViewModel,
                         onBack = { navController.navigateUp() },
                         onMenuClick = onMenuClick,
-                        userRole = userRole 
+                        userRole = userRole,
+                        onAddFavoriteArtist = {
+                            navController.navigate(Screen.FavoritePerformers.createRoute(collectorId))
+                        }
+                    )
+                }
+                composable(
+                    route = Screen.FavoritePerformers.route,
+                    arguments = listOf(navArgument("collectorId") { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val collectorId = backStackEntry.arguments?.getInt("collectorId") ?: return@composable
+                    FavoritePerformersScreen(
+                        collector = collectorViewModel.findById(collectorId),
+                        viewModel = favoritePerformersViewModel,
+                        onBack = { navController.navigateUp() },
+                        onMenuClick = onMenuClick,
+                        userRole = userRole
                     )
                 }
             }

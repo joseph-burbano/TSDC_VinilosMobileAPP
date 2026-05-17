@@ -4,6 +4,7 @@ import com.uniandes.vinilos.database.dao.CollectorDao
 import com.uniandes.vinilos.database.toCollector
 import com.uniandes.vinilos.database.toEntity
 import com.uniandes.vinilos.model.Collector
+import com.uniandes.vinilos.model.Performer
 import com.uniandes.vinilos.network.NetworkServiceAdapter
 import com.uniandes.vinilos.network.VinilosApi
 
@@ -35,9 +36,72 @@ class CollectorRepository(
         }
     }
 
+    /**
+     * Obtiene los artistas favoritos del coleccionista directamente desde el API,
+     * sin pasar por la caché de Room (los favoritos se gestionan en la caché del
+     * colector completo vía addFavoritePerformer / removeFavoritePerformer).
+     */
+    suspend fun getFavoritePerformers(collectorId: Int): List<Performer> {
+        return api.getCollectorFavoritePerformers(collectorId)
+    }
+
+    /**
+     * Agrega un artista como favorito del coleccionista.
+     * Llama al endpoint correcto según si es músico o banda y actualiza la caché local.
+     */
+    suspend fun addFavoritePerformer(collectorId: Int, performer: Performer): Performer {
+        val added = if (performer.isMusician) {
+            api.addFavoriteMusician(collectorId, performer.id)
+        } else {
+            api.addFavoriteBand(collectorId, performer.id)
+        }
+        // Actualiza la caché local del coleccionista para reflejar el nuevo favorito
+        val cached = dao.findById(collectorId)
+        if (cached != null) {
+            val updatedFavorites = cached.favoritePerformers + added
+            dao.insertAll(listOf(cached.copy(favoritePerformers = updatedFavorites)))
+        }
+        return added
+    }
+
+    /**
+     * Elimina un artista de los favoritos del coleccionista.
+     * Llama al endpoint correcto según tipo y actualiza la caché local.
+     */
+    suspend fun removeFavoritePerformer(collectorId: Int, performer: Performer) {
+        if (performer.isMusician) {
+            api.removeFavoriteMusician(collectorId, performer.id)
+        } else {
+            api.removeFavoriteBand(collectorId, performer.id)
+        }
+        // Actualiza la caché local del coleccionista eliminando el favorito
+        val cached = dao.findById(collectorId)
+        if (cached != null) {
+            val updatedFavorites = cached.favoritePerformers.filter { it.id != performer.id }
+            dao.insertAll(listOf(cached.copy(favoritePerformers = updatedFavorites)))
+        }
+    }
+
     private suspend fun fetchAndCache(): List<Collector> {
+        val existing = dao.getAll().associateBy { it.id }
         val collectors = api.getCollectors()
-        dao.insertAll(collectors.map { it.toEntity() })
-        return collectors
+        dao.insertAll(collectors.map { collector ->
+            val entity = collector.toEntity()
+            val cachedFavorites = existing[collector.id]?.favoritePerformers ?: emptyList()
+            if (entity.favoritePerformers.isEmpty() && cachedFavorites.isNotEmpty()) {
+                entity.copy(favoritePerformers = cachedFavorites)
+            } else {
+                entity
+            }
+        })
+        return collectors.map { collector ->
+            val cachedFavorites = existing[collector.id]?.favoritePerformers ?: emptyList()
+            if (collector.favoritePerformers.isEmpty() && cachedFavorites.isNotEmpty()) {
+                collector.copy(favoritePerformers = cachedFavorites)
+            } else {
+                collector
+            }
+        }
     }
 }
+

@@ -18,7 +18,7 @@ import com.uniandes.vinilos.database.entities.PrizeEntity
 
 @Database(
     entities = [AlbumEntity::class, PerformerEntity::class, CollectorEntity::class, PrizeEntity::class],
-    version = 4
+    version = 5
 )
 @TypeConverters(Converters::class)
 abstract class VinilosDatabase : RoomDatabase() {
@@ -38,7 +38,7 @@ abstract class VinilosDatabase : RoomDatabase() {
                     VinilosDatabase::class.java,
                     "vinilos_database"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                     .build()
                     .also { INSTANCE = it }
             }
@@ -81,5 +81,11 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
                 organization TEXT NOT NULL DEFAULT ''
             )"""
         )
+    }
+}
+
+val MIGRATION_4_5 = object : Migration(4, 5) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE performers ADD COLUMN type TEXT")
     }
 }

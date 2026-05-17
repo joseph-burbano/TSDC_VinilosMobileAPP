@@ -284,7 +284,9 @@ class ArtistDetailScreenInstrumentedTest {
                 .fetchSemanticsNodes().isNotEmpty()
         }
 
-        composeTestRule.onNodeWithTag(ArtistDetailTestTags.PRIZES_CTA).performClick()
+        composeTestRule.onNodeWithTag(ArtistDetailTestTags.PRIZES_CTA)
+            .performScrollTo()
+            .performClick()
         assertTrue(navigatedToArtistId == samplePerformer.id)
     }
 }
