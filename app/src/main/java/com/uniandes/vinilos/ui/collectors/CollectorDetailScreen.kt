@@ -66,7 +66,8 @@ fun CollectorDetailScreen(
         viewModel.loadCollector(collectorId)
     }
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val collector = viewModel.findById(collectorId)
+    val collectors by viewModel.collectors.collectAsStateWithLifecycle()
+    val collector = collectors.find { it.id == collectorId }
 
     if (isLoading || collector == null) {
         Box(

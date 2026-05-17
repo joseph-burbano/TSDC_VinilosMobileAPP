@@ -20,8 +20,10 @@ class CollectorRepository(
     }
 
     suspend fun refreshCollectors(): List<Collector> {
+        // Preservar favoritos antes de borrar (el endpoint /collectors no los incluye)
+        val preservedFavorites = dao.getAll().associateBy { it.id }
         dao.deleteAll()
-        return fetchAndCache()
+        return fetchAndCache(preservedFavorites)
     }
 
     suspend fun getCollector(id: Int): Collector? {
@@ -82,25 +84,22 @@ class CollectorRepository(
         }
     }
 
-    private suspend fun fetchAndCache(): List<Collector> {
-        val existing = dao.getAll().associateBy { it.id }
+    private suspend fun fetchAndCache(
+        preservedFavorites: Map<Int, com.uniandes.vinilos.database.entities.CollectorEntity> = emptyMap()
+    ): List<Collector> {
         val collectors = api.getCollectors()
         dao.insertAll(collectors.map { collector ->
             val entity = collector.toEntity()
-            val cachedFavorites = existing[collector.id]?.favoritePerformers ?: emptyList()
-            if (entity.favoritePerformers.isEmpty() && cachedFavorites.isNotEmpty()) {
-                entity.copy(favoritePerformers = cachedFavorites)
-            } else {
-                entity
-            }
+            val preserved = preservedFavorites[collector.id]?.favoritePerformers ?: emptyList()
+            if (entity.favoritePerformers.isEmpty() && preserved.isNotEmpty())
+                entity.copy(favoritePerformers = preserved)
+            else entity
         })
         return collectors.map { collector ->
-            val cachedFavorites = existing[collector.id]?.favoritePerformers ?: emptyList()
-            if (collector.favoritePerformers.isEmpty() && cachedFavorites.isNotEmpty()) {
-                collector.copy(favoritePerformers = cachedFavorites)
-            } else {
-                collector
-            }
+            val preserved = preservedFavorites[collector.id]?.favoritePerformers ?: emptyList()
+            if (collector.favoritePerformers.isEmpty() && preserved.isNotEmpty())
+                collector.copy(favoritePerformers = preserved)
+            else collector
         }
     }
 }
