@@ -107,6 +107,7 @@ fun AppNavigation(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val isDarkTheme by appViewModel.isDarkTheme.collectAsStateWithLifecycle()
+    val colorBlindMode by appViewModel.colorBlindMode.collectAsStateWithLifecycle()
     
     val onMenuClick: () -> Unit = { scope.launch { drawerState.open() } }
 
@@ -173,7 +174,15 @@ fun AppNavigation(
             AppSettingsDrawer(
                 userRole = userRole,
                 isDarkTheme = isDarkTheme,
+                colorBlindMode = colorBlindMode,
                 onToggleTheme = { appViewModel.toggleDarkTheme() },
+                onToggleColorBlind = {
+                    val next = if (colorBlindMode == com.uniandes.vinilos.model.ColorBlindMode.NONE)
+                        com.uniandes.vinilos.model.ColorBlindMode.DEUTERANOPIA
+                    else
+                        com.uniandes.vinilos.model.ColorBlindMode.NONE
+                    appViewModel.setColorBlindMode(next)
+                },
                 onBecomeCollector = { appViewModel.setUserRole(UserRole.COLLECTOR) },
                 onLeaveCollector = { appViewModel.setUserRole(UserRole.VISITOR) },
                 onCloseDrawer = { scope.launch { drawerState.close() } }
